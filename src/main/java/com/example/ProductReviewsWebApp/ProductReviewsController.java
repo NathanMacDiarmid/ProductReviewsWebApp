@@ -24,12 +24,12 @@ public class ProductReviewsController {
     }
 
     @GetMapping("/product")
-    public Iterable<Product> products() {
+    public Iterable<Product> getProducts() {
         return productRepository.findAll();
     }
 
     @GetMapping(value="/product/{id}", produces="application/json")
-    public Product addressBookGui(@PathVariable("id") Long id) {
+    public Product getProductById(@PathVariable("id") Long id) {
         return getProduct(id);
     }
 
