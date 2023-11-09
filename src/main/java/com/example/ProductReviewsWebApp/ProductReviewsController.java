@@ -83,6 +83,14 @@ public class ProductReviewsController {
         return productRepository.save(product);
     }
 
+    @PutMapping(value="/product/{id}/addReview", consumes="application/json", produces="application/json")
+    public Review addReview(@PathVariable Long id, @RequestBody Review review) {
+        Product product = getProduct(id);
+        product.addReview(review);
+        productRepository.save(product);
+        return review;
+    }
+
     @PutMapping(value="/review/{id}", consumes="application/json", produces="application/json")
     public Review updateReview(@PathVariable Long id, @RequestBody Review newReview) {
         Review review = getReview(id);
@@ -100,10 +108,13 @@ public class ProductReviewsController {
         return product;
     }
 
-    @DeleteMapping(value="/review/{id}")
-    public Review deleteReview(@PathVariable Long id) {
-        Review review = getReview(id);
-        reviewRepository.deleteById(id);
+    @DeleteMapping(value="/product/{productId}/{reviewId}")
+    public Review deleteReview(@PathVariable Long productId, @PathVariable Long reviewId) {
+        Product product = getProduct(productId);
+        Review review = getReview(reviewId);
+        product.removeReview(review);
+        reviewRepository.deleteById(reviewId);
+        productRepository.save(product);
         return review;
     }
 }
