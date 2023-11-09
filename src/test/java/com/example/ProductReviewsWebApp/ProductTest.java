@@ -62,7 +62,7 @@ public class ProductTest {
     @Test
     public void getProductTest() {
         // GIVEN
-        String resourceUrl = "http://localhost:" + port + "/product/1";
+        String resourceUrl = "http://localhost:" + port + "/product/7";
 
         // WHEN
         ResponseEntity<Product> response = restTemplate.getForEntity(resourceUrl, Product.class);
