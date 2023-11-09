@@ -13,9 +13,6 @@ public class Review {
     @GeneratedValue
     private long id;
 
-    // TODO Create relationship to the product entity
-    private long productId;
-
     private int rating;
 
     private String description;
@@ -27,12 +24,10 @@ public class Review {
 
     /**
      * Constructor for the Review class
-     * @param productId the long of the product id that is being reviewed
      * @param rating the int of the rating for the product
      * @param description the String of the review description
      */
     public Review(long productId, int rating, String description) {
-        this.productId = productId;
         this.rating = rating;
         this.description = description;
     }
@@ -43,14 +38,6 @@ public class Review {
      */
     public long getId() {
         return id;
-    }
-
-    /**
-     * Gets the id of the product being reviewed
-     * @return the long of the product id
-     */
-    public long getProductId() {
-        return productId;
     }
 
     /**
@@ -75,14 +62,6 @@ public class Review {
      */
     public void setId(long id) {
         this.id = id;
-    }
-
-    /**
-     * Sets the product id
-     * @param productId the long of the product id
-     */
-    public void setProductId(long productId) {
-        this.productId = productId;
     }
 
     /**
