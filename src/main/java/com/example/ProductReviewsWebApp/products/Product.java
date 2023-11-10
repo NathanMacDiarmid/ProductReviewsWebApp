@@ -1,8 +1,10 @@
 package com.example.ProductReviewsWebApp.products;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.example.ProductReviewsWebApp.reviews.Review;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Product class represents information about a product, including their url, name and category.
@@ -19,6 +21,9 @@ public class Product {
     private String name; // The address of the product.
 
     private String category; // The category of the product.
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Review> reviews;
 
     /**
      * Creates a new instance of Product.
@@ -37,6 +42,7 @@ public class Product {
         this.url = url;
         this.name = name;
         this.category = category;
+        this.reviews = new ArrayList<>();
     }
 
     /**
@@ -103,12 +109,48 @@ public class Product {
     }
 
     /**
+     * Gets the product reviews
+     * @return the ArrayList of the product reviews
+     */
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    /**
      * Sets the category of the product.
      *
      * @param category The category of the product.
      */
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    /**
+     * Adds a review to the list of reviews
+     * @param review the Review object
+     */
+    public void addReview(Review review) {
+        reviews.add(review);
+    }
+
+    public void setReviews(ArrayList<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    /**
+     * Removes a review from the list of reviews
+     * @param review the Review object
+     */
+    public void removeReview(Review review) {
+        reviews.remove(review);
+    }
+
+    /**
+     * Removes a review from the list of reviews
+     * @param reviewIndex the int of the review index in the reviews ArrayList
+     */
+    public void removeReview(int reviewIndex) {
+        reviews.remove(reviewIndex);
     }
 
     /**
