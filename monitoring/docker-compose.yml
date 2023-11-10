@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.47.2
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - product-reviews-app
+
+  grafana:
+    image: grafana/grafana:10.2.0
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    volumes:
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+    networks:
+      - product-reviews-app
+
+  product-reviews-web-app:
+    image: product-reviews-web-app
+    container_name: product-reviews-app
+    ports:
+      - "8080:8080"
+    networks:
+      - product-reviews-app
+
+networks:
+  product-reviews-app:
+    name: product-reviews-app
