@@ -27,7 +27,7 @@ public class Review {
      * @param rating the int of the rating for the product
      * @param description the String of the review description
      */
-    public Review(long productId, int rating, String description) {
+    public Review(int rating, String description) {
         this.rating = rating;
         this.description = description;
     }

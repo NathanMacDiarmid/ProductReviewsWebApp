@@ -108,6 +108,16 @@ public class ProductReviewsController {
         return product;
     }
 
+    // This method is only for the sake of testing
+    // Do not use this method to delete a review from a product
+    // or else an error will be thrown
+    @DeleteMapping(value="/review/{id}")
+    public Review deleteReview(@PathVariable Long id) {
+        Review review = getReview(id);
+        reviewRepository.deleteById(id);
+        return review;
+    }
+
     @DeleteMapping(value="/product/{productId}/{reviewId}")
     public Review deleteReview(@PathVariable Long productId, @PathVariable Long reviewId) {
         Product product = getProduct(productId);
