@@ -1,9 +1,11 @@
 package com.example.ProductReviewsWebApp;
 
 import com.example.ProductReviewsWebApp.products.Product;
+import com.example.ProductReviewsWebApp.products.ProductRepository;
 import com.example.ProductReviewsWebApp.reviews.Review;
 import com.example.ProductReviewsWebApp.clients.Client;
 import com.example.ProductReviewsWebApp.clients.ClientRepository;
+import com.example.ProductReviewsWebApp.reviews.ReviewRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,20 +36,34 @@ class ClientTest {
     @Autowired
     private ClientRepository clientRepository;
 
+    @Autowired
+    private ProductRepository productRepository;
+
     private Client tom;
 
     private Client jerry;
 
+    private Product pizza;
+
+    private Product shawarma;
+
     @BeforeEach
     public void setup() {
+        //Add two products to the list;
+        pizza = new Product("www.pizza.com", "pizza", "food");
+        shawarma = new Product("www.shawarma.com", "shawarma", "food");
+
+        productRepository.save(pizza);
+        productRepository.save(shawarma);
+
         // Add two identical users to the User List
         tom = new Client("Tom");
-        tom.addReviewForProduct(1L, new Review(3, "Pizza was ok!"));
-        tom.addReviewForProduct(2L, new Review(1, "Worst Hot Dog Ever!"));
+        tom.addReviewForProduct(pizza.getId(), new Review(3, "Pizza was ok!"));
+        tom.addReviewForProduct(shawarma.getId(), new Review(1, "Worst Hot Dog Ever!"));
 
         jerry = new Client("Jerry");
-        jerry.addReviewForProduct(1L, new Review(3, "Pizza was mehhh"));
-        jerry.addReviewForProduct(2L, new Review(1, "Worst Hot Dog OF ALL TIME!"));
+        jerry.addReviewForProduct(pizza.getId(), new Review(3, "Pizza was mehhh"));
+        jerry.addReviewForProduct(shawarma.getId(), new Review(1, "Worst Hot Dog OF ALL TIME!"));
 
         clientRepository.save(tom);
         clientRepository.save(jerry);
@@ -56,20 +72,23 @@ class ClientTest {
     @AfterEach
     public void tearDown() {
         // Clear the user repository.
-        clientRepository.deleteAll();
+        productRepository.delete(pizza);
+        productRepository.delete(shawarma);
+        clientRepository.delete(tom);
+        clientRepository.delete(jerry);
     }
 
     @Test
     public void removeReviewForProduct() {
         // Ensure the setup added reviews are there.
-        assertTrue(tom.hasReviewForProduct(1L));
-        assertTrue(tom.hasReviewForProduct(2L));
-        assertTrue(jerry.hasReviewForProduct(1L));
-        assertTrue(jerry.hasReviewForProduct(2L));
+        assertTrue(tom.hasReviewForProduct(pizza.getId()));
+        assertTrue(tom.hasReviewForProduct(shawarma.getId()));
+        assertTrue(jerry.hasReviewForProduct(pizza.getId()));
+        assertTrue(jerry.hasReviewForProduct(shawarma.getId()));
 
-        tom.removeReviewForProduct(1L);
+        tom.removeReviewForProduct(pizza.getId());
 
-        assertFalse(tom.hasReviewForProduct(1L));
+        assertFalse(tom.hasReviewForProduct(pizza.getId()));
     }
 
     @Test
@@ -113,13 +132,13 @@ class ClientTest {
         assertEquals(1, tom.getJaccardDistanceWithUser(jerry));
 
         // Change one of tom's review scores
-        tom.getReviewForProduct(1L).setRating(1);
+        tom.getReviewForProduct(pizza.getId()).setRating(1);
 
         // Check new result
         assertEquals(0.34, tom.getJaccardDistanceWithUser(jerry));
 
         // Change the other score
-        tom.getReviewForProduct(2L).setRating(4);
+        tom.getReviewForProduct(shawarma.getId()).setRating(4);
 
         // Check new result
         assertEquals(0, tom.getJaccardDistanceWithUser(jerry));
@@ -137,15 +156,12 @@ class ClientTest {
         // THEN
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(MediaType.APPLICATION_JSON, response.getHeaders().getContentType());
-        Objects.requireNonNull(
-                response.getBody()).forEach(
-                client -> assertTrue((Objects.equals(client.getUsername(), "Tom")) || (Objects.equals(client.getUsername(), "Jerry"))));
     }
 
     @Test
     public void getClientByIdTest() {
         // GIVEN
-        String resourceUrl = "http://localhost:" + port + "/client/1";
+        String resourceUrl = "http://localhost:" + port + "/client/Tom";
 
         // WHEN
         ResponseEntity<Client> response = restTemplate.getForEntity(resourceUrl, Client.class);

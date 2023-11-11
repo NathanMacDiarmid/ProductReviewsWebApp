@@ -41,8 +41,16 @@ public class ProductReviewsController {
         return review.get();
     }
 
-    private Client getClient(Long id) {
+    private Client getClientById(Long id) {
         Optional<Client> client = clientRepository.findById(id);
+        if (client.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity not found");
+        }
+        return client.get();
+    }
+
+    private Client getClientByUsername(String username) {
+        Optional<Client> client = Optional.ofNullable(clientRepository.findByUsername(username));
         if (client.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity not found");
         }
@@ -72,8 +80,8 @@ public class ProductReviewsController {
         return getReview(id);
     }
 
-    @GetMapping(value="/client/{id}", produces = "application/json")
-    public Client getClientById(@PathVariable("id") Long id) { return getClient(id); }
+    @GetMapping(value="/client/{username}", produces = "application/json")
+    public Client returnClientByUsername(@PathVariable("username") String username) { return getClientByUsername(username); }
 
     @PostMapping(value="/product", consumes="application/json", produces="application/json")
     public Product createProduct(@RequestBody Product product) {
