@@ -15,10 +15,12 @@ public class Review {
 
     private String description;
 
+    private boolean forTesting;
+
     /**
      * Default constructor
      */
-    public Review(){}
+    public Review () {}
 
     /**
      * Constructor for the Review class
@@ -76,5 +78,20 @@ public class Review {
      */
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    /**
+     * Set the review as a testing review only.
+     */
+    public void setForTesting() {
+        forTesting = true;
+    }
+
+    /**
+     * Check if review is for testing or not.
+     * @return True if test review.
+     */
+    public boolean isForTesting() {
+        return forTesting;
     }
 }
