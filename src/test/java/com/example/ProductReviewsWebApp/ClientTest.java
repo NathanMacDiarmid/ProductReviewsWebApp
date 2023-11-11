@@ -5,7 +5,6 @@ import com.example.ProductReviewsWebApp.products.ProductRepository;
 import com.example.ProductReviewsWebApp.reviews.Review;
 import com.example.ProductReviewsWebApp.clients.Client;
 import com.example.ProductReviewsWebApp.clients.ClientRepository;
-import com.example.ProductReviewsWebApp.reviews.ReviewRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +18,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -43,27 +41,27 @@ class ClientTest {
 
     private Client jerry;
 
-    private Product pizza;
+    private Product burger;
 
-    private Product shawarma;
+    private Product hotdog;
 
     @BeforeEach
     public void setup() {
         //Add two products to the list;
-        pizza = new Product("www.pizza.com", "pizza", "food");
-        shawarma = new Product("www.shawarma.com", "shawarma", "food");
+        burger = new Product("www.burger.com", "burger", "food");
+        hotdog = new Product("www.hotdog.com", "hotdog", "food");
 
-        productRepository.save(pizza);
-        productRepository.save(shawarma);
+        productRepository.save(burger);
+        productRepository.save(hotdog);
 
         // Add two identical users to the User List
         tom = new Client("Tom");
-        tom.addReviewForProduct(pizza.getId(), new Review(3, "Pizza was ok!"));
-        tom.addReviewForProduct(shawarma.getId(), new Review(1, "Worst Hot Dog Ever!"));
+        tom.addReviewForProduct(burger.getId(), new Review(3, "Burger was ok!"));
+        tom.addReviewForProduct(hotdog.getId(), new Review(1, "Worst Hot Dog Ever!"));
 
         jerry = new Client("Jerry");
-        jerry.addReviewForProduct(pizza.getId(), new Review(3, "Pizza was mehhh"));
-        jerry.addReviewForProduct(shawarma.getId(), new Review(1, "Worst Hot Dog OF ALL TIME!"));
+        jerry.addReviewForProduct(burger.getId(), new Review(3, "Burger was mehhh"));
+        jerry.addReviewForProduct(hotdog.getId(), new Review(1, "Worst Hot Dog OF ALL TIME!"));
 
         clientRepository.save(tom);
         clientRepository.save(jerry);
@@ -72,8 +70,8 @@ class ClientTest {
     @AfterEach
     public void tearDown() {
         // Clear the user repository.
-        productRepository.delete(pizza);
-        productRepository.delete(shawarma);
+        productRepository.delete(burger);
+        productRepository.delete(hotdog);
         clientRepository.delete(tom);
         clientRepository.delete(jerry);
     }
@@ -81,14 +79,14 @@ class ClientTest {
     @Test
     public void removeReviewForProduct() {
         // Ensure the setup added reviews are there.
-        assertTrue(tom.hasReviewForProduct(pizza.getId()));
-        assertTrue(tom.hasReviewForProduct(shawarma.getId()));
-        assertTrue(jerry.hasReviewForProduct(pizza.getId()));
-        assertTrue(jerry.hasReviewForProduct(shawarma.getId()));
+        assertTrue(tom.hasReviewForProduct(burger.getId()));
+        assertTrue(tom.hasReviewForProduct(hotdog.getId()));
+        assertTrue(jerry.hasReviewForProduct(burger.getId()));
+        assertTrue(jerry.hasReviewForProduct(hotdog.getId()));
 
-        tom.removeReviewForProduct(pizza.getId());
+        tom.removeReviewForProduct(burger.getId());
 
-        assertFalse(tom.hasReviewForProduct(pizza.getId()));
+        assertFalse(tom.hasReviewForProduct(burger.getId()));
     }
 
     @Test
@@ -132,13 +130,13 @@ class ClientTest {
         assertEquals(1, tom.getJaccardDistanceWithUser(jerry));
 
         // Change one of tom's review scores
-        tom.getReviewForProduct(pizza.getId()).setRating(1);
+        tom.getReviewForProduct(burger.getId()).setRating(1);
 
         // Check new result
         assertEquals(0.34, tom.getJaccardDistanceWithUser(jerry));
 
         // Change the other score
-        tom.getReviewForProduct(shawarma.getId()).setRating(4);
+        tom.getReviewForProduct(hotdog.getId()).setRating(4);
 
         // Check new result
         assertEquals(0, tom.getJaccardDistanceWithUser(jerry));

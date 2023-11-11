@@ -12,6 +12,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 
+import java.util.List;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -66,7 +67,8 @@ public class ProductTest {
     @Test
     public void getProductTest() {
         // GIVEN
-        String resourceUrl = "http://localhost:" + port + "/product/7";
+        Product testProduct = productRepository.findByName("pizza");
+        String resourceUrl = "http://localhost:" + port + "/product/" + testProduct.getId();
 
         // WHEN
         ResponseEntity<Product> response = restTemplate.getForEntity(resourceUrl, Product.class);
@@ -97,6 +99,8 @@ public class ProductTest {
         assertEquals("food", response.getBody().getCategory());
 
         assertNotNull(productRepository.findByName("spaghetti"));
+
+        productRepository.delete(productRepository.findByName("spaghetti"));
     }
 
     @Test
