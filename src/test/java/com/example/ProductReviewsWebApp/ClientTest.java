@@ -1,5 +1,6 @@
 package com.example.ProductReviewsWebApp;
 
+import com.example.ProductReviewsWebApp.products.Product;
 import com.example.ProductReviewsWebApp.reviews.Review;
 import com.example.ProductReviewsWebApp.clients.Client;
 import com.example.ProductReviewsWebApp.clients.ClientRepository;
@@ -10,8 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -116,5 +123,36 @@ class ClientTest {
 
         // Check new result
         assertEquals(0, tom.getJaccardDistanceWithUser(jerry));
+    }
+
+    @Test
+    public void getClientsTest() {
+        // GIVEN
+        String resourceUrl = "http://localhost:" + port + "/client";
+
+        // WHEN
+        ResponseEntity<Iterable<Client>> response =
+                restTemplate.exchange(resourceUrl, HttpMethod.GET, null, new ParameterizedTypeReference<Iterable<Client>>() {});
+
+        // THEN
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(MediaType.APPLICATION_JSON, response.getHeaders().getContentType());
+        Objects.requireNonNull(
+                response.getBody()).forEach(
+                client -> assertTrue((Objects.equals(client.getUsername(), "Tom")) || (Objects.equals(client.getUsername(), "Jerry"))));
+    }
+
+    @Test
+    public void getClientByIdTest() {
+        // GIVEN
+        String resourceUrl = "http://localhost:" + port + "/client/1";
+
+        // WHEN
+        ResponseEntity<Client> response = restTemplate.getForEntity(resourceUrl, Client.class);
+
+        // THEN
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(MediaType.APPLICATION_JSON, response.getHeaders().getContentType());
+        assertEquals("Tom", Objects.requireNonNull(response.getBody()).getUsername());
     }
 }

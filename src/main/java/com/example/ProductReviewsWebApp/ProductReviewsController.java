@@ -1,5 +1,7 @@
 package com.example.ProductReviewsWebApp;
 
+import com.example.ProductReviewsWebApp.clients.Client;
+import com.example.ProductReviewsWebApp.clients.ClientRepository;
 import com.example.ProductReviewsWebApp.products.Product;
 import com.example.ProductReviewsWebApp.products.ProductRepository;
 import com.example.ProductReviewsWebApp.reviews.Review;
@@ -20,6 +22,9 @@ public class ProductReviewsController {
     @Autowired
     private ReviewRepository reviewRepository;
 
+    @Autowired
+    private ClientRepository clientRepository;
+
     private Product getProduct(Long id) {
         Optional<Product> product = productRepository.findById(id);
         if (product.isEmpty()) {
@@ -36,6 +41,14 @@ public class ProductReviewsController {
         return review.get();
     }
 
+    private Client getClient(Long id) {
+        Optional<Client> client = clientRepository.findById(id);
+        if (client.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity not found");
+        }
+        return client.get();
+    }
+
     @GetMapping("/product")
     public Iterable<Product> getProducts() {
         return productRepository.findAll();
@@ -46,6 +59,9 @@ public class ProductReviewsController {
         return reviewRepository.findAll();
     }
 
+    @GetMapping("/client")
+    public Iterable<Client> getClients() { return clientRepository.findAll(); }
+
     @GetMapping(value="/product/{id}", produces="application/json")
     public Product getProductById(@PathVariable("id") Long id) {
         return getProduct(id);
@@ -55,6 +71,9 @@ public class ProductReviewsController {
     public Review getReviewById(@PathVariable("id") Long id) {
         return getReview(id);
     }
+
+    @GetMapping(value="/client/{id}", produces = "application/json")
+    public Client getClientById(@PathVariable("id") Long id) { return getClient(id); }
 
     @PostMapping(value="/product", consumes="application/json", produces="application/json")
     public Product createProduct(@RequestBody Product product) {
