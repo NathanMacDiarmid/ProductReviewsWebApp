@@ -8,37 +8,37 @@ import java.math.RoundingMode;
 import java.util.*;
 
 /**
- * The User entity class containing the model logic of a User.
+ * The Client entity class containing the model logic of a typical client.
  */
 @Entity
 public class Client {
 
     /**
-     * The ID of the User.
+     * The ID of the client.
      */
     @Id
     @GeneratedValue
     private Long id;
 
     /**
-     * The Username of the User.
+     * The Username of the client.
      */
     private String username;
 
     /**
-     * The review for each product id the user has made.
+     * The review for each product id the client has made.
      */
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private final Map<Long, Review> reviews;
 
     /**
-     * The list of user's this user is following.
+     * The list of client's this client is following.
      */
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private final List<Client> following;
 
     /**
-     * The follower count of the user, or how many user's follow it.
+     * The follower count of the client, or how many user's follow it.
      */
     private int followerCount;
 
@@ -48,28 +48,28 @@ public class Client {
     private boolean canUpdateFollowerCount;
 
     /**
-     * An empty constructor for a User.
+     * An empty constructor for a Client.
      */
     public Client() {
         this("", new HashMap<>(), new ArrayList<>(), 0);
     }
 
     /**
-     * Constructor for User that allows a specified username.
+     * Constructor for Client that allows a specified username.
      *
-     * @param username String, the username of the User.
+     * @param username String, the username of the Client.
      */
     public Client(String username) {
         this(username, new HashMap<>(), new ArrayList<>(), 0);
     }
 
     /**
-     * Constructor for User that allows for all variables to be specified.
+     * Constructor for Client that allows for all variables to be specified.
      *
-     * @param username String, the username of the User.
-     * @param reviews Map<Integer, Review>, the product, review pairs.
-     * @param following List<User>, the users this user follows.
-     * @param followerCount int, how many users follow this user.
+     * @param username String, the username of the Client.
+     * @param reviews Map<Long, Review>, the product, review pairs.
+     * @param following List<Client>, the users this user follows.
+     * @param followerCount int, how many users follow this client.
      */
     public Client(String username, Map<Long, Review> reviews, List<Client> following, int followerCount) {
         this.username = username;
@@ -100,7 +100,7 @@ public class Client {
     }
 
     /**
-     * Get the follower count of the user.
+     * Get the follower count of the client.
      * @return int, the follower count.
      */
     public synchronized int getFollowerCount() {
@@ -153,9 +153,9 @@ public class Client {
     }
 
     /**
-     * Add a user to your following list and increment their follower count.
+     * Add a client to your following list and increment their follower count.
      *
-     * @param clientToFollow User, the user to follow.
+     * @param clientToFollow Client, the client to follow.
      * @return True if following is successful, False otherwise.
      */
     public synchronized boolean followUser(Client clientToFollow) {
@@ -181,9 +181,9 @@ public class Client {
     }
 
     /**
-     * Unfollow a user and decrement their following count.
+     * Unfollow a client and decrement their following count.
      *
-     * @param clientToUnfollow User, the user to unfollow.
+     * @param clientToUnfollow Client, the client to unfollow.
      * @return True if unfollowing is successful, false otherwise.
      */
     public synchronized boolean unfollowUser(Client clientToUnfollow) {
@@ -212,8 +212,8 @@ public class Client {
     /**
      * Get the Jaccard Distance of two users. https://www.learndatasci.com/glossary/jaccard-similarity/
      *
-     * @param clientToCompare User, the user to calculate with.
-     * @return The similarity score of the two users. 1 -> identical reviews, 0 -> completely unique.
+     * @param clientToCompare Client, the client to calculate with.
+     * @return The similarity score of the two clients. 1 -> identical reviews, 0 -> completely unique.
      */
     public double getJaccardDistanceWithUser(Client clientToCompare) {
         int similarReviews = 0;
@@ -242,7 +242,7 @@ public class Client {
     }
 
     /**
-     * Get the id of the User.
+     * Get the id of the client.
      * @return Long, the id.
      */
     public Long getId() {
@@ -250,7 +250,7 @@ public class Client {
     }
 
     /**
-     * Get the User's following list.
+     * Get the client's following list.
      * @return List, the following list.
      */
     public List<Client> getFollowingList() {
@@ -258,7 +258,7 @@ public class Client {
     }
 
     /**
-     * Get the user's username.
+     * Get the client's username.
      * @return String, the username.
      */
     public String getUsername() {
@@ -284,7 +284,7 @@ public class Client {
     }
 
     /**
-     * Get if user has written a review of a specified product.
+     * Get if client has written a review of a specified product.
      *
      * @param productID Long, the product's id.
      * @return True, if the review exists, False otherwise.
@@ -294,7 +294,7 @@ public class Client {
     }
 
     /**
-     * Set the username of the user.
+     * Set the username of the client.
      * @param username String, the new username.
      */
     public void setUsername(String username) {
@@ -309,6 +309,10 @@ public class Client {
         return getId().equals(client.getId());
     }
 
+    /**
+     * A Basic To String for a String representation of a Client.
+     * @return String, the client's representation.
+     */
     @Override
     public String toString() {
         return "User{" +
