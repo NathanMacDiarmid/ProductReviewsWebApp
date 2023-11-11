@@ -1,8 +1,6 @@
 package com.example.ProductReviewsWebApp.reviews;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 /**
  * The Review class that contains all the information in a review
