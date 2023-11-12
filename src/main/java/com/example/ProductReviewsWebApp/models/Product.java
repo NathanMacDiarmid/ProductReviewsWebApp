@@ -12,14 +12,18 @@ import java.util.List;
 public class Product {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id; // The id of the product.
-
-    private String url; // The name of the product.
 
     private String name; // The address of the product.
 
     private String category; // The category of the product.
+
+    private String description; // The description of the product.
+
+    private String url; // The url of the product.
+
+    private double averageRating; // The average ratings of the product.
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Review> reviews;
@@ -41,6 +45,7 @@ public class Product {
         this.url = url;
         this.name = name;
         this.category = category;
+        this.averageRating = 0;
         this.reviews = new ArrayList<>();
     }
 
@@ -130,6 +135,7 @@ public class Product {
      */
     public void addReview(Review review) {
         reviews.add(review);
+        updateAverageRating();
     }
 
     public void setReviews(ArrayList<Review> reviews) {
@@ -150,6 +156,18 @@ public class Product {
      */
     public void removeReview(int reviewIndex) {
         reviews.remove(reviewIndex);
+    }
+
+    public double getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(double averageRating) {
+        this.averageRating = averageRating;
+    }
+
+    public void updateAverageRating() {
+        averageRating = reviews.stream().mapToDouble(Review::getRating).sum() / reviews.size();
     }
 
     /**
