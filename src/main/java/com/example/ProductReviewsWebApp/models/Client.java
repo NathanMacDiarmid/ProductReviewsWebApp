@@ -212,7 +212,8 @@ public class Client {
      */
     public double getJaccardDistanceWithUser(Client clientToCompare) {
         int similarReviews = 0;
-
+        if (this.getAllReviews().isEmpty() || clientToCompare.getAllReviews().isEmpty())
+            return 0;
         for (Long productID : this.reviews.keySet()) {
             if (clientToCompare.hasReviewForProduct(productID)) {
                 similarReviews = (clientToCompare.getReviewForProduct(productID).getRating() == this.reviews.get(productID).getRating()) ? similarReviews + 1 : similarReviews;

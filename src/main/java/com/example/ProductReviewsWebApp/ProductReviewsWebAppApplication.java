@@ -64,10 +64,15 @@ public class ProductReviewsWebAppApplication {
 					String comment = faker.hobbit().quote();
 
 					Review review = new Review(client, product, rating, comment);
+					client.addReviewForProduct(product.getId(), review);
+					product.addReview(review);
 					reviewRepository.save(review);
 					reviews.add(review);
 				}
 			}
+			clientRepository.saveAll(clients);
+			productRepository.saveAll(products);
+			reviewRepository.saveAll(reviews);
 		};
 	}
 
