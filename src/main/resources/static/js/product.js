@@ -41,7 +41,6 @@ const columnDefs = [
                 columnGroupShow: 'closed',
                 headerName: 'Reviews',
                 valueGetter: (params) => {
-                    console.log(params.data)
                     return JSON.stringify(params.data.reviews)
                 },
                 width: 450,
