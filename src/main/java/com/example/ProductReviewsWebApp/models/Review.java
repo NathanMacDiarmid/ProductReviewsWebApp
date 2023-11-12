@@ -13,7 +13,7 @@ public class Review {
 
     private int rating;
 
-    private String description;
+    private String comment;
 
     private boolean forTesting;
 
@@ -25,11 +25,11 @@ public class Review {
     /**
      * Constructor for the Review class
      * @param rating the int of the rating for the product
-     * @param description the String of the review description
+     * @param comment the String of the review comment
      */
-    public Review(int rating, String description) {
+    public Review(int rating, String comment) {
         this.rating = rating;
-        this.description = description;
+        this.comment = comment;
     }
 
     /**
@@ -49,11 +49,11 @@ public class Review {
     }
 
     /**
-     * Gets the description of the product review
-     * @return the String of the product review description
+     * Gets the comment of the product review
+     * @return the String of the product review comment
      */
-    public String getDescription() {
-        return description;
+    public String getComment() {
+        return comment;
     }
 
     /**
@@ -73,11 +73,11 @@ public class Review {
     }
 
     /**
-     * Sets the product review description
-     * @param description the String of the product review description
+     * Sets the product review comment
+     * @param comment the String of the product review comment
      */
-    public void setDescription(String description) {
-        this.description = description;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     /**

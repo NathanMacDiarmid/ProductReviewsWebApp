@@ -15,8 +15,8 @@ const columnDefs = [
                 filter: 'agNumberColumnFilter',
             },
             {
-                headerName: 'Description',
-                field: 'description',
+                headerName: 'Comment',
+                field: 'comment',
                 width: 540,
                 filter: 'agTextColumnFilter',
             },

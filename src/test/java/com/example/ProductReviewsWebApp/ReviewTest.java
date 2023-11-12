@@ -85,7 +85,7 @@ public class ReviewTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(MediaType.APPLICATION_JSON, response.getHeaders().getContentType());
         assertEquals(5, Objects.requireNonNull(response.getBody()).getRating());
-        assertEquals("Great plant. Doesn't require a lot of maintenance and it's nice to look at.", response.getBody().getDescription());
+        assertEquals("Great plant. Doesn't require a lot of maintenance and it's nice to look at.", response.getBody().getComment());
 
         reviewRepository.delete(review);
     }
@@ -106,7 +106,7 @@ public class ReviewTest {
 
         // WHEN
         ResponseEntity<Review> response = restTemplate.getForEntity(resourceUrl, Review.class);
-        assertEquals("This is a fake review", Objects.requireNonNull(response.getBody()).getDescription());
+        assertEquals("This is a fake review", Objects.requireNonNull(response.getBody()).getComment());
         restTemplate.delete(resourceUrl);
 
         // THEN
@@ -137,7 +137,7 @@ public class ReviewTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(MediaType.APPLICATION_JSON, response.getHeaders().getContentType());
         assertEquals(3, Objects.requireNonNull(response.getBody()).getRating());
-        assertEquals("Could be better", Objects.requireNonNull(response.getBody()).getDescription());
+        assertEquals("Could be better", Objects.requireNonNull(response.getBody()).getComment());
 
         reviewRepository.delete(review);
     }

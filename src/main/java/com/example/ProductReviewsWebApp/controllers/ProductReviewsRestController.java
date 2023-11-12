@@ -96,8 +96,8 @@ public class ProductReviewsRestController {
     public Review updateReview(@PathVariable Long id, @RequestBody Review newReview) {
         Review review = getReview(id);
         review.setRating(newReview.getRating());
-        if (newReview.getDescription() != null) {
-            newReview.setDescription(newReview.getDescription());
+        if (newReview.getComment() != null) {
+            newReview.setComment(newReview.getComment());
         }
         return reviewRepository.save(review);
     }
