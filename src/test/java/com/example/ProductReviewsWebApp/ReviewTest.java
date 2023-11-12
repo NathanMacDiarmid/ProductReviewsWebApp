@@ -1,7 +1,7 @@
 package com.example.ProductReviewsWebApp;
 
-import com.example.ProductReviewsWebApp.reviews.Review;
-import com.example.ProductReviewsWebApp.reviews.ReviewRepository;
+import com.example.ProductReviewsWebApp.models.Review;
+import com.example.ProductReviewsWebApp.repositories.ReviewRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,11 +45,12 @@ public class ReviewTest {
         int count = 0;
 
         // GIVEN
-        String resourceUrl = "http://localhost:" + port + "/review";
+        String resourceUrl = "http://localhost:" + port + "/api/review";
 
         // WHEN
         ResponseEntity<Iterable<Review>> response =
-                restTemplate.exchange(resourceUrl, HttpMethod.GET, null, new ParameterizedTypeReference<Iterable<Review>>() {});
+                restTemplate.exchange(resourceUrl, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
+                });
 
         // THEN
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -75,7 +76,7 @@ public class ReviewTest {
         long reviewId = review.getId();
 
         // GIVEN
-        String resourceUrl = "http://localhost:" + port + "/review/" + reviewId;
+        String resourceUrl = "http://localhost:" + port + "/api/review/" + reviewId;
 
         // WHEN
         ResponseEntity<Review> response = restTemplate.getForEntity(resourceUrl, Review.class);
@@ -84,7 +85,7 @@ public class ReviewTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(MediaType.APPLICATION_JSON, response.getHeaders().getContentType());
         assertEquals(5, Objects.requireNonNull(response.getBody()).getRating());
-        assertEquals("Great plant. Doesn't require a lot of maintenance and it's nice to look at.", response.getBody().getDescription());
+        assertEquals("Great plant. Doesn't require a lot of maintenance and it's nice to look at.", response.getBody().getComment());
 
         reviewRepository.delete(review);
     }
@@ -101,11 +102,11 @@ public class ReviewTest {
         long reviewId = review.getId();
 
         // GIVEN
-        String resourceUrl = "http://localhost:" + port + "/review/" + reviewId;
+        String resourceUrl = "http://localhost:" + port + "/api/review/" + reviewId;
 
         // WHEN
         ResponseEntity<Review> response = restTemplate.getForEntity(resourceUrl, Review.class);
-        assertEquals("This is a fake review", Objects.requireNonNull(response.getBody()).getDescription());
+        assertEquals("This is a fake review", Objects.requireNonNull(response.getBody()).getComment());
         restTemplate.delete(resourceUrl);
 
         // THEN
@@ -127,7 +128,7 @@ public class ReviewTest {
 
         // GIVEN
         HttpEntity<Review> updatedEntity = new HttpEntity<>(new Review(3, "Could be better"));
-        String resourceUrl = "http://localhost:" + port + "/review/" + reviewId;
+        String resourceUrl = "http://localhost:" + port + "/api/review/" + reviewId;
 
         // WHEN
         ResponseEntity<Review> response = restTemplate.exchange(resourceUrl, HttpMethod.PUT, updatedEntity, Review.class);
@@ -136,7 +137,7 @@ public class ReviewTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(MediaType.APPLICATION_JSON, response.getHeaders().getContentType());
         assertEquals(3, Objects.requireNonNull(response.getBody()).getRating());
-        assertEquals("Could be better", Objects.requireNonNull(response.getBody()).getDescription());
+        assertEquals("Could be better", Objects.requireNonNull(response.getBody()).getComment());
 
         reviewRepository.delete(review);
     }

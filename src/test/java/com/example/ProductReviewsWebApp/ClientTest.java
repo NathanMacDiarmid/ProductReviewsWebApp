@@ -1,10 +1,10 @@
 package com.example.ProductReviewsWebApp;
 
-import com.example.ProductReviewsWebApp.products.Product;
-import com.example.ProductReviewsWebApp.products.ProductRepository;
-import com.example.ProductReviewsWebApp.reviews.Review;
-import com.example.ProductReviewsWebApp.clients.Client;
-import com.example.ProductReviewsWebApp.clients.ClientRepository;
+import com.example.ProductReviewsWebApp.models.Product;
+import com.example.ProductReviewsWebApp.repositories.ProductRepository;
+import com.example.ProductReviewsWebApp.models.Review;
+import com.example.ProductReviewsWebApp.models.Client;
+import com.example.ProductReviewsWebApp.repositories.ClientRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -145,7 +145,7 @@ class ClientTest {
     @Test
     public void getClientsTest() {
         // GIVEN
-        String resourceUrl = "http://localhost:" + port + "/client";
+        String resourceUrl = "http://localhost:" + port + "/api/client";
 
         // WHEN
         ResponseEntity<Iterable<Client>> response =
@@ -159,7 +159,7 @@ class ClientTest {
     @Test
     public void getClientByIdTest() {
         // GIVEN
-        String resourceUrl = "http://localhost:" + port + "/client/Tom";
+        String resourceUrl = "http://localhost:" + port + "/api/client/Tom";
 
         // WHEN
         ResponseEntity<Client> response = restTemplate.getForEntity(resourceUrl, Client.class);

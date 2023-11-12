@@ -1,11 +1,11 @@
-package com.example.ProductReviewsWebApp;
+package com.example.ProductReviewsWebApp.controllers;
 
-import com.example.ProductReviewsWebApp.clients.Client;
-import com.example.ProductReviewsWebApp.clients.ClientRepository;
-import com.example.ProductReviewsWebApp.products.Product;
-import com.example.ProductReviewsWebApp.products.ProductRepository;
-import com.example.ProductReviewsWebApp.reviews.Review;
-import com.example.ProductReviewsWebApp.reviews.ReviewRepository;
+import com.example.ProductReviewsWebApp.models.Client;
+import com.example.ProductReviewsWebApp.repositories.ClientRepository;
+import com.example.ProductReviewsWebApp.models.Product;
+import com.example.ProductReviewsWebApp.repositories.ProductRepository;
+import com.example.ProductReviewsWebApp.models.Review;
+import com.example.ProductReviewsWebApp.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +14,8 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Optional;
 
 @RestController
-public class ProductReviewsController {
+@RequestMapping(value="/api")
+public class ProductReviewsRestController {
 
     @Autowired
     private ProductRepository productRepository;
@@ -122,8 +123,8 @@ public class ProductReviewsController {
     public Review updateReview(@PathVariable Long id, @RequestBody Review newReview) {
         Review review = getReview(id);
         review.setRating(newReview.getRating());
-        if (newReview.getDescription() != null) {
-            newReview.setDescription(newReview.getDescription());
+        if (newReview.getComment() != null) {
+            newReview.setComment(newReview.getComment());
         }
         return reviewRepository.save(review);
     }

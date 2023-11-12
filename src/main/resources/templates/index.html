@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <title>Home Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    </head>
+    <body>
+        <nav class="topnav">
+            <a href="/" th:href="@{/}">Home</a>
+            <a href="/product" th:href="@{/product}">Product</a>
+            <a href="/review" th:href="@{/review}">Review</a>
+            <a href="#logout" class="split">Logout</a>
+        </nav>
+        <div class="container">
+            <div class="hero-unit">
+                <h1>Trustworthy Product Reviews Home Page</h1>
+                <p>
+                    Welcome to the Trustworthy Product Reviews application!
+                </p>
+            </div>
+            <footer>
+                <div>&copy; 2023 Group16</div>
+            </footer>
+        </div>
+    </body>
+</html>
