@@ -46,6 +46,22 @@ public class Review {
         this.comment = comment;
     }
 
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public Product getReviewedProduct() {
+        return reviewedProduct;
+    }
+
+    public void setReviewedProduct(Product reviewedProduct) {
+        this.reviewedProduct = reviewedProduct;
+    }
+
     /**
      * Gets the id of the review
      * @return the long id
