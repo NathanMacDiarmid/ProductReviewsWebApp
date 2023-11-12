@@ -60,7 +60,7 @@ public class ProductReviewsController {
 
     @GetMapping(value="/product/{id}", produces="application/json")
     public String getProductById(@PathVariable("id") Long id, Model model) {
-        Product product = getProduct(id);
+        Product product = productRepository.findById(id).orElse(null);
         model.addAttribute("product", product);
         return "product-page";
     }
