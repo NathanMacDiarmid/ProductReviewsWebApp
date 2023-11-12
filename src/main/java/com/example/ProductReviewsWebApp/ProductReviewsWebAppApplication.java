@@ -1,5 +1,7 @@
 package com.example.ProductReviewsWebApp;
 
+import com.example.ProductReviewsWebApp.clients.Client;
+import com.example.ProductReviewsWebApp.clients.ClientRepository;
 import com.example.ProductReviewsWebApp.reviews.Review;
 import com.example.ProductReviewsWebApp.reviews.ReviewRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -17,7 +19,7 @@ public class ProductReviewsWebAppApplication {
 	}
 
 	@Bean
-	public CommandLineRunner baseInformation(ProductRepository repository) {
+	public CommandLineRunner baseInformation(ProductRepository repository, ClientRepository clientRepository) {
 		return (args) -> {
 			repository.save(new Product("www.helloworld.com", "Trong", "Student"));
 			repository.save(new Product("www.helloworld.com", "Evan", "Student"));
@@ -26,9 +28,13 @@ public class ProductReviewsWebAppApplication {
 			repository.save(new Product("www.helloworld.com", "Nathan", "Student"));
 
 			Product product = new Product("www.helloworld.com", "Hello World", "Test");
-			product.addReview(new Review(5, "Review1"));
-			product.addReview(new Review(3, "Review2"));
-			product.addReview(new Review(1, "Review3"));
+			repository.save(product);
+
+			Client client = new Client("TestClient");
+			Review review = new Review(3, "Review 1");
+			client.addReviewForProduct(product.getId(), review);
+			product.addReview(review);
+			clientRepository.save(client);
 			repository.save(product);
 		};
 	}

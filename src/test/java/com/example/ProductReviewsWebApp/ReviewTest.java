@@ -2,8 +2,6 @@ package com.example.ProductReviewsWebApp;
 
 import com.example.ProductReviewsWebApp.reviews.Review;
 import com.example.ProductReviewsWebApp.reviews.ReviewRepository;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +10,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 
-import java.util.Iterator;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -29,21 +26,21 @@ public class ReviewTest {
     @Autowired
     private ReviewRepository reviewRepository;
 
-    @AfterEach
-    public void tearDown() {
-        // Clear all persisted reviews
-        reviewRepository.deleteAll();
-    }
-
     /**
      * Tests the number of total reviews
      */
     @Test
     public void getNumOfReviewsTest() {
+        Review review1 = new Review(5, "Great plant. Doesn't require a lot of maintenance and it's nice to look at.");
+        review1.setForTesting();
+        Review review2 = new Review(1, "Plant died after a few days.");
+        review2.setForTesting();
+        Review review3 = new Review(3, "I received a lemon basil plant instead of the Italian one that I ordered");
+        review3.setForTesting();
 
-        reviewRepository.save(new Review(5, "Great plant. Doesn't require a lot of maintenance and it's nice to look at."));
-        reviewRepository.save(new Review(1, "Plant died after a few days."));
-        reviewRepository.save(new Review(3, "I received a lemon basil plant instead of the Italian one that I ordered"));
+        reviewRepository.save(review1);
+        reviewRepository.save(review2);
+        reviewRepository.save(review3);
 
         int count = 0;
 
@@ -58,9 +55,14 @@ public class ReviewTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(MediaType.APPLICATION_JSON, response.getHeaders().getContentType());
         for (Review review : Objects.requireNonNull(response.getBody())) {
-            count++;
+            if (review.isForTesting())
+                count++;
         }
         assertEquals(3, count);
+
+        reviewRepository.delete(review1);
+        reviewRepository.delete(review2);
+        reviewRepository.delete(review3);
     }
 
     /**
@@ -83,6 +85,8 @@ public class ReviewTest {
         assertEquals(MediaType.APPLICATION_JSON, response.getHeaders().getContentType());
         assertEquals(5, Objects.requireNonNull(response.getBody()).getRating());
         assertEquals("Great plant. Doesn't require a lot of maintenance and it's nice to look at.", response.getBody().getDescription());
+
+        reviewRepository.delete(review);
     }
 
 
@@ -106,6 +110,8 @@ public class ReviewTest {
 
         // THEN
         assertTrue(reviewRepository.findById(reviewId).isEmpty());
+
+        reviewRepository.delete(review);
     }
 
     /**
@@ -131,5 +137,7 @@ public class ReviewTest {
         assertEquals(MediaType.APPLICATION_JSON, response.getHeaders().getContentType());
         assertEquals(3, Objects.requireNonNull(response.getBody()).getRating());
         assertEquals("Could be better", Objects.requireNonNull(response.getBody()).getDescription());
+
+        reviewRepository.delete(review);
     }
 }

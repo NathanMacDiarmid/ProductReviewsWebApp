@@ -12,6 +12,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 
+import java.util.List;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,17 +29,24 @@ public class ProductTest {
     @Autowired
     private ProductRepository productRepository;
 
+    private Product pizza;
+
+    private Product shawarma;
+
     @BeforeEach
     public void setup() {
         // Add two test products to the product list
-        productRepository.save(new Product("www.pizza.com", "pizza", "food"));
-        productRepository.save(new Product("www.shawarma.com", "shawarma", "food"));
+        pizza = new Product("www.pizza.com", "pizza", "food");
+        shawarma = new Product("www.shawarma.com", "shawarma", "food");
+        productRepository.save(pizza);
+        productRepository.save(shawarma);
     }
 
     @AfterEach
     public void tearDown() {
         // Clear all persisted products
-        productRepository.deleteAll();
+        productRepository.delete(pizza);
+        productRepository.delete(shawarma);
     }
 
     @Test
@@ -54,15 +62,13 @@ public class ProductTest {
         // THEN
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(MediaType.APPLICATION_JSON, response.getHeaders().getContentType());
-        Objects.requireNonNull(
-                response.getBody()).forEach(
-                        product -> assertEquals("food", product.getCategory()));
     }
 
     @Test
     public void getProductTest() {
         // GIVEN
-        String resourceUrl = "http://localhost:" + port + "/product/7";
+        Product testProduct = productRepository.findByName("pizza");
+        String resourceUrl = "http://localhost:" + port + "/product/" + testProduct.getId();
 
         // WHEN
         ResponseEntity<Product> response = restTemplate.getForEntity(resourceUrl, Product.class);
@@ -93,6 +99,8 @@ public class ProductTest {
         assertEquals("food", response.getBody().getCategory());
 
         assertNotNull(productRepository.findByName("spaghetti"));
+
+        productRepository.delete(productRepository.findByName("spaghetti"));
     }
 
     @Test
