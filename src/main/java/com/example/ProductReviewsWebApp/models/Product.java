@@ -50,6 +50,14 @@ public class Product {
         this.reviews = new ArrayList<>();
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     /**
      * Retrieves the ID of the product.
      *
