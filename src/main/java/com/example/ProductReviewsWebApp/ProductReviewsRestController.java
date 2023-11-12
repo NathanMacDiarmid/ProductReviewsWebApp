@@ -6,16 +6,14 @@ import com.example.ProductReviewsWebApp.reviews.Review;
 import com.example.ProductReviewsWebApp.reviews.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
 import java.util.Optional;
 
-@Controller
-public class ProductReviewsController {
+@RestController
+@RequestMapping(value="/api")
+public class ProductReviewsRestController {
 
     @Autowired
     private ProductRepository productRepository;
@@ -39,23 +37,14 @@ public class ProductReviewsController {
         return review.get();
     }
 
-    @GetMapping
-    public String index() {
-        return "index";
-    }
-
-    @GetMapping(value="/product")
-    public String getProducts(Model model) {
-        List<Product> productList = productRepository.findAll();
-        model.addAttribute("ProductList", productList);
-        return "product";
+    @GetMapping(value="/product", produces="application/json")
+    public Iterable<Product> getProducts() {
+        return productRepository.findAll();
     }
 
     @GetMapping(value="/review", produces="application/json")
-    public String getReviews(Model model) {
-        List<Review> reviewList = reviewRepository.findAll();
-        model.addAttribute("ReviewList", reviewList);
-        return "review";
+    public Iterable<Review> getReviews() {
+        return reviewRepository.findAll();
     }
 
     @GetMapping(value="/product/{id}", produces="application/json")

@@ -1,7 +1,6 @@
 package com.example.ProductReviewsWebApp;
 
 import com.example.ProductReviewsWebApp.reviews.Review;
-import com.example.ProductReviewsWebApp.reviews.ReviewRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
