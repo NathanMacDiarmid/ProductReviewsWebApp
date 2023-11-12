@@ -60,7 +60,7 @@ public class ProductReviewsController {
 
     @GetMapping(value="/product/{id}", produces="application/json")
     public String getProductById(@PathVariable("id") Long id, Model model) {
-        Product product = productRepository.findById(id).orElse(null);
+        Product product = getProduct(id);
         model.addAttribute("product", product);
         return "product-page";
     }
@@ -109,8 +109,8 @@ public class ProductReviewsController {
     public Review updateReview(@PathVariable Long id, @RequestBody Review newReview) {
         Review review = getReview(id);
         review.setRating(newReview.getRating());
-        if (newReview.getComment() != null) {
-            newReview.setComment(newReview.getComment());
+        if (newReview.getDescription() != null) {
+            newReview.setDescription(newReview.getDescription());
         }
         return reviewRepository.save(review);
     }

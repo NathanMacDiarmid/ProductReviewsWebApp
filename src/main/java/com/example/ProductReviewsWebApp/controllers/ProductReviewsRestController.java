@@ -1,7 +1,5 @@
 package com.example.ProductReviewsWebApp.controllers;
 
-import com.example.ProductReviewsWebApp.models.Client;
-import com.example.ProductReviewsWebApp.repositories.ClientRepository;
 import com.example.ProductReviewsWebApp.models.Product;
 import com.example.ProductReviewsWebApp.repositories.ProductRepository;
 import com.example.ProductReviewsWebApp.models.Review;
@@ -23,9 +21,6 @@ public class ProductReviewsRestController {
     @Autowired
     private ReviewRepository reviewRepository;
 
-    @Autowired
-    private ClientRepository clientRepository;
-
     private Product getProduct(Long id) {
         Optional<Product> product = productRepository.findById(id);
         if (product.isEmpty()) {
@@ -42,34 +37,15 @@ public class ProductReviewsRestController {
         return review.get();
     }
 
-    private Client getClientById(Long id) {
-        Optional<Client> client = clientRepository.findById(id);
-        if (client.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity not found");
-        }
-        return client.get();
-    }
-
-    private Client getClientByUsername(String username) {
-        Optional<Client> client = Optional.ofNullable(clientRepository.findByUsername(username));
-        if (client.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity not found");
-        }
-        return client.get();
-    }
-
-    @GetMapping("/product")
+    @GetMapping(value="/product", produces="application/json")
     public Iterable<Product> getProducts() {
         return productRepository.findAll();
     }
 
-    @GetMapping("/review")
+    @GetMapping(value="/review", produces="application/json")
     public Iterable<Review> getReviews() {
         return reviewRepository.findAll();
     }
-
-    @GetMapping("/client")
-    public Iterable<Client> getClients() { return clientRepository.findAll(); }
 
     @GetMapping(value="/product/{id}", produces="application/json")
     public Product getProductById(@PathVariable("id") Long id) {
@@ -80,9 +56,6 @@ public class ProductReviewsRestController {
     public Review getReviewById(@PathVariable("id") Long id) {
         return getReview(id);
     }
-
-    @GetMapping(value="/client/{username}", produces = "application/json")
-    public Client returnClientByUsername(@PathVariable("username") String username) { return getClientByUsername(username); }
 
     @PostMapping(value="/product", consumes="application/json", produces="application/json")
     public Product createProduct(@RequestBody Product product) {
@@ -123,8 +96,8 @@ public class ProductReviewsRestController {
     public Review updateReview(@PathVariable Long id, @RequestBody Review newReview) {
         Review review = getReview(id);
         review.setRating(newReview.getRating());
-        if (newReview.getComment() != null) {
-            newReview.setComment(newReview.getComment());
+        if (newReview.getDescription() != null) {
+            newReview.setDescription(newReview.getDescription());
         }
         return reviewRepository.save(review);
     }
