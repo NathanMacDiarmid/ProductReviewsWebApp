@@ -25,7 +25,7 @@ public class Product {
 
     private double averageRating; // The average ratings of the product.
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "reviewedProduct")
     private List<Review> reviews;
 
     /**
@@ -44,6 +44,7 @@ public class Product {
     public Product(String url, String name, String category) {
         this.url = url;
         this.name = name;
+        this.description = "Product description";
         this.category = category;
         this.averageRating = 0;
         this.reviews = new ArrayList<>();

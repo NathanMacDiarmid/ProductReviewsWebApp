@@ -1,6 +1,9 @@
 package com.example.ProductReviewsWebApp;
 
+import com.example.ProductReviewsWebApp.repositories.ReviewRepository;
 import com.github.javafaker.Faker;
+
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.example.ProductReviewsWebApp.models.Client;
@@ -25,28 +28,47 @@ public class ProductReviewsWebAppApplication {
 	}
 
 	@Bean
-	public CommandLineRunner baseInformation(ProductRepository repository, ClientRepository clientRepository) {
+	public CommandLineRunner baseInformation(ProductRepository productRepository, ClientRepository clientRepository, ReviewRepository reviewRepository) {
 		return (args) -> {
 			Faker faker = new Faker();
 
+			ArrayList<Client> clients = new ArrayList<>();
+			ArrayList<Product> products = new ArrayList<>();
+			ArrayList<Review> reviews = new ArrayList<>();
+
+			// Create some clients
+			for (int i = 0; i < TEST_CLIENTS; i++) {
+				String name = faker.funnyName().name();
+
+				Client client = new Client(name);
+				clientRepository.save(client);
+				clients.add(client);
+			}
+
+			// Create some products
 			for (int i = 0; i < TEST_PRODUCTS; i++) {
 				String item = faker.space().moon();
 				String category = faker.space().constellation();
+
 				Product product = new Product("www.google.com", item, category);
+				productRepository.save(product);
+				products.add(product);
+			}
 
+			// Create reviews for each client
+			for (Client client : clients) {
+				int randomReview = ThreadLocalRandom.current().nextInt(0, 10 + 1);
+				int randomProduct = ThreadLocalRandom.current().nextInt(0, products.size());
 
-				for (int j = 0; j < TEST_CLIENTS; j++) {
-					String name = faker.funnyName().name();
-					String description = faker.hobbit().quote();
+				for (int i = 0; i < randomReview; i++) {
+					Product product = products.get(randomProduct);
 					int rating = ThreadLocalRandom.current().nextInt(0, 5 + 1);
+					String comment = faker.hobbit().quote();
 
-					Client client = new Client(name);
-					Review review = new Review(rating, description);
-					client.addReviewForProduct(product.getId(), review);
-					product.addReview(review);
-					//clientRepository.save(client); // NOT WORKING
+					Review review = new Review(client, product, rating, comment);
+					reviewRepository.save(review);
+					reviews.add(review);
 				}
-				repository.save(product);
 			}
 		};
 	}
