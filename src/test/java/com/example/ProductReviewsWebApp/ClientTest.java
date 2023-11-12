@@ -149,7 +149,8 @@ class ClientTest {
 
         // WHEN
         ResponseEntity<Iterable<Client>> response =
-                restTemplate.exchange(resourceUrl, HttpMethod.GET, null, new ParameterizedTypeReference<Iterable<Client>>() {});
+                restTemplate.exchange(resourceUrl, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
+                });
 
         // THEN
         assertEquals(HttpStatus.OK, response.getStatusCode());
