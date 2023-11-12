@@ -17,7 +17,7 @@ const columnDefs = [
             {
                 headerName: 'Description',
                 field: 'description',
-                width: 180,
+                width: 540,
                 filter: 'agTextColumnFilter',
             },
         ],

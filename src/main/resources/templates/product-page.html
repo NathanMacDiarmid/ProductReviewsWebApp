@@ -16,7 +16,26 @@
             <a href="/review" th:href="@{/review}">Review</a>
             <a href="#logout" class="split">Logout</a>
         </nav>
-        <div id="grid" class="ag-theme-alpine"></div>
+        <p>Product ID <span th:text="${product.getId()}"></span></p>
+        <p>Product Name <span th:text="${product.getName()}"></span></p>
+        <p>Product Category <span th:text="${product.getCategory()}"></span></p>
+        <p>Product URL <span th:text="${product.getUrl()}"></span></p>
+
+        <table class="table">
+            <caption class="internal">Calling JavaScript Functions Inside Thymeleaf</caption>
+            <thead>
+            <tr>
+                <th>Rating</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="review : ${product.getReviews()}" class="review">
+                <td th:text="${review.getRating()}"></td>
+                <td th:text="${review.getDescription()}"></td>
+            </tr>
+            </tbody>
+        </table>
         <footer>
             <p>
                 <a class="btn btn-large btn-success" href="/" th:href="@{/}">Return</a>

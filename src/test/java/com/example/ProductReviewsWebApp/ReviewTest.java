@@ -1,7 +1,7 @@
 package com.example.ProductReviewsWebApp;
 
-import com.example.ProductReviewsWebApp.reviews.Review;
-import com.example.ProductReviewsWebApp.reviews.ReviewRepository;
+import com.example.ProductReviewsWebApp.models.Review;
+import com.example.ProductReviewsWebApp.repositories.ReviewRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,7 +49,8 @@ public class ReviewTest {
 
         // WHEN
         ResponseEntity<Iterable<Review>> response =
-                restTemplate.exchange(resourceUrl, HttpMethod.GET, null, new ParameterizedTypeReference<Iterable<Review>>() {});
+                restTemplate.exchange(resourceUrl, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
+                });
 
         // THEN
         assertEquals(HttpStatus.OK, response.getStatusCode());

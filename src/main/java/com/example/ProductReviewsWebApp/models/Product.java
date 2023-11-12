@@ -1,6 +1,5 @@
-package com.example.ProductReviewsWebApp.products;
+package com.example.ProductReviewsWebApp.models;
 
-import com.example.ProductReviewsWebApp.reviews.Review;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.example.ProductReviewsWebApp.reviews;
+package com.example.ProductReviewsWebApp.models;
 
 import jakarta.persistence.*;
 

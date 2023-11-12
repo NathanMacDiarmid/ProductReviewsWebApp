@@ -1,19 +1,21 @@
-package com.example.ProductReviewsWebApp;
+package com.example.ProductReviewsWebApp.controllers;
 
-import com.example.ProductReviewsWebApp.products.Product;
-import com.example.ProductReviewsWebApp.products.ProductRepository;
-import com.example.ProductReviewsWebApp.reviews.Review;
-import com.example.ProductReviewsWebApp.reviews.ReviewRepository;
+import com.example.ProductReviewsWebApp.models.Product;
+import com.example.ProductReviewsWebApp.repositories.ProductRepository;
+import com.example.ProductReviewsWebApp.models.Review;
+import com.example.ProductReviewsWebApp.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
 
-@RestController
-@RequestMapping(value="/api")
-public class ProductReviewsRestController {
+@Controller
+public class ProductReviewsController {
 
     @Autowired
     private ProductRepository productRepository;
@@ -37,19 +39,30 @@ public class ProductReviewsRestController {
         return review.get();
     }
 
-    @GetMapping(value="/product", produces="application/json")
-    public Iterable<Product> getProducts() {
-        return productRepository.findAll();
+    @GetMapping
+    public String index() {
+        return "index";
+    }
+
+    @GetMapping(value="/product")
+    public String getProducts(Model model) {
+        List<Product> productList = productRepository.findAll();
+        model.addAttribute("ProductList", productList);
+        return "product";
     }
 
     @GetMapping(value="/review", produces="application/json")
-    public Iterable<Review> getReviews() {
-        return reviewRepository.findAll();
+    public String getReviews(Model model) {
+        List<Review> reviewList = reviewRepository.findAll();
+        model.addAttribute("ReviewList", reviewList);
+        return "review";
     }
 
     @GetMapping(value="/product/{id}", produces="application/json")
-    public Product getProductById(@PathVariable("id") Long id) {
-        return getProduct(id);
+    public String getProductById(@PathVariable("id") Long id, Model model) {
+        Product product = getProduct(id);
+        model.addAttribute("product", product);
+        return "product-page";
     }
 
     @GetMapping(value="/review/{id}", produces="application/json")
