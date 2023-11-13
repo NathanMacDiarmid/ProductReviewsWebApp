@@ -107,13 +107,13 @@ public class ProductTest {
     public void deleteProductTest() {
 
         // GIVEN
-        String resourceUrl = "http://localhost:" + port + "/api/product/1";
+        HttpEntity<Product> request = new HttpEntity<>(new Product("www.spaghetti.com", "spaghetti", "food"));
+        String resourceUrl = "http://localhost:" + port + "/api/product";
 
-        // WHEN
-        restTemplate.delete(resourceUrl);
+        restTemplate.postForEntity(resourceUrl, request, Product.class);
 
-        // THEN
-        assertTrue(productRepository.findById(1L).isEmpty());
+        productRepository.delete(productRepository.findByName("spaghetti"));
+        assertNull(productRepository.findByName("spaghetti"));
     }
 
     @Test
