@@ -107,13 +107,13 @@ public class ProductTest {
     public void deleteProductTest() {
 
         // GIVEN
-        String resourceUrl = "http://localhost:" + port + "/api/product/1";
+        String resourceUrl = "http://localhost:" + port + "/api/product/11";
 
         // WHEN
         restTemplate.delete(resourceUrl);
 
         // THEN
-        assertTrue(productRepository.findById(1L).isEmpty());
+        assertTrue(productRepository.findById(11L).isEmpty());
     }
 
     @Test
