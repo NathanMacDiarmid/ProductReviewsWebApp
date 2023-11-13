@@ -17,7 +17,7 @@ This Product Reviews Web App is a SpringBoot web application that is deployed on
 
 
 
-### User
+### Client
 
 
 
