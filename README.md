@@ -5,20 +5,22 @@
 
 Web app link - http://productreviewswebapp.azurewebsites.net
 
-This Product Reviews Web App is a SpringBoot web application that is deployed on Azure Web Services. It uses RESTful commands and Thymeleaf calls to organize and display information that is persisted and stored in a database.
+This Product Reviews Web App is a SpringBoot web application deployed on Azure Web Services. It uses RESTful commands and Thymeleaf calls to organize and display information that is persisted and stored in a database.
 
 ## This project contains three entities:
 
 ### Product
 
-
+The product entity is responsible for holding the model logic of a typical Product. It contains a name, URL, category, and a list of Reviews related to that product. Users can add and remove products to the site.
 
 ### Review
 
-
+The review entity holds the model logic of a typical Review. It contains a star rating and a comment and keeps track of the review's author and related product. 
 
 ### Client
 
+The client entity is responsible for holding the model logic of the typical client. Clients have a username, a map of product_id, review pairs, a list of users they follow, and a count of how many users follow them. 
+Clients can follow and unfollow other clients, write reviews of products, and calculate Jaccard Distance to each other.
 
 
 ## Run locally
