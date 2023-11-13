@@ -1,19 +1,20 @@
-package com.example.ProductReviewsWebApp;
+package com.example.ProductReviewsWebApp.controllers;
 
-import com.example.ProductReviewsWebApp.clients.Client;
-import com.example.ProductReviewsWebApp.clients.ClientRepository;
-import com.example.ProductReviewsWebApp.products.Product;
-import com.example.ProductReviewsWebApp.products.ProductRepository;
-import com.example.ProductReviewsWebApp.reviews.Review;
-import com.example.ProductReviewsWebApp.reviews.ReviewRepository;
+import com.example.ProductReviewsWebApp.models.Product;
+import com.example.ProductReviewsWebApp.repositories.ProductRepository;
+import com.example.ProductReviewsWebApp.models.Review;
+import com.example.ProductReviewsWebApp.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
 
-@RestController
+@Controller
 public class ProductReviewsController {
 
     @Autowired
@@ -21,9 +22,6 @@ public class ProductReviewsController {
 
     @Autowired
     private ReviewRepository reviewRepository;
-
-    @Autowired
-    private ClientRepository clientRepository;
 
     private Product getProduct(Long id) {
         Optional<Product> product = productRepository.findById(id);
@@ -41,47 +39,36 @@ public class ProductReviewsController {
         return review.get();
     }
 
-    private Client getClientById(Long id) {
-        Optional<Client> client = clientRepository.findById(id);
-        if (client.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity not found");
-        }
-        return client.get();
+    @GetMapping
+    public String index() {
+        return "index";
     }
 
-    private Client getClientByUsername(String username) {
-        Optional<Client> client = Optional.ofNullable(clientRepository.findByUsername(username));
-        if (client.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity not found");
-        }
-        return client.get();
+    @GetMapping(value="/product")
+    public String getProducts(Model model) {
+        List<Product> productList = productRepository.findAll();
+        model.addAttribute("ProductList", productList);
+        return "product";
     }
 
-    @GetMapping("/product")
-    public Iterable<Product> getProducts() {
-        return productRepository.findAll();
+    @GetMapping(value="/review", produces="application/json")
+    public String getReviews(Model model) {
+        List<Review> reviewList = reviewRepository.findAll();
+        model.addAttribute("ReviewList", reviewList);
+        return "review";
     }
-
-    @GetMapping("/review")
-    public Iterable<Review> getReviews() {
-        return reviewRepository.findAll();
-    }
-
-    @GetMapping("/client")
-    public Iterable<Client> getClients() { return clientRepository.findAll(); }
 
     @GetMapping(value="/product/{id}", produces="application/json")
-    public Product getProductById(@PathVariable("id") Long id) {
-        return getProduct(id);
+    public String getProductById(@PathVariable("id") Long id, Model model) {
+        Product product = productRepository.findById(id).orElse(null);
+        model.addAttribute("product", product);
+        return "product-page";
     }
 
     @GetMapping(value="/review/{id}", produces="application/json")
     public Review getReviewById(@PathVariable("id") Long id) {
         return getReview(id);
     }
-
-    @GetMapping(value="/client/{username}", produces = "application/json")
-    public Client returnClientByUsername(@PathVariable("username") String username) { return getClientByUsername(username); }
 
     @PostMapping(value="/product", consumes="application/json", produces="application/json")
     public Product createProduct(@RequestBody Product product) {
@@ -122,8 +109,8 @@ public class ProductReviewsController {
     public Review updateReview(@PathVariable Long id, @RequestBody Review newReview) {
         Review review = getReview(id);
         review.setRating(newReview.getRating());
-        if (newReview.getDescription() != null) {
-            newReview.setDescription(newReview.getDescription());
+        if (newReview.getComment() != null) {
+            newReview.setComment(newReview.getComment());
         }
         return reviewRepository.save(review);
     }

@@ -1,7 +1,7 @@
 package com.example.ProductReviewsWebApp;
 
-import com.example.ProductReviewsWebApp.products.Product;
-import com.example.ProductReviewsWebApp.products.ProductRepository;
+import com.example.ProductReviewsWebApp.models.Product;
+import com.example.ProductReviewsWebApp.repositories.ProductRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 
-import java.util.List;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -53,11 +52,12 @@ public class ProductTest {
     public void getProductsTest() {
 
         // GIVEN
-        String resourceUrl = "http://localhost:" + port + "/product";
+        String resourceUrl = "http://localhost:" + port + "/api/product";
 
         // WHEN
         ResponseEntity<Iterable<Product>> response =
-                restTemplate.exchange(resourceUrl, HttpMethod.GET, null, new ParameterizedTypeReference<Iterable<Product>>() {});
+                restTemplate.exchange(resourceUrl, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
+                });
 
         // THEN
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -68,7 +68,7 @@ public class ProductTest {
     public void getProductTest() {
         // GIVEN
         Product testProduct = productRepository.findByName("pizza");
-        String resourceUrl = "http://localhost:" + port + "/product/" + testProduct.getId();
+        String resourceUrl = "http://localhost:" + port + "/api/product/" + testProduct.getId();
 
         // WHEN
         ResponseEntity<Product> response = restTemplate.getForEntity(resourceUrl, Product.class);
@@ -86,7 +86,7 @@ public class ProductTest {
 
         // GIVEN
         HttpEntity<Product> request = new HttpEntity<>(new Product("www.spaghetti.com", "spaghetti", "food"));
-        String resourceUrl = "http://localhost:" + port + "/product";
+        String resourceUrl = "http://localhost:" + port + "/api/product";
 
         // WHEN
         ResponseEntity<Product> response = restTemplate.postForEntity(resourceUrl, request, Product.class);
@@ -107,7 +107,7 @@ public class ProductTest {
     public void deleteProductTest() {
 
         // GIVEN
-        String resourceUrl = "http://localhost:" + port + "/product/1";
+        String resourceUrl = "http://localhost:" + port + "/api/product/1";
 
         // WHEN
         restTemplate.delete(resourceUrl);
@@ -123,7 +123,7 @@ public class ProductTest {
         HttpEntity<Product> updatedEntity =
                 new HttpEntity<>(new Product("www.pizza.com", "piizzzzzaaaa", "food"));
         Long id = productRepository.findByName("pizza").getId();
-        String resourceUrl = "http://localhost:" + port + "/product/" + id;
+        String resourceUrl = "http://localhost:" + port + "/api/product/" + id;
 
         // WHEN
         ResponseEntity<Product> response = restTemplate.exchange(resourceUrl, HttpMethod.PUT, updatedEntity, Product.class);

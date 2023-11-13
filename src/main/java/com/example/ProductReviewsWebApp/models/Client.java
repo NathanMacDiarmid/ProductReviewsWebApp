@@ -1,6 +1,5 @@
-package com.example.ProductReviewsWebApp.clients;
+package com.example.ProductReviewsWebApp.models;
 
-import com.example.ProductReviewsWebApp.reviews.Review;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -128,9 +127,7 @@ public class Client {
             }
         }
 
-        canUpdateFollowerCount = false;
-        followerCount = followerCount + 1;
-        canUpdateFollowerCount = true;
+        followerCount++;
         notifyAll();
     }
 
@@ -146,9 +143,7 @@ public class Client {
             }
         }
 
-        canUpdateFollowerCount = false;
         followerCount = (followerCount > 0) ? followerCount - 1 : 0;
-        canUpdateFollowerCount = true;
         notifyAll();
     }
 
@@ -217,7 +212,8 @@ public class Client {
      */
     public double getJaccardDistanceWithUser(Client clientToCompare) {
         int similarReviews = 0;
-
+        if (this.getAllReviews().isEmpty() || clientToCompare.getAllReviews().isEmpty())
+            return 0;
         for (Long productID : this.reviews.keySet()) {
             if (clientToCompare.hasReviewForProduct(productID)) {
                 similarReviews = (clientToCompare.getReviewForProduct(productID).getRating() == this.reviews.get(productID).getRating()) ? similarReviews + 1 : similarReviews;
@@ -304,8 +300,7 @@ public class Client {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Client)) return false;
-        Client client = (Client) o;
+        if (!(o instanceof Client client)) return false;
         return getId().equals(client.getId());
     }
 
