@@ -44,6 +44,14 @@ The client entity is responsible for holding the model logic of the typical clie
 product_id, review pairs, a list of users they follow, and a count of how many users follow them. 
 Clients can follow and unfollow other clients, write reviews of products, and calculate Jaccard Distance to each other.
 
+## Sprint Plan
+
+This sprint we are focusing on getting most of the main functionality of the project done such as user login, user follow capabilities, Jaccard distance between users and ensuring Prometheus and Grafanna work on the Azure cloud platform.
+
+All of the planned issues can be found here:
+
+https://github.com/NathanMacDiarmid/ProductReviewsWebApp/milestone/2
+
 ### UML Class Diagram
 ![classUML-model](./documentation/classUML-model.png)
 ![classUML-controller](./documentation/classUML-controller.png)
