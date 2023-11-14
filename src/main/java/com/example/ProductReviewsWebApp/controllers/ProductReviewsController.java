@@ -1,5 +1,6 @@
 package com.example.ProductReviewsWebApp.controllers;
 
+import com.example.ProductReviewsWebApp.configuration.SecurityConfig;
 import com.example.ProductReviewsWebApp.models.Product;
 import com.example.ProductReviewsWebApp.repositories.ProductRepository;
 import com.example.ProductReviewsWebApp.models.Review;
@@ -23,6 +24,9 @@ public class ProductReviewsController {
     @Autowired
     private ReviewRepository reviewRepository;
 
+    @Autowired
+    private SecurityConfig securityConfig;
+
     private Product getProduct(Long id) {
         Optional<Product> product = productRepository.findById(id);
         if (product.isEmpty()) {
@@ -41,7 +45,20 @@ public class ProductReviewsController {
 
     @GetMapping
     public String index() {
+        if (securityConfig.isAuthenticated()) {
+            return "redirect:/home";
+        }
         return "index";
+    }
+
+    @GetMapping("/home")
+    public String home() {
+        return "home";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "redirect:/home";
     }
 
     @GetMapping(value="/product")
