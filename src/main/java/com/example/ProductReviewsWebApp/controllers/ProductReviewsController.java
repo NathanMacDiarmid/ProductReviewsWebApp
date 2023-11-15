@@ -45,6 +45,9 @@ public class ProductReviewsController {
 
     @GetMapping
     public String index() {
+        if (securityConfig.isAuthenticated()) {
+            return "redirect:/home";
+        }
         return "index";
     }
 

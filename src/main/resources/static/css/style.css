@@ -38,6 +38,23 @@ html, body {
 /* Create a right-aligned (split) link inside the navigation bar */
 .topnav a.split {
     float: right;
-    background-color: #04AA6D;
-    color: white;
+    background-color: #ddd;
+    color: #333;
+}
+
+.topnav a.split:hover {
+    background-color: rgb(216, 31, 31);
+    color: #333;
+}
+
+
+.login {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    max-width: 25%;
+    margin: 15% auto auto auto;
+    outline-style: double;
+    outline-color: #333;
+    background-color: #ddd;
 }

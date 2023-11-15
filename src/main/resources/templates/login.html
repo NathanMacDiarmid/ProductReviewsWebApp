@@ -2,24 +2,30 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 	<head>
 		<title>Please Log In</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 	</head>
 	<body>
-		<h1>Please Log In</h1>
-		<div th:if="${param.error}">
-			Invalid username and password.</div>
-		<div th:if="${param.logout}">
-			You have been logged out.</div>
-		<form th:action="@{/login}" method="post">
-			<div>
-			<input type="text" name="username" placeholder="Username"/>
-			</div>
-			<div>
-			<input type="password" name="password" placeholder="Password"/>
-			</div>
-			<input type="submit" value="Log in" />
-		</form>
-        <h1>OAuth</h1>
-        <br>
-        <a href="/oauth2/authorization/github">GitHub</a>
+		<div class="login">
+			<h1>Please Log In</h1>
+			<div th:if="${param.error}">
+				Invalid username or password.</div>
+			<div th:if="${param.logout}">
+				You have been logged out.</div>
+			<form th:action="@{/login}" method="post">
+				<div>
+				<input type="text" name="username" placeholder="Username"/>
+				</div>
+				<div>
+				<input type="password" name="password" placeholder="Password"/>
+				</div>
+				<br>
+				<input href="/home" th:href="@{/home}" type="submit" value="Log in" class="btn btn-large btn-success" />
+			</form>
+			<br>
+			<a href="/oauth2/authorization/github">Login with GitHub</a>
+			<br>
+		</div>
 	</body>
 </html>
