@@ -38,8 +38,12 @@ public class SecurityConfig {
                         .requestMatchers(antMatcher("/js/**")).permitAll()
                         .anyRequest().authenticated()
                 )
-                .oauth2Login(withDefaults())
-                .formLogin(withDefaults());
+                .oauth2Login(form -> form
+                    .loginPage("/login")
+                    .permitAll())
+                .formLogin(form -> form
+                    .loginPage("/login")
+                    .permitAll());
         return http.build();
     }
 
