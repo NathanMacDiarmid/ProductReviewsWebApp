@@ -29,7 +29,7 @@ public class SecurityConfigTest {
     private SecurityConfig securityConfig;
 
     @Test
-    public void givenAuthRequestOnPrivateService_shouldSucceedWith200() throws Exception {
+    public void givenAuthRequestOnPrivateService_shouldSucceedWith200() {
         ResponseEntity<String> result = template.withBasicAuth("admin", "password")
                 .getForEntity("/private/hello", String.class);
         assertEquals(HttpStatus.OK, result.getStatusCode());
