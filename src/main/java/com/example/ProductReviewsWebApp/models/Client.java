@@ -1,6 +1,8 @@
 package com.example.ProductReviewsWebApp.models;
 
 import jakarta.persistence.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -11,6 +13,8 @@ import java.util.*;
  */
 @Entity
 public class Client {
+
+    private static final Logger log = LoggerFactory.getLogger(Client.class);
 
     /**
      * The ID of the client.
@@ -107,7 +111,7 @@ public class Client {
             try {
                 wait();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.error(e.toString());
             }
         }
 
@@ -123,7 +127,7 @@ public class Client {
             try {
                 wait();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.error(e.toString());
             }
         }
 
@@ -139,7 +143,7 @@ public class Client {
             try {
                 wait();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.error(e.toString());
             }
         }
 
@@ -161,7 +165,7 @@ public class Client {
             try {
                 wait();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.error(e.toString());
                 return false;
             }
         }
@@ -190,7 +194,7 @@ public class Client {
             try {
                 wait();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.error(e.toString());
                 return false;
             }
         }
@@ -205,7 +209,7 @@ public class Client {
     }
 
     /**
-     * Get the Jaccard Distance of two users. https://www.learndatasci.com/glossary/jaccard-similarity/
+     * Get the Jaccard Distance of two users. <a href="https://www.learndatasci.com/glossary/jaccard-similarity/">...</a>
      *
      * @param clientToCompare Client, the client to calculate with.
      * @return The similarity score of the two clients. 1 -> identical reviews, 0 -> completely unique.
