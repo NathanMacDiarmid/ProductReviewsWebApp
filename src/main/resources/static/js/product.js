@@ -32,13 +32,7 @@ const columnDefs = [
                 headerName: 'Category',
                 field: 'category',
                 width: 180 },
-        ],
-    },
-    {
-        headerName: 'Reviews',
-        children: [
             {
-                columnGroupShow: 'closed',
                 headerName: 'Average Rating',
                 valueGetter: (params) => {
                     var stringify = JSON.stringify(params.data.reviews);
@@ -56,11 +50,11 @@ const columnDefs = [
                     }
                     return arr;
                 },
-                width: 450,
+                width: 215,
                 filter: 'agNumberColumnFilter',
-            },
+            }
         ],
-    },
+    }
 ];
 
 const gridOptions = {

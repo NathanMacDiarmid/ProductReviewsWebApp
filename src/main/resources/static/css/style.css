@@ -7,10 +7,14 @@ html, body {
 }
 
 #grid {
-    height: 100%;
-    width: 100%;
-    padding: 1rem;
-    overflow: auto;
+    height: 80%;
+    width: 45%;
+    margin: 2% auto auto auto;
+}
+
+footer {
+    text-align: center;
+    margin: 2% auto auto auto;
 }
 
 /* Create a top navigation bar with a black background color  */
