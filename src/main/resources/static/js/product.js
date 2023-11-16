@@ -32,22 +32,29 @@ const columnDefs = [
                 headerName: 'Category',
                 field: 'category',
                 width: 180 },
-        ],
-    },
-    {
-        headerName: 'Reviews',
-        children: [
             {
-                columnGroupShow: 'closed',
-                headerName: 'Reviews',
+                headerName: 'Average Rating',
                 valueGetter: (params) => {
-                    return JSON.stringify(params.data.reviews)
+                    var stringify = JSON.stringify(params.data.reviews);
+                    var parse = JSON.parse(stringify);
+                    var arr = new Array();
+                    for (let i = 0; i < parse.length; i++) {
+                        arr.push(parse[i]['rating']);
+                    }
+                    if (arr.length != 0) {
+                        var sum = 0;
+                        for (var j = 0; j < arr.length; j++) {
+                            sum += arr[j];
+                        }
+                        return parseFloat(sum/arr.length).toFixed(2);
+                    }
+                    return arr;
                 },
-                width: 450,
+                width: 215,
                 filter: 'agNumberColumnFilter',
-            },
+            }
         ],
-    },
+    }
 ];
 
 const gridOptions = {
