@@ -56,6 +56,9 @@ https://github.com/NathanMacDiarmid/ProductReviewsWebApp/milestone/2
 ![classUML-model](./documentation/classUML-model.png)
 ![classUML-controller](./documentation/classUML-controller.png)
 
+### Entity Relationship Diagram
+![entity-relationship-diagram](./documentation/entity-relationship-diagram.png)
+
 ## Run locally
 
 - Clone the repository to your machine and run the ProductReviewsWebAppApplication.java file
