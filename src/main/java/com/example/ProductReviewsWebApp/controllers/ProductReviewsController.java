@@ -1,11 +1,14 @@
 package com.example.ProductReviewsWebApp.controllers;
 
 import com.example.ProductReviewsWebApp.configuration.SecurityConfig;
+import com.example.ProductReviewsWebApp.models.Client;
 import com.example.ProductReviewsWebApp.models.Product;
+import com.example.ProductReviewsWebApp.repositories.ClientRepository;
 import com.example.ProductReviewsWebApp.repositories.ProductRepository;
 import com.example.ProductReviewsWebApp.models.Review;
 import com.example.ProductReviewsWebApp.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +26,9 @@ public class ProductReviewsController {
 
     @Autowired
     private ReviewRepository reviewRepository;
+
+    @Autowired
+    private ClientRepository clientRepository;
 
     @Autowired
     private SecurityConfig securityConfig;
@@ -119,12 +125,16 @@ public class ProductReviewsController {
         return productRepository.save(product);
     }
 
-    @PutMapping(value="/product/{id}/addReview", consumes="application/json", produces="application/json")
-    public Review addReview(@PathVariable Long id, @RequestBody Review review) {
-        Product product = getProduct(id);
+    @PostMapping(value="/submitReview")
+    public String addReview(@RequestParam(value = "reviewComment") String reviewComment, @RequestParam(value = "productId") long productId, Model model) {
+        Product product = getProduct(productId);
+        Client client = new Client("Test"); // TODO Update this to take the client that's logged in
+        clientRepository.save(client);
+        Review review = new Review(client, product, 5, reviewComment);
         product.addReview(review);
+        model.addAttribute("product", product);
         productRepository.save(product);
-        return review;
+        return "product-page";
     }
 
     @PutMapping(value="/review/{id}", consumes="application/json", produces="application/json")

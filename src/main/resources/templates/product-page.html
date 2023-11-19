@@ -15,10 +15,35 @@
             <a href="/review" th:href="@{/review}">Review</a>
             <a href="/logout" th:href="@{/logout}" class="split">Logout</a>
         </nav>
-        <p>Product ID: <span th:text="${product.getId()}"></span></p>
-        <p>Product Name: <span th:text="${product.getName()}"></span></p>
-        <p>Product Category: <span th:text="${product.getCategory()}"></span></p>
-        <p>Product URL: <span th:text="${product.getUrl()}"></span></p>
+        <div style="display: inline-block; vertical-align: top">
+            <p>Product ID: <span th:text="${product.getId()}"></span></p>
+            <p>Product Name: <span th:text="${product.getName()}"></span></p>
+            <p>Product Category: <span th:text="${product.getCategory()}"></span></p>
+            <p>Product URL: <span th:text="${product.getUrl()}"></span></p>
+        </div>
+        <div style="display: inline-block;vertical-align: top; margin-left: 8em">
+            <form action="#" th:action="@{/submitReview}" method="post">
+                <p>Add a review</p>
+                <label>
+                    <textarea th:name="reviewComment" placeholder="Comment" cols="80" rows="4" spellcheck="true" style="resize: none;"></textarea>
+                </label>
+                <br>
+                <div class="rating" id="rating" style="display: inline-block">
+                    <input type="radio" id="star5" name="rating" value="5" />
+                    <label for="star5" title="text">5 stars</label>
+                    <input type="radio" id="star4" name="rating" value="4" />
+                    <label for="star4" title="text">4 stars</label>
+                    <input type="radio" id="star3" name="rating" value="3" />
+                    <label for="star3" title="text">3 stars</label>
+                    <input type="radio" id="star2" name="rating" value="2" />
+                    <label for="star2" title="text">2 stars</label>
+                    <input type="radio" id="star1" name="rating" value="1" />
+                    <label for="star1" title="text">1 star</label>
+                </div>
+                <input type="hidden" th:name="productId" th:value="${product.getId()}"/>
+                <p><input type="submit" value="Submit" /></p>
+            </form>
+        </div>
 
         <table class="table">
             <caption>Review</caption>
