@@ -79,6 +79,8 @@ footer {
 
 .rating {
     height: 29px;
+    display: inline-block;
+    margin-left: 2em;
 }
 
 .rating:not(:checked) > input {

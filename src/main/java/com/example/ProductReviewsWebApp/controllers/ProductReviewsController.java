@@ -8,7 +8,6 @@ import com.example.ProductReviewsWebApp.repositories.ProductRepository;
 import com.example.ProductReviewsWebApp.models.Review;
 import com.example.ProductReviewsWebApp.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -126,11 +125,11 @@ public class ProductReviewsController {
     }
 
     @PostMapping(value="/submitReview")
-    public String addReview(@RequestParam(value = "reviewComment") String reviewComment, @RequestParam(value = "productId") long productId, Model model) {
+    public String addReview(@RequestParam(value = "reviewComment") String reviewComment, @RequestParam(value = "productId") long productId, @RequestParam(value = "rating") int reviewRating, Model model) {
         Product product = getProduct(productId);
         Client client = new Client("Test"); // TODO Update this to take the client that's logged in
         clientRepository.save(client);
-        Review review = new Review(client, product, 5, reviewComment);
+        Review review = new Review(client, product, reviewRating, reviewComment);
         product.addReview(review);
         model.addAttribute("product", product);
         productRepository.save(product);

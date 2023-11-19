@@ -23,13 +23,9 @@
         </div>
         <div style="display: inline-block;vertical-align: top; margin-left: 8em">
             <form action="#" th:action="@{/submitReview}" method="post">
-                <p>Add a review</p>
-                <label>
-                    <textarea th:name="reviewComment" placeholder="Comment" cols="80" rows="4" spellcheck="true" style="resize: none;"></textarea>
-                </label>
-                <br>
-                <div class="rating" id="rating" style="display: inline-block">
-                    <input type="radio" id="star5" name="rating" value="5" />
+                <p style="display: inline-block"><b>Add a review</b></p>
+                <div class="rating" id="rating">
+                    <input type="radio" id="star5" name="rating" value="5" required="required"/>
                     <label for="star5" title="text">5 stars</label>
                     <input type="radio" id="star4" name="rating" value="4" />
                     <label for="star4" title="text">4 stars</label>
@@ -40,8 +36,13 @@
                     <input type="radio" id="star1" name="rating" value="1" />
                     <label for="star1" title="text">1 star</label>
                 </div>
+                <br>
+                <label>
+                    <textarea th:name="reviewComment" placeholder="Comment" cols="80" rows="4" spellcheck="true" style="resize: none; font-weight: initial"></textarea>
+                </label>
+                <br>
                 <input type="hidden" th:name="productId" th:value="${product.getId()}"/>
-                <p><input type="submit" value="Submit" /></p>
+                <p><input class="btn btn-primary" type="submit" value="Submit" /></p>
             </form>
         </div>
 
