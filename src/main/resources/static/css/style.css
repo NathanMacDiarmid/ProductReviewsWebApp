@@ -62,3 +62,17 @@ footer {
     outline-color: #333;
     background-color: #ddd;
 }
+
+.idLink {
+    background-color: turquoise;
+    border-radius: 5px;
+    color: white;
+    text-decoration: none;
+    margin-left: -0.6em;
+    display: flex;
+    width: 90%;
+    height: 70%;
+    margin-top: 5px;
+    align-items: center;
+    justify-content: center;
+}
