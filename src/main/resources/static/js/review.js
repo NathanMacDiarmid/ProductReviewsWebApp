@@ -5,6 +5,10 @@ const columnDefs = [
             {
                 headerName: 'ID',
                 field: 'id',
+                cellRenderer: (params) => {
+                    let url = window.location.href + "/" + params.value
+                    return '<a class="idLink" href=' + url +' rel="noopener">'+ params.value +'</a>'
+                },
                 width: 90,
                 filter: 'agTextColumnFilter',
             },
