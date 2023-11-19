@@ -86,8 +86,10 @@ public class ProductReviewsController {
     }
 
     @GetMapping(value="/review/{id}", produces="application/json")
-    public Review getReviewById(@PathVariable("id") Long id) {
-        return getReview(id);
+    public String getReviewById(@PathVariable("id") Long id, Model model) {
+        Review review = getReview(id);
+        model.addAttribute("review", review);
+        return "review-page";
     }
 
     @PostMapping(value="/product", consumes="application/json", produces="application/json")
