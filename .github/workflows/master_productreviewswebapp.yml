@@ -43,6 +43,14 @@ jobs:
         with:
           name: java-app
 
+      - name: Secret Action
+        with: # Set the secret as an input
+          GITHUB_CLIENT_ID: ${{ secrets.PRODUCT_ID }}
+          GITHUB_CLIENT_SECRET: ${{ secrets.PRODUCT_SECRET }}
+        env: # Or as an environment variable
+          GITHUB_CLIENT_ID: ${{ secrets.PRODUCT_ID }}
+          GITHUB_CLIENT_SECRET: ${{ secrets.PRODUCT_SECRET }}
+
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
@@ -51,11 +59,3 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_12BFF3CE20EC4C3BB6F2F327B776A27D }}
           package: '*.jar'
-
-      - name: Secret Action
-        with: # Set the secret as an input
-          GITHUB_CLIENT_ID: ${{ secrets.PRODUCT_ID }}
-          GITHUB_CLIENT_SECRET: ${{ secrets.PRODUCT_SECRET }}
-        env: # Or as an environment variable
-          GITHUB_CLIENT_ID: ${{ secrets.PRODUCT_ID }}
-          GITHUB_CLIENT_SECRET: ${{ secrets.PRODUCT_SECRET }}
