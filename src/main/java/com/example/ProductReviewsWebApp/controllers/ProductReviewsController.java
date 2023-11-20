@@ -48,6 +48,14 @@ public class ProductReviewsController {
         return review.get();
     }
 
+    private Client findClientById(Long id) {
+        Optional<Client> client = clientRepository.findById(id);
+        if (client.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity not found");
+        }
+        return client.get();
+    }
+
     @GetMapping
     public String index() {
         if (securityConfig.isAuthenticated()) {
@@ -83,6 +91,13 @@ public class ProductReviewsController {
         return "review";
     }
 
+    @GetMapping(value = "/client", produces = "application/json")
+    public String getClients(Model model) {
+        List<Client> clientList = clientRepository.findAll();
+        model.addAttribute("ClientList", clientList);
+        return "client";
+    }
+
     @GetMapping(value="/product/{id}", produces="application/json")
     public String getProductById(@PathVariable("id") Long id, Model model) {
         Product product = productRepository.findById(id).orElse(null);
@@ -95,6 +110,13 @@ public class ProductReviewsController {
         Review review = getReview(id);
         model.addAttribute("review", review);
         return "review-page";
+    }
+
+    @GetMapping(value = "/client/{id}", produces = "application/json")
+    public String getClientById(@PathVariable("id") Long id, Model model) {
+        Client client = this.findClientById(id);
+        model.addAttribute("client", client);
+        return "client-page";
     }
 
     @PostMapping(value="/product", consumes="application/json", produces="application/json")

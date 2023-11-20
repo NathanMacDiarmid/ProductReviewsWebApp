@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <title>Products</title>
+    <title>Clients</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/ag-grid-community@30.2.1/dist/ag-grid-community.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/client.js}"></script>
 </head>
 <body>
 <nav class="topnav">
@@ -17,27 +18,10 @@
     <a href="/logout" th:href="@{/logout}" class="split">Logout</a>
     <a href="/home" th:href="@{/home}" class="split">My Account</a>
 </nav>
-
-<table class="table">
-    <caption>Review</caption>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Rating</th>
-        <th>Comment</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr class="review">
-        <td th:text="${review.getId()}"></td>
-        <td th:text="${review.getRating()}"></td>
-        <td th:text="${review.getComment()}"></td>
-    </tr>
-    </tbody>
-</table>
+<div id="grid" class="ag-theme-alpine"></div>
 <footer>
     <p>
-        <a class="btn btn-large btn-success" href="/review" th:href="@{/review}">Return</a>
+        <a class="btn btn-large btn-success" href="/" th:href="@{/}">Return</a>
     </p>
 </footer>
 </body>
