@@ -48,8 +48,8 @@ public class ProductReviewsController {
         return review.get();
     }
 
-    private Client findClientByUsername(String username) {
-        Optional<Client> client = Optional.ofNullable(clientRepository.findByUsername(username));
+    private Client findClientById(Long id) {
+        Optional<Client> client = clientRepository.findById(id);
         if (client.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity not found");
         }
@@ -112,9 +112,9 @@ public class ProductReviewsController {
         return "review-page";
     }
 
-    @GetMapping(value = "/client/{username}", produces = "application/json")
-    public String getClientByUsername(@PathVariable("username") String username, Model model) {
-        Client client = this.findClientByUsername(username);
+    @GetMapping(value = "/client/{id}", produces = "application/json")
+    public String getClientById(@PathVariable("id") Long id, Model model) {
+        Client client = this.findClientById(id);
         model.addAttribute("client", client);
         return "client-page";
     }

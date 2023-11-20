@@ -160,7 +160,7 @@ class ClientTest {
     @Test
     public void getClientByIdTest() {
         // GIVEN
-        String resourceUrl = "http://localhost:" + port + "/api/client/Tom";
+        String resourceUrl = "http://localhost:" + port + "/api/client/" + tom.getId();
 
         // WHEN
         ResponseEntity<Client> response = restTemplate.getForEntity(resourceUrl, Client.class);

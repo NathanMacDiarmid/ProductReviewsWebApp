@@ -5,16 +5,16 @@ const columnDefs = [
             {
                 headerName: 'ID',
                 field: 'id',
+                cellRenderer: (params) => {
+                    let url = window.location.href + "/" + params.value
+                    return '<a class="idLink" href=' + url +' rel="noopener">'+ params.value +'</a>'
+                },
                 width: 90,
                 filter: 'agNumberColumnFilter',
             },
             {
                 headerName: 'Username',
                 field: 'username',
-                cellRenderer: (params) => {
-                    let url = window.location.href + "/" + params.value
-                    return '<a class="idLink" href=' + url +' rel="noopener">'+ params.value +'</a>'
-                },
                 width: 180,
                 filter: 'agTextColumnFilter',
             },
