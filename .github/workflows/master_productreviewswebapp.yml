@@ -43,13 +43,11 @@ jobs:
         with:
           name: java-app
 
-      - name: Secret Action
-        with: # Set the secret as an input
-          GITHUB_CLIENT_ID: ${{ secrets.PRODUCT_ID }}
-          GITHUB_CLIENT_SECRET: ${{ secrets.PRODUCT_SECRET }}
-        env: # Or as an environment variable
-          GITHUB_CLIENT_ID: ${{ secrets.PRODUCT_ID }}
-          GITHUB_CLIENT_SECRET: ${{ secrets.PRODUCT_SECRET }}
+      - shell: bash
+        env:
+          GITHUB_SECRET: ${{ secrets.PRODUCT_SECRET }}
+        run: |
+          example-command "$PRODUCT_SECRET"
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
