@@ -156,7 +156,31 @@ public class Product {
      * @param review the Review object
      */
     public void removeReview(Review review) {
+        System.out.println("the review to delete: " + review.getComment());
+        for (Review r : reviews){
+            System.out.println("current arr elem: " + review.getComment());
+        }
+
         reviews.remove(review);
+        for (Review r : reviews){
+            System.out.println("new arr elem: " + review.getComment());
+        }
+    }
+
+    public void removeReviewById(Long reviewId) {
+        System.out.println("the review id to delete: " + reviewId);
+        for (Review r : reviews){
+            System.out.println("current arr elem id: " + r.getId());
+        }
+        for (Review review : reviews) {
+            if (review.getId() == reviewId) {
+                reviews.remove(review);
+                return;
+            }
+        }
+        for (Review r : reviews){
+            System.out.println("new arr elem id: " + r.getId());
+        }
     }
 
     /**

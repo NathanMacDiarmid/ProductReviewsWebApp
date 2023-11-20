@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/ag-grid-community@30.2.1/dist/ag-grid-community.min.js"></script>
+        <script type="text/javascript" th:src="@{/js/product-page.js}"></script>
     </head>
     <body>
         <nav class="topnav">
@@ -52,12 +53,20 @@
             <tr>
                 <th>Rating</th>
                 <th>Comment</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="review : ${product.getReviews()}" class="review">
                 <td th:text="${review.getRating()}"></td>
                 <td th:text="${review.getComment()}"></td>
+                <td>
+                    <form action="#" id="removeReviewForm" method="post">
+                        <input th:name="productId" th:value="${product.getId()}" type="hidden"/>
+                        <input th:name="reviewId" th:value="${review.getId()}" type="hidden"/>
+                        <input type="submit" class="btn btn-danger" value="Delete" />
+                    </form>
+                </td>
             </tr>
             </tbody>
         </table>

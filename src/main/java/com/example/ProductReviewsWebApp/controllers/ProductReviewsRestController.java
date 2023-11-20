@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.security.sasl.SaslServer;
 import java.util.Optional;
 
 @RestController
@@ -154,5 +155,30 @@ public class ProductReviewsRestController {
         reviewRepository.deleteById(reviewId);
         productRepository.save(product);
         return review;
+    }
+
+    @DeleteMapping(value="/deleteReview")
+    public String deleteReview2(@RequestParam(value = "productId") Long productId, @RequestParam(value = "reviewId") Long reviewId) {
+        Product product = getProduct(productId);
+        Review review = getReview(reviewId);
+        Client c = clientRepository.findByUsername("Test");
+        c.removeReviewForProduct(productId);
+        product.removeReviewById(reviewId);
+
+        for (Review r : reviewRepository.findAll()){
+            System.out.println("Review ID: " + r.getId());
+        }
+        reviewRepository.deleteById(reviewId); // Does not work
+        reviewRepository.deleteAll(); // Does not work
+
+        productRepository.save(product);
+        clientRepository.save(c);
+        System.out.println("---------------------------------");
+        System.out.println(c.getAllReviews());
+        System.out.println(product.getReviews());
+        for (Review r : reviewRepository.findAll()){
+            System.out.println("Review ID: " + r.getId());
+        }
+        return "Review deleted";
     }
 }

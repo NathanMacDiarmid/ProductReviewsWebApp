@@ -9,4 +9,5 @@ import java.util.List;
 public interface ReviewRepository extends CrudRepository<Review, Long> {
     @NonNull
     List<Review> findAll();
+
 }
