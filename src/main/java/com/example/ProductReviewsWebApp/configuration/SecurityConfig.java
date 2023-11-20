@@ -36,6 +36,7 @@ public class SecurityConfig {
                         .requestMatchers(antMatcher("/logout")).permitAll()
                         .requestMatchers(antMatcher("/css/**")).permitAll()
                         .requestMatchers(antMatcher("/js/**")).permitAll()
+                        .requestMatchers(antMatcher("/actuator/prometheus")).permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(form -> form
