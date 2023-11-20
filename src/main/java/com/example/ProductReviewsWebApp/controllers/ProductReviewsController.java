@@ -1,7 +1,9 @@
 package com.example.ProductReviewsWebApp.controllers;
 
 import com.example.ProductReviewsWebApp.configuration.SecurityConfig;
+import com.example.ProductReviewsWebApp.models.Client;
 import com.example.ProductReviewsWebApp.models.Product;
+import com.example.ProductReviewsWebApp.repositories.ClientRepository;
 import com.example.ProductReviewsWebApp.repositories.ProductRepository;
 import com.example.ProductReviewsWebApp.models.Review;
 import com.example.ProductReviewsWebApp.repositories.ReviewRepository;
@@ -25,6 +27,9 @@ public class ProductReviewsController {
     private ReviewRepository reviewRepository;
 
     @Autowired
+    private ClientRepository clientRepository;
+
+    @Autowired
     private SecurityConfig securityConfig;
 
     private Product getProduct(Long id) {
@@ -41,6 +46,14 @@ public class ProductReviewsController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity not found");
         }
         return review.get();
+    }
+
+    private Client findClientByUsername(String username) {
+        Optional<Client> client = Optional.ofNullable(clientRepository.findByUsername(username));
+        if (client.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity not found");
+        }
+        return client.get();
     }
 
     @GetMapping
@@ -78,6 +91,13 @@ public class ProductReviewsController {
         return "review";
     }
 
+    @GetMapping(value = "/client", produces = "application/json")
+    public String getClients(Model model) {
+        List<Client> clientList = clientRepository.findAll();
+        model.addAttribute("ClientList", clientList);
+        return "client";
+    }
+
     @GetMapping(value="/product/{id}", produces="application/json")
     public String getProductById(@PathVariable("id") Long id, Model model) {
         Product product = productRepository.findById(id).orElse(null);
@@ -90,6 +110,13 @@ public class ProductReviewsController {
         Review review = getReview(id);
         model.addAttribute("review", review);
         return "review-page";
+    }
+
+    @GetMapping(value = "/client/{username}", produces = "application/json")
+    public String getClientByUsername(@PathVariable("username") String username, Model model) {
+        Client client = this.findClientByUsername(username);
+        model.addAttribute("client", client);
+        return "client-page";
     }
 
     @PostMapping(value="/product", consumes="application/json", produces="application/json")

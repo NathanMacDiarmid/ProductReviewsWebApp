@@ -26,6 +26,7 @@ public class Client {
     /**
      * The Username of the client.
      */
+    @Column(unique = true)
     private String username;
 
     /**

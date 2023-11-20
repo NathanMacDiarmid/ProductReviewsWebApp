@@ -42,14 +42,6 @@ public class ProductReviewsRestController {
         return review.get();
     }
 
-    private Client getClientById(Long id) {
-        Optional<Client> client = clientRepository.findById(id);
-        if (client.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity not found");
-        }
-        return client.get();
-    }
-
     private Client getClientByUsername(String username) {
         Optional<Client> client = Optional.ofNullable(clientRepository.findByUsername(username));
         if (client.isEmpty()) {
