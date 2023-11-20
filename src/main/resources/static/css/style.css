@@ -76,3 +76,36 @@ footer {
     align-items: center;
     justify-content: center;
 }
+
+.rating {
+    height: 29px;
+    display: inline-block;
+    margin-left: 2em;
+}
+
+.rating:not(:checked) > input {
+    position:absolute;
+    top:-10em;
+}
+
+.rating:not(:checked) > label {
+    float:right;
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:30px;
+    color:#ccc;
+}
+.rating:not(:checked) > label:before {
+    content: '★ ';
+}
+
+.rating > input:checked ~ label {
+    color: #ffc700;
+}
+
+.rating:not(:checked) > label:hover,
+.rating:not(:checked) > label:hover ~ label {
+    color: #deb217;
+}
