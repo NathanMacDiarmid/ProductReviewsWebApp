@@ -90,7 +90,7 @@ public class Client {
      *
      * @param review Review, the review to add.
      */
-    public void addReviewForProduct(Review review) {
+    public void addReview(Review review) {
         reviews.add(review);
     }
 
@@ -98,7 +98,7 @@ public class Client {
      * Remove a review.
      * @param reviewId long, the reviewId for which review to remove.
      */
-    public void removeReviewForProduct(Long reviewId) {
+    public void removeReview(Long reviewId) {
         for (Review review : reviews) {
             if (review.getId() == reviewId) {
                 reviews.remove(review);

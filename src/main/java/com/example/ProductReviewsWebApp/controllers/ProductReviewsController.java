@@ -148,13 +148,17 @@ public class ProductReviewsController {
 
     @PostMapping(value="/submitReview")
     public String addReview(@RequestParam(value = "reviewComment") String reviewComment, @RequestParam(value = "productId") long productId, @RequestParam(value = "rating") int reviewRating, Model model) {
+        Review review = new Review(reviewRating, reviewComment);
         Product product = getProduct(productId);
         Client client = new Client("Test"); // TODO Update this to take the client that's logged in
-        clientRepository.save(client);
-        Review review = new Review(client, product, reviewRating, reviewComment);
+
+//        client.addReview(review); ERROR HERE
+//        clientRepository.save(client);
+
         product.addReview(review);
-        model.addAttribute("product", product);
         productRepository.save(product);
+
+        model.addAttribute("product", product);
         return "product-page";
     }
 

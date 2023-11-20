@@ -160,6 +160,19 @@ public class Product {
     }
 
     /**
+     * Removes a review by its id
+     * @param reviewId the long of the review id
+     */
+    public void removeReviewById(long reviewId) {
+        for (Review review : reviews) {
+            if (review.getId() == reviewId) {
+                reviews.remove(review);
+                return;
+            }
+        }
+    }
+
+    /**
      * Removes a review from the list of reviews
      * @param reviewIndex the int of the review index in the reviews ArrayList
      */

@@ -63,8 +63,8 @@ public class ProductReviewsWebAppApplication {
 					int rating = ThreadLocalRandom.current().nextInt(0, 5 + 1);
 					String comment = faker.hobbit().quote();
 
-					Review review = new Review(client, product, rating, comment);
-					client.addReviewForProduct(product.getId(), review);
+					Review review = new Review(rating, comment);
+					client.addReview(review);
 					product.addReview(review);
 					reviewRepository.save(review);
 					reviews.add(review);
