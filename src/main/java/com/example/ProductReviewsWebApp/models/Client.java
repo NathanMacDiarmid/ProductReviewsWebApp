@@ -33,7 +33,7 @@ public class Client {
      * The review for each product id the client has made.
      */
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private final Map<Long, Review> reviews;
+    private final List<Review> reviews;
 
     /**
      * The list of client's this client is following.
@@ -55,7 +55,7 @@ public class Client {
      * An empty constructor for a Client.
      */
     public Client() {
-        this("", new HashMap<>(), new ArrayList<>(), 0);
+        this("", new ArrayList<>(), new ArrayList<>(), 0);
     }
 
     /**
@@ -64,18 +64,18 @@ public class Client {
      * @param username String, the username of the Client.
      */
     public Client(String username) {
-        this(username, new HashMap<>(), new ArrayList<>(), 0);
+        this(username, new ArrayList<>(), new ArrayList<>(), 0);
     }
 
     /**
      * Constructor for Client that allows for all variables to be specified.
      *
      * @param username String, the username of the Client.
-     * @param reviews Map<Long, Review>, the product, review pairs.
+     * @param reviews List<Review>, the list of reviews.
      * @param following List<Client>, the users this user follows.
      * @param followerCount int, how many users follow this client.
      */
-    public Client(String username, Map<Long, Review> reviews, List<Client> following, int followerCount) {
+    public Client(String username, List<Review> reviews, List<Client> following, int followerCount) {
         this.username = username;
         this.reviews = reviews;
         this.following = following;
@@ -86,21 +86,25 @@ public class Client {
     /* Main Functionality */
 
     /**
-     * Add a review to a Product.
+     * Add a review under the current user
      *
-     * @param productID Long, the product id to add to.
      * @param review Review, the review to add.
      */
-    public void addReviewForProduct(Long productID, Review review) {
-        reviews.put(productID, review);
+    public void addReviewForProduct(Review review) {
+        reviews.add(review);
     }
 
     /**
-     * Remove a product review.
-     * @param productID int, the productID for which review to remove.
+     * Remove a review.
+     * @param reviewId long, the reviewId for which review to remove.
      */
-    public void removeReviewForProduct(Long productID) {
-        reviews.remove(productID);
+    public void removeReviewForProduct(Long reviewId) {
+        for (Review review : reviews) {
+            if (review.getId() == reviewId) {
+                reviews.remove(review);
+                return;
+            }
+        }
     }
 
     /**
@@ -208,29 +212,29 @@ public class Client {
         notifyAll();
         return true;
     }
-
-    /**
-     * Get the Jaccard Distance of two users. <a href="https://www.learndatasci.com/glossary/jaccard-similarity/">...</a>
-     *
-     * @param clientToCompare Client, the client to calculate with.
-     * @return The similarity score of the two clients. 1 -> identical reviews, 0 -> completely unique.
-     */
-    public double getJaccardDistanceWithUser(Client clientToCompare) {
-        int similarReviews = 0;
-        if (this.getAllReviews().isEmpty() || clientToCompare.getAllReviews().isEmpty())
-            return 0;
-        for (Long productID : this.reviews.keySet()) {
-            if (clientToCompare.hasReviewForProduct(productID)) {
-                similarReviews = (clientToCompare.getReviewForProduct(productID).getRating() == this.reviews.get(productID).getRating()) ? similarReviews + 1 : similarReviews;
-            }
-        }
-
-        int unionLength = this.reviews.size() + clientToCompare.getAllReviews().size() - similarReviews;
-
-        BigDecimal jaccardDistance = new BigDecimal(similarReviews);
-
-        return jaccardDistance.divide(BigDecimal.valueOf(unionLength), 2, RoundingMode.UP).doubleValue();
-    }
+// TODO Must reimplement
+//    /**
+//     * Get the Jaccard Distance of two users. <a href="https://www.learndatasci.com/glossary/jaccard-similarity/">...</a>
+//     *
+//     * @param clientToCompare Client, the client to calculate with.
+//     * @return The similarity score of the two clients. 1 -> identical reviews, 0 -> completely unique.
+//     */
+//    public double getJaccardDistanceWithUser(Client clientToCompare) {
+//        int similarReviews = 0;
+//        if (this.getAllReviews().isEmpty() || clientToCompare.getAllReviews().isEmpty())
+//            return 0;
+//        for (Long productID : this.reviews.keySet()) {
+//            if (clientToCompare.hasReviewForProduct(productID)) {
+//                similarReviews = (clientToCompare.getReviewForProduct(productID).getRating() == this.reviews.get(productID).getRating()) ? similarReviews + 1 : similarReviews;
+//            }
+//        }
+//
+//        int unionLength = this.reviews.size() + clientToCompare.getAllReviews().size() - similarReviews;
+//
+//        BigDecimal jaccardDistance = new BigDecimal(similarReviews);
+//
+//        return jaccardDistance.divide(BigDecimal.valueOf(unionLength), 2, RoundingMode.UP).doubleValue();
+//    }
 
     /* Basic Getters and Setters */
 
@@ -267,32 +271,34 @@ public class Client {
     }
 
     /**
-     * Get all product id, review pairs.
-     * @return Map<Long, Review>, the pairs.
+     * Get all reviews
+     * @return List<Review>, the reviews.
      */
-    public Map<Long, Review> getAllReviews() {
+    public List<Review> getAllReviews() {
         return reviews;
     }
 
-    /**
-     * Get a review for a specified product.
-     *
-     * @param productID Long, the product's id.
-     * @return Review, the review.
-     */
-    public Review getReviewForProduct(Long productID) {
-        return reviews.get(productID);
-    }
+    // TODO reimplement? Do we need this?
+//    /**
+//     * Get a review for a specified product.
+//     *
+//     * @param productID Long, the product's id.
+//     * @return Review, the review.
+//     */
+//    public Review getReviewForProduct(Long productID) {
+//        return reviews.get(productID);
+//    }
 
-    /**
-     * Get if client has written a review of a specified product.
-     *
-     * @param productID Long, the product's id.
-     * @return True, if the review exists, False otherwise.
-     */
-    public boolean hasReviewForProduct(Long productID) {
-        return reviews.containsKey(productID);
-    }
+    // TODO reimplement? Do we need this?
+//    /**
+//     * Get if client has written a review of a specified product.
+//     *
+//     * @param productID Long, the product's id.
+//     * @return True, if the review exists, False otherwise.
+//     */
+//    public boolean hasReviewForProduct(Long productID) {
+//        return reviews.containsKey(productID);
+//    }
 
     /**
      * Set the username of the client.

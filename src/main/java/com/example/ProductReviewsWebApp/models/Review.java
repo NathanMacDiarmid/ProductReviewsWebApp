@@ -15,13 +15,6 @@ public class Review {
 
     private String comment;
 
-
-    @ManyToOne(targetEntity = Product.class)
-    private Product reviewedProduct;
-
-    @ManyToOne
-    private Client client;
-
     private boolean forTesting;
 
     /**
@@ -35,13 +28,6 @@ public class Review {
      * @param comment the String of the review comment
      */
     public Review(int rating, String comment) {
-        this.rating = rating;
-        this.comment = comment;
-    }
-
-    public Review(Client client, Product product, int rating, String comment) {
-        this.client = client;
-        this.reviewedProduct = product;
         this.rating = rating;
         this.comment = comment;
     }

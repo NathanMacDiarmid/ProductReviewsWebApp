@@ -25,7 +25,7 @@ public class Product {
 
     private double averageRating; // The average ratings of the product.
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "reviewedProduct")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Review> reviews;
 
     /**
