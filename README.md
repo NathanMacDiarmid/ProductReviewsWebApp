@@ -69,11 +69,12 @@ https://github.com/NathanMacDiarmid/ProductReviewsWebApp/milestone/2
 
 Prometheus and Grafana can be used to query and visualize a variety of app metrics. In order to get them working complete the following steps:
 
-- Install docker on your machine (on debian you can use "apt install docker.io")
-- Give execution permission to setup.sh ("chmod +x setup.sh")
-- Run setup.sh ("./setup.sh")
-- Navigate to localhost:3000 for Grafana, localhost:9090 for Prometheus and localhost:8080 for the spring boot application!
-- To tear down after run teardown.sh ("./teardown.sh")
+- Install docker on your machine ([docker installation webpage](https://docs.docker.com/engine/install/) or 'sudo apt install docker.io on debian)
+- Install docker compose on your machine ([docker compose installation site](https://docs.docker.com/compose/install/))
+- Run 'mvn package' in the project root directory to ensure that the latest version of the project jar file is present
+- Open the terminal, navigate to the monitoring directory and run 'docker-compose up -d' or 'docker compose up -d' (depending on how docker compose was installed, docker-compose may not work as sometimes docker compose is included in the docker installation instead of installed individually)
+- Navigate to http://localhost:8080 for the Product Reviews Web App, http://localhost:9090 for the Prometheus user interface and http://localhost:3000 for the Grafana user interface
+- Once you are done, navigate to the monitoring directory again and run 'docker-compose down' to stop the containers
 
 ## Contribute
 
