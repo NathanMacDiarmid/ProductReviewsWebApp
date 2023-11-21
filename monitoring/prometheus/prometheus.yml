@@ -1,8 +1,18 @@
 scrape_configs:
-  - job_name: 'Product Reviews App Metrics'
+  - job_name: 'Product Reviews App Metrics Dev'
     metrics_path: '/actuator/prometheus'
     scrape_interval: 3s
+    scheme: http
     static_configs:
-      - targets: ['product-reviews-app:8080']
+      - targets: [ 'product-reviews-app:8080' ]
         labels:
-          application: 'Product Reviews Web App'
+          application: 'Product Reviews Web App Dev'
+
+  - job_name: 'Product Reviews App Metrics Stage'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 3s
+    scheme: https
+    static_configs:
+      - targets: [ 'productreviewswebapp.azurewebsites.net' ]
+        labels:
+          application: 'Product Reviews Web App Stage'
