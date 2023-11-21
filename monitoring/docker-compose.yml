@@ -25,6 +25,9 @@ services:
   product-reviews-web-app:
     image: product-reviews-web-app
     container_name: product-reviews-app
+    build:
+      context: ../
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
     networks:
