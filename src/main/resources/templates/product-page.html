@@ -24,7 +24,7 @@
             <p>Product URL: <span th:text="${product.getUrl()}"></span></p>
         </div>
         <div style="display: inline-block;vertical-align: top; margin-left: 8em">
-            <form action="#" th:action="@{/submitReview}" method="post">
+            <form action="#" th:action="@{/submitReview}" id="reviewForm" method="post">
                 <p style="display: inline-block"><b>Add a review</b></p>
                 <div class="rating" id="rating">
                     <input type="radio" id="star5" name="rating" value="5" required="required"/>
@@ -44,7 +44,7 @@
                 </label>
                 <br>
                 <input type="hidden" th:name="productId" th:value="${product.getId()}"/>
-                <p><input class="btn btn-primary" type="submit" value="Submit" /></p>
+                <p><input class="btn btn-primary" id="submitReviewButton" type="submit" value="Submit" /></p>
             </form>
         </div>
 
