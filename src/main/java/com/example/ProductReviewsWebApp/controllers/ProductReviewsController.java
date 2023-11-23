@@ -14,7 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Controller
@@ -101,6 +103,14 @@ public class ProductReviewsController {
     @GetMapping(value="/product/{id}", produces="application/json")
     public String getProductById(@PathVariable("id") Long id, Model model) {
         Product product = productRepository.findById(id).orElse(null);
+        ArrayList<Review> reviewsForProduct = new ArrayList<>();
+
+        for(Review review : reviewRepository.findAll()) {
+            assert product != null;
+            if(Objects.equals(review.getProduct().getId(), product.getId())) reviewsForProduct.add(review);
+        }
+
+        model.addAttribute("reviews", reviewsForProduct);
         model.addAttribute("product", product);
         return "product-page";
     }
@@ -148,15 +158,13 @@ public class ProductReviewsController {
 
     @PostMapping(value="/submitReview")
     public String addReview(@RequestParam(value = "reviewComment") String reviewComment, @RequestParam(value = "productId") long productId, @RequestParam(value = "rating") int reviewRating, Model model) {
-        Review review = new Review(reviewRating, reviewComment);
         Product product = getProduct(productId);
-        Client client = new Client("Test"); // TODO Update this to take the client that's logged in
-
-//        client.addReview(review); ERROR HERE
-//        clientRepository.save(client);
-
-        product.addReview(review);
+        Review review = new Review(reviewRating, reviewComment, product);
         productRepository.save(product);
+        Client client = clientRepository.findByUsername("TestClient"); // TODO Update this to take the client that's logged in
+
+        client.addReviewForProduct(productId, review);
+        clientRepository.save(client);
 
         model.addAttribute("product", product);
         return "product-page";
@@ -189,13 +197,14 @@ public class ProductReviewsController {
         return review;
     }
 
-    @DeleteMapping(value="/product/{productId}/{reviewId}")
-    public Review deleteReview(@PathVariable Long productId, @PathVariable Long reviewId) {
-        Product product = getProduct(productId);
-        Review review = getReview(reviewId);
-        product.removeReview(review);
-        reviewRepository.deleteById(reviewId);
-        productRepository.save(product);
-        return review;
-    }
+//    @DeleteMapping(value="/product/{productId}/{reviewId}")
+//    public Review deleteReview(@PathVariable Long productId, @PathVariable Long reviewId) {
+//        Product product = getProduct(productId);
+//        Review review = getReview(reviewId);
+//        // TODO replace with client
+////        product.removeReview(review);
+//        reviewRepository.deleteById(reviewId);
+//        productRepository.save(product);
+//        return review;
+//    }
 }

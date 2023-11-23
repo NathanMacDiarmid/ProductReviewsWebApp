@@ -34,7 +34,11 @@ public class ProductReviewsWebAppApplication {
 			ArrayList<Product> products = new ArrayList<>();
 			ArrayList<Review> reviews = new ArrayList<>();
 
-			// Create some clients
+			Client testClient = new Client("TestClient"); // Temporary until we can get the id of the logged in user
+			clientRepository.save(testClient);
+			clients.add(testClient);
+
+			// Create some additional clients
 			for (int i = 0; i < TEST_CLIENTS; i++) {
 				String name = faker.funnyName().name();
 
@@ -49,8 +53,9 @@ public class ProductReviewsWebAppApplication {
 				String category = faker.space().constellation();
 
 				Product product = new Product("www.google.com", item, category);
-				productRepository.save(product);
+
 				products.add(product);
+				productRepository.save(product);
 			}
 
 			// Create reviews for each client
@@ -63,9 +68,9 @@ public class ProductReviewsWebAppApplication {
 					int rating = ThreadLocalRandom.current().nextInt(0, 5 + 1);
 					String comment = faker.hobbit().quote();
 
-					Review review = new Review(rating, comment);
-					client.addReview(review);
-					product.addReview(review);
+					Review review = new Review(rating, comment, product);
+					client.addReviewForProduct(product.getId(), review);
+//					product.addReview(review);
 					reviewRepository.save(review);
 					reviews.add(review);
 				}

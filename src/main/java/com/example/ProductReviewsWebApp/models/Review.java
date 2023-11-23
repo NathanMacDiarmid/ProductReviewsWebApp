@@ -1,6 +1,7 @@
 package com.example.ProductReviewsWebApp.models;
 
 import jakarta.persistence.*;
+import org.hibernate.dialect.function.PostgreSQLTruncRoundFunction;
 
 /**
  * The Review class that contains all the information in a review
@@ -17,6 +18,9 @@ public class Review {
 
     private boolean forTesting;
 
+    @ManyToOne
+    private Product product;
+
     /**
      * Default constructor
      */
@@ -27,9 +31,11 @@ public class Review {
      * @param rating the int of the rating for the product
      * @param comment the String of the review comment
      */
-    public Review(int rating, String comment) {
+    public Review(int rating, String comment, Product product) {
         this.rating = rating;
         this.comment = comment;
+        this.product = product;
+        this.product.updateAverageRating(rating);
     }
 
     /**
@@ -93,5 +99,13 @@ public class Review {
      */
     public boolean isForTesting() {
         return forTesting;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }

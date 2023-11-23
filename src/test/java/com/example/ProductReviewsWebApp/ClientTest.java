@@ -50,53 +50,46 @@ class ClientTest {
         //Add two products to the list;
         burger = new Product("www.burger.com", "burger", "food");
         hotdog = new Product("www.hotdog.com", "hotdog", "food");
-
-        // Add two identical users to the User List
-        tom = new Client("Tom");
-        Review tomsReview1 = new Review(3, "Burger was ok!");
-        Review tomsReview2 = new Review(1, "Worst Hot Dog Ever!");
-        tom.addReview(tomsReview1);
-        tom.addReview(tomsReview2);
-        burger.addReview(tomsReview1);
-        hotdog.addReview(tomsReview2);
-
-        jerry = new Client("Jerry");
-        Review jerrysReview1 = new Review(3, "Burger was mehhh");
-        Review jerrysReview2 = new Review(1, "Worst Hot Dog OF ALL TIME!");
-        jerry.addReview(jerrysReview1);
-        jerry.addReview(jerrysReview2);
-        burger.addReview(jerrysReview1);
-        hotdog.addReview(jerrysReview1);
-
-        clientRepository.save(tom);
-        clientRepository.save(jerry);
         productRepository.save(burger);
         productRepository.save(hotdog);
 
+        // Add two identical users to the User List
+        tom = new Client("Tom");
+        Review tomsReview1 = new Review(3, "Burger was ok!", burger);
+        Review tomsReview2 = new Review(1, "Worst Hot Dog Ever!", hotdog);
+        tom.addReviewForProduct(burger.getId(), tomsReview1);
+        tom.addReviewForProduct(hotdog.getId(), tomsReview2);
+
+        jerry = new Client("Jerry");
+        Review jerrysReview1 = new Review(3, "Burger was mehhh", burger);
+        Review jerrysReview2 = new Review(1, "Worst Hot Dog OF ALL TIME!", hotdog);
+        jerry.addReviewForProduct(burger.getId(), jerrysReview1);
+        jerry.addReviewForProduct(hotdog.getId(), jerrysReview2);
+
+        productRepository.save(burger);
+        productRepository.save(hotdog);
+        clientRepository.save(tom);
+        clientRepository.save(jerry);
     }
 
     @AfterEach
     public void tearDown() {
-        // Clear the user repository.
-        productRepository.delete(burger);
-        productRepository.delete(hotdog);
         clientRepository.delete(tom);
         clientRepository.delete(jerry);
     }
 
-// TODO to be reimplemented?
-//    @Test
-//    public void removeReviewForProduct() {
-//        // Ensure the setup added reviews are there.
-//        assertTrue(tom.hasReviewForProduct(burger.getId()));
-//        assertTrue(tom.hasReviewForProduct(hotdog.getId()));
-//        assertTrue(jerry.hasReviewForProduct(burger.getId()));
-//        assertTrue(jerry.hasReviewForProduct(hotdog.getId()));
-//
-//        tom.removeReviewForProduct(burger.getId());
-//
-//        assertFalse(tom.hasReviewForProduct(burger.getId()));
-//    }
+    @Test
+    public void removeReviewForProduct() {
+        // Ensure the setup added reviews are there.
+        assertTrue(tom.hasReviewForProduct(burger.getId()));
+        assertTrue(tom.hasReviewForProduct(hotdog.getId()));
+        assertTrue(jerry.hasReviewForProduct(burger.getId()));
+        assertTrue(jerry.hasReviewForProduct(hotdog.getId()));
+
+        tom.removeReviewForProduct(burger.getId());
+
+        assertFalse(tom.hasReviewForProduct(burger.getId()));
+    }
 
     @Test
     public void testFollowingUnfollowingOperation() {
@@ -133,24 +126,23 @@ class ClientTest {
         assertFalse(jerry.getFollowingList().contains(tom));
     }
 
-    // TODO to be reimplemented
-//    @Test
-//    public void testJaccardDistanceCalculation() {
-//        // Check that base case of identical review scores holds true.
-//        assertEquals(1, tom.getJaccardDistanceWithUser(jerry));
-//
-//        // Change one of tom's review scores
-//        tom.getReviewForProduct(burger.getId()).setRating(1);
-//
-//        // Check new result
-//        assertEquals(0.34, tom.getJaccardDistanceWithUser(jerry));
-//
-//        // Change the other score
-//        tom.getReviewForProduct(hotdog.getId()).setRating(4);
-//
-//        // Check new result
-//        assertEquals(0, tom.getJaccardDistanceWithUser(jerry));
-//    }
+    @Test
+    public void testJaccardDistanceCalculation() {
+        // Check that base case of identical review scores holds true.
+        assertEquals(1, tom.getJaccardDistanceWithUser(jerry));
+
+        // Change one of tom's review scores
+        tom.getReviewForProduct(burger.getId()).setRating(1);
+
+        // Check new result
+        assertEquals(0.34, tom.getJaccardDistanceWithUser(jerry));
+
+        // Change the other score
+        tom.getReviewForProduct(hotdog.getId()).setRating(4);
+
+        // Check new result
+        assertEquals(0, tom.getJaccardDistanceWithUser(jerry));
+    }
 
     @Test
     public void getClientsTest() {

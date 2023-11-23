@@ -102,14 +102,14 @@ public class ProductReviewsRestController {
         }
         return productRepository.save(product);
     }
-
-    @PutMapping(value="/product/{id}/addReview", consumes="application/json", produces="application/json")
-    public Review addReview(@PathVariable Long id, @RequestBody Review review) {
-        Product product = getProduct(id);
-        product.addReview(review);
-        productRepository.save(product);
-        return review;
-    }
+// TODO replace with client
+//    @PutMapping(value="/product/{id}/addReview", consumes="application/json", produces="application/json")
+//    public Review addReview(@PathVariable Long id, @RequestBody Review review) {
+//        Product product = getProduct(id);
+//        product.addReview(review);
+//        productRepository.save(product);
+//        return review;
+//    }
 
     @PutMapping(value="/review/{id}", consumes="application/json", produces="application/json")
     public Review updateReview(@PathVariable Long id, @RequestBody Review newReview) {
@@ -137,14 +137,14 @@ public class ProductReviewsRestController {
         reviewRepository.deleteById(id);
         return review;
     }
-
-    @DeleteMapping(value="/product/{productId}/{reviewId}")
-    public Review deleteReview(@PathVariable Long productId, @PathVariable Long reviewId) {
-        Product product = getProduct(productId);
-        Review review = getReview(reviewId);
-        product.removeReview(review);
-        reviewRepository.deleteById(reviewId);
-        productRepository.save(product);
-        return review;
-    }
+// TODO replace with client
+//    @DeleteMapping(value="/product/{productId}/{reviewId}")
+//    public Review deleteReview(@PathVariable Long productId, @PathVariable Long reviewId) {
+//        Product product = getProduct(productId);
+//        Review review = getReview(reviewId);
+//        product.removeReview(review);
+//        reviewRepository.deleteById(reviewId);
+//        productRepository.save(product);
+//        return review;
+//    }
 }
