@@ -70,7 +70,6 @@ public class ProductReviewsWebAppApplication {
 
 					Review review = new Review(rating, comment, product);
 					client.addReviewForProduct(product.getId(), review);
-//					product.addReview(review);
 					reviewRepository.save(review);
 					reviews.add(review);
 				}

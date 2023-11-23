@@ -1,7 +1,6 @@
 package com.example.ProductReviewsWebApp.models;
 
 import jakarta.persistence.*;
-import org.hibernate.dialect.function.PostgreSQLTruncRoundFunction;
 
 /**
  * The Review class that contains all the information in a review

@@ -103,10 +103,10 @@ public class ProductReviewsController {
     @GetMapping(value="/product/{id}", produces="application/json")
     public String getProductById(@PathVariable("id") Long id, Model model) {
         Product product = productRepository.findById(id).orElse(null);
+        if (product == null) throw new NullPointerException("Was not able to find product with the passed ID");
         ArrayList<Review> reviewsForProduct = new ArrayList<>();
 
         for(Review review : reviewRepository.findAll()) {
-            assert product != null;
             if(Objects.equals(review.getProduct().getId(), product.getId())) reviewsForProduct.add(review);
         }
 
