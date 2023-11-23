@@ -1,6 +1,8 @@
 package com.example.ProductReviewsWebApp;
 
+import com.example.ProductReviewsWebApp.models.Product;
 import com.example.ProductReviewsWebApp.models.Review;
+import com.example.ProductReviewsWebApp.repositories.ProductRepository;
 import com.example.ProductReviewsWebApp.repositories.ReviewRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,16 +28,21 @@ public class ReviewTest {
     @Autowired
     private ReviewRepository reviewRepository;
 
+    @Autowired
+    private ProductRepository productRepository;
+
     /**
      * Tests the number of total reviews
      */
     @Test
     public void getNumOfReviewsTest() {
-        Review review1 = new Review(5, "Great plant. Doesn't require a lot of maintenance and it's nice to look at.");
+        Product plant1 = new Product("www.coolplants.com", "Basil Plant", "Plants");
+        productRepository.save(plant1);
+        Review review1 = new Review(5, "Great plant. Doesn't require a lot of maintenance and it's nice to look at.", plant1);
         review1.setForTesting();
-        Review review2 = new Review(1, "Plant died after a few days.");
+        Review review2 = new Review(1, "Plant died after a few days.", plant1);
         review2.setForTesting();
-        Review review3 = new Review(3, "I received a lemon basil plant instead of the Italian one that I ordered");
+        Review review3 = new Review(3, "I received a lemon basil plant instead of the Italian one that I ordered", plant1);
         review3.setForTesting();
 
         reviewRepository.save(review1);
@@ -71,7 +78,9 @@ public class ReviewTest {
      */
     @Test
     public void getReviewContentTest() {
-        Review review = new Review(5, "Great plant. Doesn't require a lot of maintenance and it's nice to look at.");
+        Product plant1 = new Product("www.coolplants.com", "Basil Plant", "Plants");
+        productRepository.save(plant1);
+        Review review = new Review(5, "Great plant. Doesn't require a lot of maintenance and it's nice to look at.", plant1);
         reviewRepository.save(review);
         long reviewId = review.getId();
 
@@ -96,8 +105,9 @@ public class ReviewTest {
      */
     @Test
     public void deleteReviewTest() {
-
-        Review review = new Review(5, "This is a fake review");
+        Product plant1 = new Product("www.coolplants.com", "Basil Plant", "Plants");
+        productRepository.save(plant1);
+        Review review = new Review(5, "This is a fake review", plant1);
         reviewRepository.save(review);
         long reviewId = review.getId();
 
@@ -119,15 +129,16 @@ public class ReviewTest {
      * Tests updating a review
      */
     @Test
-    public void updateProductTest() {
-
-        Review review = new Review(4, "Could be better");
+    public void updateReviewTest() {
+        Product plant1 = new Product("www.coolplants.com", "Basil Plant", "Plants");
+        productRepository.save(plant1);
+        Review review = new Review(4, "Could be better", plant1);
         reviewRepository.save(review);
 
         long reviewId = review.getId();
 
         // GIVEN
-        HttpEntity<Review> updatedEntity = new HttpEntity<>(new Review(3, "Could be better"));
+        HttpEntity<Review> updatedEntity = new HttpEntity<>(new Review(3, "Could be better", plant1));
         String resourceUrl = "http://localhost:" + port + "/api/review/" + reviewId;
 
         // WHEN

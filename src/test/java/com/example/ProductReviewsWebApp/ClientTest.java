@@ -50,28 +50,30 @@ class ClientTest {
         //Add two products to the list;
         burger = new Product("www.burger.com", "burger", "food");
         hotdog = new Product("www.hotdog.com", "hotdog", "food");
-
         productRepository.save(burger);
         productRepository.save(hotdog);
 
         // Add two identical users to the User List
         tom = new Client("Tom");
-        tom.addReviewForProduct(burger.getId(), new Review(3, "Burger was ok!"));
-        tom.addReviewForProduct(hotdog.getId(), new Review(1, "Worst Hot Dog Ever!"));
+        Review tomsReview1 = new Review(3, "Burger was ok!", burger);
+        Review tomsReview2 = new Review(1, "Worst Hot Dog Ever!", hotdog);
+        tom.addReviewForProduct(burger.getId(), tomsReview1);
+        tom.addReviewForProduct(hotdog.getId(), tomsReview2);
 
         jerry = new Client("Jerry");
-        jerry.addReviewForProduct(burger.getId(), new Review(3, "Burger was mehhh"));
-        jerry.addReviewForProduct(hotdog.getId(), new Review(1, "Worst Hot Dog OF ALL TIME!"));
+        Review jerrysReview1 = new Review(3, "Burger was mehhh", burger);
+        Review jerrysReview2 = new Review(1, "Worst Hot Dog OF ALL TIME!", hotdog);
+        jerry.addReviewForProduct(burger.getId(), jerrysReview1);
+        jerry.addReviewForProduct(hotdog.getId(), jerrysReview2);
 
+        productRepository.save(burger);
+        productRepository.save(hotdog);
         clientRepository.save(tom);
         clientRepository.save(jerry);
     }
 
     @AfterEach
     public void tearDown() {
-        // Clear the user repository.
-        productRepository.delete(burger);
-        productRepository.delete(hotdog);
         clientRepository.delete(tom);
         clientRepository.delete(jerry);
     }

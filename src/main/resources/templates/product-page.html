@@ -57,7 +57,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="review : ${product.getReviews()}" class="review">
+            <tr th:each="review : ${reviews}" class="review">
                 <td th:text="${review.getRating()}"></td>
                 <td th:text="${review.getComment()}"></td>
             </tr>

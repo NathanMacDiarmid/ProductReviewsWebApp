@@ -15,14 +15,10 @@ public class Review {
 
     private String comment;
 
-
-    @ManyToOne(targetEntity = Product.class)
-    private Product reviewedProduct;
+    private boolean forTesting;
 
     @ManyToOne
-    private Client client;
-
-    private boolean forTesting;
+    private Product product;
 
     /**
      * Default constructor
@@ -34,16 +30,11 @@ public class Review {
      * @param rating the int of the rating for the product
      * @param comment the String of the review comment
      */
-    public Review(int rating, String comment) {
+    public Review(int rating, String comment, Product product) {
         this.rating = rating;
         this.comment = comment;
-    }
-
-    public Review(Client client, Product product, int rating, String comment) {
-        this.client = client;
-        this.reviewedProduct = product;
-        this.rating = rating;
-        this.comment = comment;
+        this.product = product;
+        this.product.updateAverageRating(rating);
     }
 
     /**
@@ -107,5 +98,13 @@ public class Review {
      */
     public boolean isForTesting() {
         return forTesting;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }

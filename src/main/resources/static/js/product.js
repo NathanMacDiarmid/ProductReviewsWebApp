@@ -31,24 +31,12 @@ const columnDefs = [
             {
                 headerName: 'Category',
                 field: 'category',
-                width: 180 },
+                width: 180 }
+                ,
             {
                 headerName: 'Average Rating',
                 valueGetter: (params) => {
-                    var stringify = JSON.stringify(params.data.reviews);
-                    var parse = JSON.parse(stringify);
-                    var arr = new Array();
-                    for (let i = 0; i < parse.length; i++) {
-                        arr.push(parse[i]['rating']);
-                    }
-                    if (arr.length != 0) {
-                        var sum = 0;
-                        for (var j = 0; j < arr.length; j++) {
-                            sum += arr[j];
-                        }
-                        return parseFloat(sum/arr.length).toFixed(2);
-                    }
-                    return arr;
+                    return parseFloat(JSON.stringify(params.data.averageRating)).toFixed(2);
                 },
                 width: 215,
                 filter: 'agNumberColumnFilter',

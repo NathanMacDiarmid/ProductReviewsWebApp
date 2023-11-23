@@ -105,9 +105,9 @@ public class ProductReviewsRestController {
 
     @PutMapping(value="/product/{id}/addReview", consumes="application/json", produces="application/json")
     public Review addReview(@PathVariable Long id, @RequestBody Review review) {
-        Product product = getProduct(id);
-        product.addReview(review);
-        productRepository.save(product);
+        Client client = clientRepository.findByUsername("TestClient"); // TODO replace with username of logged in client
+        client.addReviewForProduct(id, review);
+        clientRepository.save(client);
         return review;
     }
 
@@ -135,16 +135,6 @@ public class ProductReviewsRestController {
     public Review deleteReview(@PathVariable Long id) {
         Review review = getReview(id);
         reviewRepository.deleteById(id);
-        return review;
-    }
-
-    @DeleteMapping(value="/product/{productId}/{reviewId}")
-    public Review deleteReview(@PathVariable Long productId, @PathVariable Long reviewId) {
-        Product product = getProduct(productId);
-        Review review = getReview(reviewId);
-        product.removeReview(review);
-        reviewRepository.deleteById(reviewId);
-        productRepository.save(product);
         return review;
     }
 }

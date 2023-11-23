@@ -25,8 +25,7 @@ public class Product {
 
     private double averageRating; // The average ratings of the product.
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "reviewedProduct")
-    private List<Review> reviews;
+    private int numOfReviews;
 
     /**
      * Creates a new instance of Product.
@@ -47,7 +46,7 @@ public class Product {
         this.description = "Product description";
         this.category = category;
         this.averageRating = 0;
-        this.reviews = new ArrayList<>();
+        this.numOfReviews = 0;
     }
 
     public String getDescription() {
@@ -122,49 +121,12 @@ public class Product {
     }
 
     /**
-     * Gets the product reviews
-     * @return the ArrayList of the product reviews
-     */
-    public List<Review> getReviews() {
-        return reviews;
-    }
-
-    /**
      * Sets the category of the product.
      *
      * @param category The category of the product.
      */
     public void setCategory(String category) {
         this.category = category;
-    }
-
-    /**
-     * Adds a review to the list of reviews
-     * @param review the Review object
-     */
-    public void addReview(Review review) {
-        reviews.add(review);
-        updateAverageRating();
-    }
-
-    public void setReviews(ArrayList<Review> reviews) {
-        this.reviews = reviews;
-    }
-
-    /**
-     * Removes a review from the list of reviews
-     * @param review the Review object
-     */
-    public void removeReview(Review review) {
-        reviews.remove(review);
-    }
-
-    /**
-     * Removes a review from the list of reviews
-     * @param reviewIndex the int of the review index in the reviews ArrayList
-     */
-    public void removeReview(int reviewIndex) {
-        reviews.remove(reviewIndex);
     }
 
     public double getAverageRating() {
@@ -175,8 +137,19 @@ public class Product {
         this.averageRating = averageRating;
     }
 
-    public void updateAverageRating() {
-        averageRating = reviews.stream().mapToDouble(Review::getRating).sum() / reviews.size();
+    public void updateAverageRating(int rating) {
+        double totalRating = this.averageRating * this.numOfReviews;
+        this.numOfReviews++;
+        totalRating += rating;
+        this.averageRating = totalRating / numOfReviews;
+    }
+
+    public int getNumOfReviews() {
+        return numOfReviews;
+    }
+
+    public void setNumOfReviews(int numOfReviews) {
+        this.numOfReviews = numOfReviews;
     }
 
     /**
