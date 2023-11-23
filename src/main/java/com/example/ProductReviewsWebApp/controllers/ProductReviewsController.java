@@ -166,6 +166,12 @@ public class ProductReviewsController {
         client.addReviewForProduct(productId, review);
         clientRepository.save(client);
 
+        ArrayList<Review> reviewsForProduct = new ArrayList<>();
+        for(Review fetchedReview : reviewRepository.findAll()) {
+            if(Objects.equals(fetchedReview.getProduct().getId(), product.getId())) reviewsForProduct.add(fetchedReview);
+        }
+
+        model.addAttribute("reviews", reviewsForProduct);
         model.addAttribute("product", product);
         return "product-page";
     }
@@ -196,15 +202,4 @@ public class ProductReviewsController {
         reviewRepository.deleteById(id);
         return review;
     }
-
-//    @DeleteMapping(value="/product/{productId}/{reviewId}")
-//    public Review deleteReview(@PathVariable Long productId, @PathVariable Long reviewId) {
-//        Product product = getProduct(productId);
-//        Review review = getReview(reviewId);
-//        // TODO replace with client
-////        product.removeReview(review);
-//        reviewRepository.deleteById(reviewId);
-//        productRepository.save(product);
-//        return review;
-//    }
 }
