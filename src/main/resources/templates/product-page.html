@@ -23,7 +23,7 @@
             <p>Product Category: <span th:text="${product.getCategory()}"></span></p>
             <p>Product URL: <span th:text="${product.getUrl()}"></span></p>
         </div>
-        <div style="display: inline-block;vertical-align: top; margin-left: 8em">
+        <div th:if="${hasReview != true}" style="display: inline-block;vertical-align: top; margin-left: 8em">
             <form action="#" th:action="@{/submitReview}" id="reviewForm" method="post">
                 <p style="display: inline-block"><b>Add a review</b></p>
                 <div class="rating" id="rating">
