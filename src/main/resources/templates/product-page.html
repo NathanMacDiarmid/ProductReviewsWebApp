@@ -24,7 +24,7 @@
             <p>Product URL: <span th:text="${product.getUrl()}"></span></p>
         </div>
         <div th:if="${hasReview != true}" style="display: inline-block;vertical-align: top; margin-left: 8em">
-            <form action="#" th:action="@{/submitReview}" id="reviewForm" method="post">
+            <form target="hiddenFrame" action="#" th:action="@{/submitReview}" id="reviewForm" method="post" onsubmit="document.getElementById('submitReviewButton').disabled='true';setTimeout(function(){window.location.reload();},500)">
                 <p style="display: inline-block"><b>Add a review</b></p>
                 <div class="rating" id="rating">
                     <input type="radio" id="star5" name="rating" value="5" required="required"/>
@@ -44,8 +44,9 @@
                 </label>
                 <br>
                 <input type="hidden" th:name="productId" th:value="${product.getId()}"/>
-                <p><input class="btn btn-primary" id="submitReviewButton" type="submit" value="Submit" /></p>
+                <p><input th:onclick="'window.location.href = /product/' + ${product.getId()}" class="btn btn-primary" id="submitReviewButton" type="submit" value="Submit" /></p>
             </form>
+            <iframe id="hiddenFrame" name="hiddenFrame" hidden="hidden"></iframe>
         </div>
 
         <table class="table">

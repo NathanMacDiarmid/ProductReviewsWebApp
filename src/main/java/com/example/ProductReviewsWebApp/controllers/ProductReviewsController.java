@@ -176,6 +176,7 @@ public class ProductReviewsController {
 
         model.addAttribute("reviews", reviewsForProduct);
         model.addAttribute("product", product);
+        model.addAttribute("hasReview", client.hasReviewForProduct(productId));
         return "product-page";
     }
 

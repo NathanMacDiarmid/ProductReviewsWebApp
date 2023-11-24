@@ -36,7 +36,6 @@ public class ProductReviewsWebAppApplication {
 
 			Client testClient = new Client("TestClient"); // Temporary until we can get the id of the logged in user
 			clientRepository.save(testClient);
-			clients.add(testClient);
 
 			// Create some additional clients
 			for (int i = 0; i < TEST_CLIENTS; i++) {
@@ -65,7 +64,7 @@ public class ProductReviewsWebAppApplication {
 
 				for (int i = 0; i < randomReview; i++) {
 					Product product = products.get(randomProduct);
-					int rating = ThreadLocalRandom.current().nextInt(0, 5 + 1);
+					int rating = ThreadLocalRandom.current().nextInt(1, 5 + 1);
 					String comment = faker.hobbit().quote();
 
 					Review review = new Review(rating, comment, product);
