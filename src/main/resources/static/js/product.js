@@ -36,7 +36,8 @@ const columnDefs = [
             {
                 headerName: 'Average Rating',
                 valueGetter: (params) => {
-                    return parseFloat(JSON.stringify(params.data.averageRating)).toFixed(2);
+                    var averageRating = params.data.averageRating;
+                    return averageRating == 0 ? "" : parseFloat(JSON.stringify(averageRating)).toFixed(2);
                 },
                 width: 215,
                 filter: 'agNumberColumnFilter',
