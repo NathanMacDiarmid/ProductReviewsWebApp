@@ -34,8 +34,17 @@ public class ProductReviewsWebAppApplication {
 			ArrayList<Product> products = new ArrayList<>();
 			ArrayList<Review> reviews = new ArrayList<>();
 
-			Client testClient = new Client("TestClient"); // Temporary until we can get the id of the logged in user
-			clientRepository.save(testClient);
+			Client jeremy = new Client("Jeremy"); // Temporary until we can get the id of the logged in user
+			Client evan = new Client("Evan"); // Temporary until we can get the id of the logged in user
+			Client nathan = new Client("Nathan"); // Temporary until we can get the id of the logged in user
+			Client trong = new Client("Trong"); // Temporary until we can get the id of the logged in user
+			Client hussein = new Client("Hussein"); // Temporary until we can get the id of the logged in user
+
+			clientRepository.save(jeremy);
+			clientRepository.save(evan);
+			clientRepository.save(nathan);
+			clientRepository.save(trong);
+			clientRepository.save(hussein);
 
 			// Create some additional clients
 			for (int i = 0; i < TEST_CLIENTS; i++) {

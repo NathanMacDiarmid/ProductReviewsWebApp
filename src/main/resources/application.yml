@@ -3,18 +3,3 @@ management:
         web:
             exposure:
                 include: [ "prometheus" ]
-logging:
-    level:
-        org:
-            springframework:
-                security: TRACE
-spring:
-    security:
-        oauth2:
-            client:
-                registration:
-                    github:
-                        client-id: ${GITHUB_CLIENT_ID}
-                        client-secret: ${GITHUB_CLIENT_SECRET}
-    jpa:
-        open-in-view: false
