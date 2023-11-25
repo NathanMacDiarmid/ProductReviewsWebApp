@@ -5,6 +5,7 @@ import com.example.ProductReviewsWebApp.repositories.ProductRepository;
 import com.example.ProductReviewsWebApp.models.Review;
 import com.example.ProductReviewsWebApp.models.Client;
 import com.example.ProductReviewsWebApp.repositories.ClientRepository;
+import com.example.ProductReviewsWebApp.repositories.ReviewRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-import java.util.Objects;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -36,6 +37,9 @@ class ClientTest {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private ReviewRepository reviewRepository;
 
     private Client tom;
 
@@ -171,5 +175,34 @@ class ClientTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(MediaType.APPLICATION_JSON, response.getHeaders().getContentType());
         assertEquals("Tom", Objects.requireNonNull(response.getBody()).getUsername());
+    }
+
+    @Test
+    public void testHasReviewForReviewID() {
+        List<Review> allReviews = new ArrayList<>();
+
+        for (Review r : jerry.getAllReviews().values()) {
+            allReviews.add(r);
+        }
+
+        for (Review r : tom.getAllReviews().values()) {
+            allReviews.add(r);
+        }
+
+        Optional<Review> test = reviewRepository.findById(allReviews.get(0).getId());
+
+        assertTrue(jerry.hasReviewByReviewId(test.get().getId()) || tom.hasReviewByReviewId(test.get().getId()));
+
+        Product newProduct = new Product("www.icecream.com", "ice cream", "food");
+        productRepository.save(newProduct);
+
+        Review newReview = new Review(3, "Test Test", newProduct);
+        reviewRepository.save(newReview);
+
+        allReviews.add(newReview);
+        tom.addReviewForProduct(newProduct.getId(), newReview);
+        clientRepository.save(tom);
+
+        assertTrue(tom.hasReviewByReviewId(newReview.getId()));
     }
 }

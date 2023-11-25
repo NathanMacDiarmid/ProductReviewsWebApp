@@ -40,6 +40,12 @@ public class ProductReviewsWebAppApplication {
 			Client trong = new Client("Trong"); // Temporary until we can get the id of the logged in user
 			Client hussein = new Client("Hussein"); // Temporary until we can get the id of the logged in user
 
+			clients.add(jeremy);
+			clients.add(evan);
+			clients.add(nathan);
+			clients.add(trong);
+			clients.add(hussein);
+
 			clientRepository.save(jeremy);
 			clientRepository.save(evan);
 			clientRepository.save(nathan);
@@ -69,17 +75,22 @@ public class ProductReviewsWebAppApplication {
 			// Create reviews for each client
 			for (Client client : clients) {
 				int randomReview = ThreadLocalRandom.current().nextInt(0, 10 + 1);
-				int randomProduct = ThreadLocalRandom.current().nextInt(0, products.size());
 
 				for (int i = 0; i < randomReview; i++) {
+					int randomProduct = ThreadLocalRandom.current().nextInt(0, products.size());
+
 					Product product = products.get(randomProduct);
 					int rating = ThreadLocalRandom.current().nextInt(1, 5 + 1);
 					String comment = faker.hobbit().quote();
 
 					Review review = new Review(rating, comment, product);
-					client.addReviewForProduct(product.getId(), review);
-					reviewRepository.save(review);
-					reviews.add(review);
+
+					if (!client.hasReviewForProduct(product.getId())) {
+						client.addReviewForProduct(product.getId(), review);
+						clientRepository.save(client);
+						reviewRepository.save(review);
+						reviews.add(review);
+					}
 				}
 			}
 			clientRepository.saveAll(clients);

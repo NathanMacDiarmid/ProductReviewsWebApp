@@ -126,17 +126,28 @@ public class ProductReviewsController {
             if(Objects.equals(review.getProduct().getId(), product.getId())) reviewsForProduct.add(review);
         }
 
-        Client client = clientRepository.findByUsername("TestClient"); // TODO Replace with logged in client
+        // Client client = clientRepository.findByUsername("TestClient"); // TODO Replace with logged in client
 
         model.addAttribute("reviews", reviewsForProduct);
         model.addAttribute("product", product);
-        model.addAttribute("hasReview", client.hasReviewForProduct(id));
+        // model.addAttribute("hasReview", client.hasReviewForProduct(id));
         return "product-page";
     }
 
     @GetMapping(value="/review/{id}", produces="application/json")
     public String getReviewById(@PathVariable("id") Long id, Model model) {
         Review review = getReview(id);
+
+        List<Client> clientList = clientRepository.findAll();
+
+        for (Client c : clientList) {
+            if (c.hasReviewByReviewId(review.getId())) {
+                model.addAttribute("author", c.getUsername());
+                model.addAttribute("authorID", c.getId());
+                break;
+            }
+        }
+
         model.addAttribute("review", review);
         return "review-page";
     }

@@ -24,6 +24,20 @@ const columnDefs = [
                 width: 540,
                 filter: 'agTextColumnFilter',
             },
+            {
+                headerName: 'Product',
+                cellRenderer: (params) => {
+                    let url = 'product/' + params.data.product.id
+                    return '<a class="idLink" href=' + url +' rel="noopener">'+ params.data.product.name +'</a>'
+                },
+                width: 180,
+                filter: 'agTextColumnFilter',
+            },
+            {
+                headerName: 'Author',
+                width: 180,
+                filter: 'agTextColumnFilter',
+            }
         ],
     },
 ];
