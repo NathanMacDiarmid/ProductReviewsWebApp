@@ -57,7 +57,7 @@ public class ProductReviewsController {
         return client.get();
     }
 
-    @GetMapping
+    @GetMapping("/")
     public String index() {
         return "index";
     }

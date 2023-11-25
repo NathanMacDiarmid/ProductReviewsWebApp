@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 	</head>
 	<body>
-		<div>
+		<div class="login">
 			<h1>Please Log In</h1>
 			<div th:if="${param.error}">
 				Invalid username or password.</div>
@@ -15,10 +15,13 @@
 				You have been logged out.</div>
 			<form th:action="@{/login}" th:object="${fakeLoginRequest}"  method="post">
 				<div>
+					<br>
 				<input type="text" th:field="*{username}" name="username" placeholder="Username"/>
 				</div>
+				<br>
 				<input href="/home" th:href="@{/home}" type="submit" value="Log in" class="btn btn-large btn-success" />
 			</form>
+			<br>
 		</div>
 	</body>
 </html>
