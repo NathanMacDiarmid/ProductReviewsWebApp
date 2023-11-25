@@ -84,6 +84,24 @@ public class ProductReviewsRestController {
         return 0L;
     }
 
+    @GetMapping(value = "/client/{id}/jaccardDistance", produces = "application/json")
+    public double getJaccardDistanceFromUserToActiveUserById(@PathVariable("id") Long id, @CookieValue(value = "activeClientID") String activeClientId) {
+        Long activeID;
+
+        if (!activeClientId.isEmpty())
+            activeID = Long.parseLong(activeClientId);
+        else
+            return 0;
+
+        Optional<Client> activeClient = clientRepository.findById(activeID);
+        Optional<Client> clientToCompare = clientRepository.findById(id);
+
+        if (activeClient.isPresent() && clientToCompare.isPresent())
+            return activeClient.get().getJaccardDistanceWithUser(clientToCompare.get());
+        else
+            return 0;
+    }
+
     @PostMapping(value="/product", consumes="application/json", produces="application/json")
     public Product createProduct(@RequestBody Product product) {
         productRepository.save(product);

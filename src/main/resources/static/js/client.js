@@ -27,12 +27,35 @@ const columnDefs = [
             {
                 // TODO: Make this dynamic!
                 headerName: 'Jaccard Distance',
+                valueGetter: async (params) => {
+                    fetchJaccardDistance(params);
+                },
                 width: 180,
                 filter: 'agNumberColumnFilter'
             }
         ],
     }
 ];
+
+function fetchJaccardDistance(params) {
+    const map = window.location.href.split("/").pop();
+    const apiUrl = 'api/' + map + "/" + params.data.id + "/jaccardDistance"
+
+    let jaccardDistance = 0;
+
+    fetch(apiUrl,
+        {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'}
+        })
+        .then((response) => response.json())
+        .then(data => {
+            console.log("Jaccard Distance is: " + JSON.stringify(data))
+            jaccardDistance = JSON.stringify(data);
+        });
+
+    return jaccardDistance;
+}
 
 const gridOptions = {
     defaultColDef: {
