@@ -76,6 +76,14 @@ public class ProductReviewsRestController {
     @GetMapping(value="/client/{id}", produces = "application/json")
     public Client getClientById(@PathVariable("id") Long id) { return findClientById(id); }
 
+    @GetMapping("/activeClientId")
+    public Long getActiveClientId(@CookieValue(value = "activeClientID") String activeClientId) {
+        if (!activeClientId.isEmpty())
+            return Long.parseLong(activeClientId);
+
+        return 0L;
+    }
+
     @PostMapping(value="/product", consumes="application/json", produces="application/json")
     public Product createProduct(@RequestBody Product product) {
         productRepository.save(product);

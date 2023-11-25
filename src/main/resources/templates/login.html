@@ -13,18 +13,14 @@
 				Invalid username or password.</div>
 			<div th:if="${param.logout}">
 				You have been logged out.</div>
-			<form th:action="@{/login}" method="post">
+			<form th:action="@{/login}" th:object="${fakeLoginRequest}"  method="post">
 				<div>
-				<input type="text" name="username" placeholder="Username"/>
-				</div>
-				<div>
-				<input type="password" name="password" placeholder="Password"/>
+					<br>
+				<input type="text" th:field="*{username}" name="username" placeholder="Username"/>
 				</div>
 				<br>
 				<input href="/home" th:href="@{/home}" type="submit" value="Log in" class="btn btn-large btn-success" />
 			</form>
-			<br>
-			<a href="/oauth2/authorization/github">Login with GitHub</a>
 			<br>
 		</div>
 	</body>

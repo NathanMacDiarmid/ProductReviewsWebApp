@@ -1,12 +1,14 @@
 package com.example.ProductReviewsWebApp.controllers;
 
-import com.example.ProductReviewsWebApp.configuration.SecurityConfig;
 import com.example.ProductReviewsWebApp.models.Client;
+import com.example.ProductReviewsWebApp.models.FakeLoginRequest;
 import com.example.ProductReviewsWebApp.models.Product;
 import com.example.ProductReviewsWebApp.repositories.ClientRepository;
 import com.example.ProductReviewsWebApp.repositories.ProductRepository;
 import com.example.ProductReviewsWebApp.models.Review;
 import com.example.ProductReviewsWebApp.repositories.ReviewRepository;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -30,9 +32,6 @@ public class ProductReviewsController {
 
     @Autowired
     private ClientRepository clientRepository;
-
-    @Autowired
-    private SecurityConfig securityConfig;
 
     private Product getProduct(Long id) {
         Optional<Product> product = productRepository.findById(id);
@@ -58,11 +57,8 @@ public class ProductReviewsController {
         return client.get();
     }
 
-    @GetMapping
+    @GetMapping("/")
     public String index() {
-        if (securityConfig.isAuthenticated()) {
-            return "redirect:/home";
-        }
         return "index";
     }
 
@@ -72,11 +68,31 @@ public class ProductReviewsController {
     }
 
     @GetMapping("/login")
-    public String login() {
-        if (securityConfig.isAuthenticated()) {
-            return "redirect:/home";
-        }
+    public String loginForm(@ModelAttribute FakeLoginRequest fakeLoginRequest, Model model) {
+        model.addAttribute("loginRequest", new FakeLoginRequest(""));
         return "login";
+    }
+
+    @PostMapping("/login")
+    public String loginSubmit(@ModelAttribute FakeLoginRequest fakeLoginRequest, Model model, HttpServletResponse response) {
+        model.addAttribute("loginRequest", fakeLoginRequest);
+
+        if (clientRepository.existsByUsername(fakeLoginRequest.username())) {
+            Client activeClient = clientRepository.findByUsername(fakeLoginRequest.username());
+            Cookie activeClientID = new Cookie("activeClientID", activeClient.getId().toString());
+
+            response.addCookie(activeClientID);
+            return "home";
+        }
+
+        return "login";
+    }
+
+    @GetMapping("/logout")
+    public String logoutAction(HttpServletResponse response) {
+        Cookie deleteActiveClientId = new Cookie("activeClientID", null);
+        response.addCookie(deleteActiveClientId);
+        return "index";
     }
 
     @GetMapping(value="/product")

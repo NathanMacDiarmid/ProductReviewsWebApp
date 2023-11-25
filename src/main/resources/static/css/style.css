@@ -57,7 +57,7 @@ footer {
     flex-direction: column;
     text-align: center;
     max-width: 25%;
-    margin: 15% auto auto auto;
+    margin: 15% auto;
     outline-style: double;
     outline-color: #333;
     background-color: #ddd;
