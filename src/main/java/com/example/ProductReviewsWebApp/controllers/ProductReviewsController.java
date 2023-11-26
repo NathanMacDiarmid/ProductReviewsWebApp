@@ -49,6 +49,14 @@ public class ProductReviewsController {
         return review.get();
     }
 
+    private Client getClient(Long id) {
+        Optional<Client> client = clientRepository.findById(id);
+        if (client.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity not found");
+        }
+        return client.get();
+    }
+
     private Client findClientById(Long id) {
         Optional<Client> client = clientRepository.findById(id);
         if (client.isEmpty()) {
@@ -117,7 +125,7 @@ public class ProductReviewsController {
     }
 
     @GetMapping(value="/product/{id}", produces="application/json")
-    public String getProductById(@PathVariable("id") Long id, Model model) {
+    public String getProductById(@CookieValue(value = "activeClientID") String activeClientId, @PathVariable("id") Long id, Model model) {
         Product product = productRepository.findById(id).orElse(null);
         if (product == null) throw new NullPointerException("Was not able to find product with the passed ID");
         ArrayList<Review> reviewsForProduct = new ArrayList<>();
@@ -126,7 +134,7 @@ public class ProductReviewsController {
             if(Objects.equals(review.getProduct().getId(), product.getId())) reviewsForProduct.add(review);
         }
 
-        Client client = clientRepository.findByUsername("TestClient"); // TODO Replace with logged in client
+        Client client = getClient(Long.parseLong(activeClientId));
 
         model.addAttribute("reviews", reviewsForProduct);
         model.addAttribute("product", product);
@@ -176,11 +184,11 @@ public class ProductReviewsController {
     }
 
     @PostMapping(value="/submitReview")
-    public String addReview(@RequestParam(value = "reviewComment") String reviewComment, @RequestParam(value = "productId") long productId, @RequestParam(value = "rating") int reviewRating, Model model) {
+    public String addReview(@CookieValue(value = "activeClientID") String activeClientId, @RequestParam(value = "reviewComment") String reviewComment, @RequestParam(value = "productId") long productId, @RequestParam(value = "rating") int reviewRating, Model model) {
         Product product = getProduct(productId);
         Review review = new Review(reviewRating, reviewComment, product);
         productRepository.save(product);
-        Client client = clientRepository.findByUsername("TestClient"); // TODO Update this to take the client that's logged in
+        Client client = getClient(Long.parseLong(activeClientId));
 
         client.addReviewForProduct(productId, review);
         clientRepository.save(client);
