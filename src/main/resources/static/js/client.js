@@ -27,10 +27,16 @@ const columnDefs = [
             {
                 // TODO: Make this dynamic!
                 headerName: 'Jaccard Distance',
-                valueGetter: async (params) => {
-                    fetchJaccardDistance(params);
+                valueGetter: (params) => {
+                    cookie = document.cookie.split("=");
+                    loggedInUser = cookie[1];
+                    clientID = params.data.id;
+                    if (loggedInUser == clientID) {
+                        // only returns the id if the client is the logged in user
+                        return params.data.id;
+                    }
                 },
-                width: 180,
+                width: 1000,
                 filter: 'agNumberColumnFilter'
             }
         ],

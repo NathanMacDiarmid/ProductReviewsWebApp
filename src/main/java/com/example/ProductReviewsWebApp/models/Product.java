@@ -2,9 +2,6 @@ package com.example.ProductReviewsWebApp.models;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * The Product class represents information about a product, including their url, name and category.
  */
