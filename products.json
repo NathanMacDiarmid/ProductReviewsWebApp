@@ -1,0 +1,72 @@
+[
+  {
+    "category": "book",
+    "name": "open book item",
+    "image": "book1.png",
+    "description": "This is an open book item",
+    "url": "https://www.google.com/search?q=book"
+  },
+  {
+    "category": "book",
+    "name": "closed book item",
+    "image": "book2.png",
+    "description": "This is an closed book item",
+    "url": "https://www.google.com/search?q=book"
+  },
+  {
+    "category": "electronic",
+    "name": "home electronics",
+    "image": "electronic1.png",
+    "description": "Seems like a microwave, washer, and fridge",
+    "url": "https://www.google.com/search?q=electronic"
+  },
+  {
+    "category": "electronic",
+    "name": "cash register",
+    "image": "electronic2.png",
+    "description": "This is a cash register",
+    "url": "https://www.google.com/search?q=electronic"
+  },
+  {
+    "category": "game",
+    "name": "joy stick remote",
+    "image": "game1.png",
+    "description": "A remote with a joy stick",
+    "url": "https://www.google.com/search?q=game"
+  },
+  {
+    "category": "game",
+    "name": "classic game controller",
+    "image": "game2.png",
+    "description": "Looks like a Super Nintendo controller",
+    "url": "https://www.google.com/search?q=game"
+  },
+  {
+    "category": "movie",
+    "name": "movie thing",
+    "image": "movie1.png",
+    "description": "Lights, camera, action!",
+    "url": "https://www.google.com/search?q=movie"
+  },
+  {
+    "category": "movie",
+    "name": "file role",
+    "image": "movie2.png",
+    "description": "Film role with popcorn",
+    "url": "https://www.google.com/search?q=movie"
+  },
+  {
+  "category": "music",
+    "name": "music item",
+    "image": "music1.png",
+    "description": "Music symbols",
+    "url": "https://www.google.com/search?q=music"
+  },
+  {
+    "category": "music",
+    "name": "music item with star",
+    "image": "music2.png",
+    "description": "Music symbols with a star",
+    "url": "https://www.google.com/search?q=music"
+  }
+]

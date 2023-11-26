@@ -1,16 +1,24 @@
 package com.example.ProductReviewsWebApp.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The Client entity class containing the model logic of a typical client.
  */
+@Getter
+@Setter
 @Entity
 public class Client {
 
@@ -18,15 +26,19 @@ public class Client {
 
     /**
      * The ID of the client.
+     * -- GETTER --
+     *  Get the id of the client.
      */
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**
      * The Username of the client.
+     * -- GETTER --
+     *  Get the client's username.
      */
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String username;
 
     /**
@@ -38,7 +50,8 @@ public class Client {
     /**
      * The list of client's this client is following.
      */
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = Client.class)
     private final List<Client> following;
 
     /**
@@ -217,7 +230,7 @@ public class Client {
      */
     public double getJaccardDistanceWithUser(Client clientToCompare) {
         int similarReviews = 0;
-        if (this.getAllReviews().isEmpty() || clientToCompare.getAllReviews().isEmpty())
+        if (this.getReviews().isEmpty() || clientToCompare.getReviews().isEmpty())
             return 0;
         for (Long productID : this.reviews.keySet()) {
             if (clientToCompare.hasReviewForProduct(productID)) {
@@ -225,7 +238,7 @@ public class Client {
             }
         }
 
-        int unionLength = this.reviews.size() + clientToCompare.getAllReviews().size() - similarReviews;
+        int unionLength = this.reviews.size() + clientToCompare.getReviews().size() - similarReviews;
 
         BigDecimal jaccardDistance = new BigDecimal(similarReviews);
 
@@ -240,38 +253,6 @@ public class Client {
      */
     public void setId(Long id) {
         this.id = id;
-    }
-
-    /**
-     * Get the id of the client.
-     * @return Long, the id.
-     */
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * Get the client's following list.
-     * @return List, the following list.
-     */
-    public List<Client> getFollowingList() {
-        return following;
-    }
-
-    /**
-     * Get the client's username.
-     * @return String, the username.
-     */
-    public String getUsername() {
-        return username;
-    }
-
-    /**
-     * Get all product id, review pairs.
-     * @return Map<Long, Review>, the pairs.
-     */
-    public Map<Long, Review> getAllReviews() {
-        return reviews;
     }
 
     /**
@@ -292,14 +273,6 @@ public class Client {
      */
     public boolean hasReviewForProduct(Long productID) {
         return reviews.containsKey(productID);
-    }
-
-    /**
-     * Set the username of the client.
-     * @param username String, the new username.
-     */
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     @Override
