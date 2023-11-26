@@ -1,5 +1,6 @@
 package com.example.ProductReviewsWebApp;
 
+import com.example.ProductReviewsWebApp.models.Category;
 import com.example.ProductReviewsWebApp.models.Product;
 import com.example.ProductReviewsWebApp.repositories.ProductRepository;
 import com.example.ProductReviewsWebApp.models.Review;
@@ -48,8 +49,8 @@ class ClientTest {
     @BeforeEach
     public void setup() {
         //Add two products to the list;
-        burger = new Product("www.burger.com", "burger", "food");
-        hotdog = new Product("www.hotdog.com", "hotdog", "food");
+        burger = new Product("www.burger.com", "burger", Category.FOOD);
+        hotdog = new Product("www.hotdog.com", "hotdog", Category.FOOD);
         productRepository.save(burger);
         productRepository.save(hotdog);
 
@@ -95,35 +96,35 @@ class ClientTest {
     public void testFollowingUnfollowingOperation() {
         // Ensure base case.
         assertEquals(0, tom.getFollowerCount());
-        assertFalse(jerry.getFollowingList().contains(tom));
+        assertFalse(jerry.getFollowing().contains(tom));
 
         // Jerry Follows Tom
         assertTrue(jerry.followUser(tom));
 
         // Ensure correct values.
         assertEquals(1, tom.getFollowerCount());
-        assertTrue(jerry.getFollowingList().contains(tom));
+        assertTrue(jerry.getFollowing().contains(tom));
 
         // Jerry Tries to Follow Tom Again
         assertFalse(jerry.followUser(tom));
 
         // Ensure correct values.
         assertEquals(1, tom.getFollowerCount());
-        assertTrue(jerry.getFollowingList().contains(tom));
+        assertTrue(jerry.getFollowing().contains(tom));
 
         // Jerry Unfollows Tom
         assertTrue(jerry.unfollowUser(tom));
 
         // Ensure return base case.
         assertEquals(0, tom.getFollowerCount());
-        assertFalse(jerry.getFollowingList().contains(tom));
+        assertFalse(jerry.getFollowing().contains(tom));
 
         // Jerry Tries to Unfollow Tom Again
         assertFalse(jerry.unfollowUser(tom));
 
         // Ensure return base case.
         assertEquals(0, tom.getFollowerCount());
-        assertFalse(jerry.getFollowingList().contains(tom));
+        assertFalse(jerry.getFollowing().contains(tom));
     }
 
     @Test
@@ -148,6 +149,7 @@ class ClientTest {
     public void getClientsTest() {
         // GIVEN
         String resourceUrl = "http://localhost:" + port + "/api/client";
+
 
         // WHEN
         ResponseEntity<Iterable<Client>> response =
