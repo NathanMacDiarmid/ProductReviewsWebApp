@@ -21,47 +21,10 @@ const columnDefs = [
             {
                 headerName: 'Followers',
                 field: 'followerCount',
-                width: 180,
-                filter: 'agNumberColumnFilter'
             },
-            {
-                // TODO: Make this dynamic!
-                headerName: 'Jaccard Distance',
-                valueGetter: (params) => {
-                    cookie = document.cookie.split("=");
-                    loggedInUser = cookie[1];
-                    clientID = params.data.id;
-                    if (loggedInUser == clientID) {
-                        // only returns the id if the client is the logged in user
-                        return params.data.id;
-                    }
-                },
-                width: 1000,
-                filter: 'agNumberColumnFilter'
-            }
         ],
     }
 ];
-
-function fetchJaccardDistance(params) {
-    const map = window.location.href.split("/").pop();
-    const apiUrl = 'api/' + map + "/" + params.data.id + "/jaccardDistance"
-
-    let jaccardDistance = 0;
-
-    fetch(apiUrl,
-        {
-            method: 'GET',
-            headers: {'Content-Type': 'application/json'}
-        })
-        .then((response) => response.json())
-        .then(data => {
-            console.log("Jaccard Distance is: " + JSON.stringify(data))
-            jaccardDistance = JSON.stringify(data);
-        });
-
-    return jaccardDistance;
-}
 
 const gridOptions = {
     defaultColDef: {
