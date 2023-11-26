@@ -42,6 +42,14 @@ public class ProductReviewsRestController {
         return review.get();
     }
 
+    private Client getClient(Long id) {
+        Optional<Client> client = clientRepository.findById(id);
+        if (client.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity not found");
+        }
+        return client.get();
+    }
+
     private Client findClientById(Long id) {
         Optional<Client> client = clientRepository.findById(id);
         if (client.isEmpty()) {
@@ -112,8 +120,8 @@ public class ProductReviewsRestController {
     }
 
     @PutMapping(value="/product/{id}/addReview", consumes="application/json", produces="application/json")
-    public Review addReview(@PathVariable Long id, @RequestBody Review review) {
-        Client client = clientRepository.findByUsername("TestClient"); // TODO replace with username of logged in client
+    public Review addReview(@CookieValue(value = "activeClientID") String activeClientId, @PathVariable Long id, @RequestBody Review review) {
+        Client client = getClient(Long.parseLong(activeClientId));
         client.addReviewForProduct(id, review);
         clientRepository.save(client);
         return review;
