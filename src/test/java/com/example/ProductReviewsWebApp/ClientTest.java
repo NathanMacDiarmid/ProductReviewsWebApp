@@ -172,4 +172,29 @@ class ClientTest {
         assertEquals(MediaType.APPLICATION_JSON, response.getHeaders().getContentType());
         assertEquals("Tom", Objects.requireNonNull(response.getBody()).getUsername());
     }
+
+    @Test
+    public void testDegreesOfSeparation() {
+        Client client1 = new Client("alice");
+        Client client2 = new Client("bob");
+        Client client3 = new Client("charlie");
+        Client client4 = new Client("denise");
+
+        client1.followUser(client2);
+        client2.followUser(client3);
+
+        // degrees of separation between client1 and client2 should be 1
+        assertEquals(1, client1.getDegreesOfSeparation(client2));
+
+        // degrees of separation between client1 and client3 should be 2
+        assertEquals(2, client1.getDegreesOfSeparation(client3));
+
+        // degrees of separation between client1 and client4 should be 0
+        assertEquals(0, client1.getDegreesOfSeparation(client4));
+
+        // test cyclical following
+        client3.followUser(client1);
+        assertEquals(2, client1.getDegreesOfSeparation(client3));
+
+    }
 }

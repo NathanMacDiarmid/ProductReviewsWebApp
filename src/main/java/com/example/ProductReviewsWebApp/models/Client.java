@@ -302,6 +302,43 @@ public class Client {
         this.username = username;
     }
 
+    /**
+     * Application of Dijkstra's algorithm used to find the relatedness between clients based on following.
+     * @param neighbour, the neighbouring client
+     * @return int, values of the degree of separation
+     */
+    public int getDegreesOfSeparation(Client neighbour) {
+        if (this == neighbour || this.following.isEmpty()) {
+            return 0;
+        }
+
+        Queue<Client> queue = new LinkedList<>();
+        Set<Client> visited = new HashSet<>();
+        Map<Client, Integer> distances = new HashMap<>();
+
+        queue.add(this);
+        visited.add(this);
+        distances.put(this, 0);
+
+        while (!queue.isEmpty()) {
+            Client currClient = queue.poll();
+            int currDistance = distances.get(currClient);
+
+            for (Client following : currClient.getFollowingList()) {
+                if (!visited.contains(following)) {
+                    queue.add(following);
+                    visited.add(following);
+                    distances.put(following, currDistance + 1);
+
+                    if (following == neighbour) {
+                        return distances.get(neighbour);
+                    }
+                }
+            }
+        }
+        return 0; // Users are not connected
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
