@@ -13,8 +13,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import static org.json.simple.parser.JSONParser.*;
-
 /**
  * The Product class represents information about a product, including their url, name and category.
  */
