@@ -1,5 +1,6 @@
 package com.example.ProductReviewsWebApp;
 
+import com.example.ProductReviewsWebApp.models.Category;
 import com.example.ProductReviewsWebApp.models.Product;
 import com.example.ProductReviewsWebApp.repositories.ProductRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -35,8 +36,8 @@ public class ProductTest {
     @BeforeEach
     public void setup() {
         // Add two test products to the product list
-        pizza = new Product("www.pizza.com", "pizza", "food");
-        shawarma = new Product("www.shawarma.com", "shawarma", "food");
+        pizza = new Product("www.pizza.com", "pizza", Category.FOOD);
+        shawarma = new Product("www.shawarma.com", "shawarma", Category.FOOD);
         productRepository.save(pizza);
         productRepository.save(shawarma);
     }
@@ -78,14 +79,14 @@ public class ProductTest {
         assertEquals(MediaType.APPLICATION_JSON, response.getHeaders().getContentType());
         assertEquals("pizza", Objects.requireNonNull(response.getBody()).getName());
         assertEquals("www.pizza.com", response.getBody().getUrl());
-        assertEquals("food", response.getBody().getCategory());
+        assertEquals(Category.FOOD, response.getBody().getCategory());
     }
 
     @Test
     public void createProductTest() {
 
         // GIVEN
-        HttpEntity<Product> request = new HttpEntity<>(new Product("www.spaghetti.com", "spaghetti", "food"));
+        HttpEntity<Product> request = new HttpEntity<>(new Product("www.spaghetti.com", "spaghetti", Category.FOOD));
         String resourceUrl = "http://localhost:" + port + "/api/product";
 
         // WHEN
@@ -96,7 +97,7 @@ public class ProductTest {
         assertEquals(MediaType.APPLICATION_JSON, response.getHeaders().getContentType());
         assertEquals("spaghetti", Objects.requireNonNull(response.getBody()).getName());
         assertEquals("www.spaghetti.com", response.getBody().getUrl());
-        assertEquals("food", response.getBody().getCategory());
+        assertEquals(Category.FOOD, response.getBody().getCategory());
 
         assertNotNull(productRepository.findByName("spaghetti"));
 
@@ -107,7 +108,7 @@ public class ProductTest {
     public void deleteProductTest() {
 
         // GIVEN
-        HttpEntity<Product> request = new HttpEntity<>(new Product("www.spaghetti.com", "spaghetti", "food"));
+        HttpEntity<Product> request = new HttpEntity<>(new Product("www.spaghetti.com", "spaghetti", Category.FOOD));
         String resourceUrl = "http://localhost:" + port + "/api/product";
 
         restTemplate.postForEntity(resourceUrl, request, Product.class);
@@ -121,7 +122,7 @@ public class ProductTest {
 
         // GIVEN
         HttpEntity<Product> updatedEntity =
-                new HttpEntity<>(new Product("www.pizza.com", "piizzzzzaaaa", "food"));
+                new HttpEntity<>(new Product("www.pizza.com", "piizzzzzaaaa", Category.FOOD));
         Long id = productRepository.findByName("pizza").getId();
         String resourceUrl = "http://localhost:" + port + "/api/product/" + id;
 
@@ -133,7 +134,7 @@ public class ProductTest {
         assertEquals(MediaType.APPLICATION_JSON, response.getHeaders().getContentType());
         assertEquals("piizzzzzaaaa", Objects.requireNonNull(response.getBody()).getName());
         assertEquals("www.pizza.com", response.getBody().getUrl());
-        assertEquals("food", response.getBody().getCategory());
+        assertEquals(Category.FOOD, response.getBody().getCategory());
 
         productRepository.findById(id).ifPresent(
                 product -> assertEquals("piizzzzzaaaa", product.getName())

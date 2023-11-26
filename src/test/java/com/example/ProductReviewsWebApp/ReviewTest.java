@@ -1,5 +1,6 @@
 package com.example.ProductReviewsWebApp;
 
+import com.example.ProductReviewsWebApp.models.Category;
 import com.example.ProductReviewsWebApp.models.Product;
 import com.example.ProductReviewsWebApp.models.Review;
 import com.example.ProductReviewsWebApp.repositories.ProductRepository;
@@ -36,7 +37,7 @@ public class ReviewTest {
      */
     @Test
     public void getNumOfReviewsTest() {
-        Product plant1 = new Product("www.coolplants.com", "Basil Plant", "Plants");
+        Product plant1 = new Product("www.coolplants.com", "Basil Plant", Category.PLANT);
         productRepository.save(plant1);
         Review review1 = new Review(5, "Great plant. Doesn't require a lot of maintenance and it's nice to look at.", plant1);
         review1.setForTesting();
@@ -78,7 +79,7 @@ public class ReviewTest {
      */
     @Test
     public void getReviewContentTest() {
-        Product plant1 = new Product("www.coolplants.com", "Basil Plant", "Plants");
+        Product plant1 = new Product("www.coolplants.com", "Basil Plant", Category.PLANT);
         productRepository.save(plant1);
         Review review = new Review(5, "Great plant. Doesn't require a lot of maintenance and it's nice to look at.", plant1);
         reviewRepository.save(review);
@@ -105,7 +106,7 @@ public class ReviewTest {
      */
     @Test
     public void deleteReviewTest() {
-        Product plant1 = new Product("www.coolplants.com", "Basil Plant", "Plants");
+        Product plant1 = new Product("www.coolplants.com", "Basil Plant", Category.PLANT);
         productRepository.save(plant1);
         Review review = new Review(5, "This is a fake review", plant1);
         reviewRepository.save(review);
@@ -130,7 +131,7 @@ public class ReviewTest {
      */
     @Test
     public void updateReviewTest() {
-        Product plant1 = new Product("www.coolplants.com", "Basil Plant", "Plants");
+        Product plant1 = new Product("www.coolplants.com", "Basil Plant", Category.PLANT);
         productRepository.save(plant1);
         Review review = new Review(4, "Could be better", plant1);
         reviewRepository.save(review);
