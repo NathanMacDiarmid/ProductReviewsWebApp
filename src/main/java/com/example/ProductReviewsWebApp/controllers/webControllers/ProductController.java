@@ -1,5 +1,6 @@
 package com.example.ProductReviewsWebApp.controllers.webControllers;
 
+import com.example.ProductReviewsWebApp.models.Client;
 import com.example.ProductReviewsWebApp.models.Product;
 import com.example.ProductReviewsWebApp.models.Review;
 import com.example.ProductReviewsWebApp.repositories.ClientRepository;
@@ -29,6 +30,14 @@ public class ProductController {
     @Autowired
     private ClientRepository clientRepository;
 
+    private Client getClient(Long id) {
+        Optional<Client> client = clientRepository.findById(id);
+        if (client.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity not found");
+        }
+        return client.get();
+    }
+
     private Product getProduct(Long id) {
         Optional<Product> product = productRepository.findById(id);
         if (product.isEmpty()) {
@@ -54,11 +63,11 @@ public class ProductController {
             if(Objects.equals(review.getProduct().getId(), product.getId())) reviewsForProduct.add(review);
         }
 
-        // Client client = clientRepository.findByUsername("TestClient"); // TODO Replace with logged in client
+        Client client = getClient(Long.parseLong(activeClientId));
 
         model.addAttribute("reviews", reviewsForProduct);
         model.addAttribute("product", product);
-        // model.addAttribute("hasReview", client.hasReviewForProduct(id));
+        model.addAttribute("hasReview", client.hasReviewForProduct(id));
         return "product-page";
     }
 
