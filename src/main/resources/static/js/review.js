@@ -24,9 +24,44 @@ const columnDefs = [
                 width: 540,
                 filter: 'agTextColumnFilter',
             },
+            {
+                headerName: 'Product',
+                cellRenderer: (params) => {
+                    let url = 'product/' + params.data.product.id
+                    return '<a class="idLink" href=' + url +' rel="noopener">'+ params.data.product.name +'</a>'
+                },
+                width: 180,
+                filter: 'agTextColumnFilter',
+            },
+            {
+                headerName: 'Author',
+                valueGetter: getReviewAuthor,
+                width: 180,
+                filter: 'agTextColumnFilter',
+            }
         ],
     },
 ];
+
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+function getReviewAuthor(params) {
+    return getCookie("authorOfReview" + params.data.id);
+}
 
 const gridOptions = {
     defaultColDef: {

@@ -6,6 +6,7 @@ import com.example.ProductReviewsWebApp.repositories.ProductRepository;
 import com.example.ProductReviewsWebApp.models.Review;
 import com.example.ProductReviewsWebApp.models.Client;
 import com.example.ProductReviewsWebApp.repositories.ClientRepository;
+import com.example.ProductReviewsWebApp.repositories.ReviewRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-import java.util.Objects;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,6 +38,9 @@ class ClientTest {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private ReviewRepository reviewRepository;
 
     private Client tom;
 
@@ -176,6 +180,35 @@ class ClientTest {
     }
 
     @Test
+    public void testHasReviewForReviewID() {
+        List<Review> allReviews = new ArrayList<>();
+
+        for (Review r : jerry.getReviews().values()) {
+            allReviews.add(r);
+        }
+
+        for (Review r : tom.getReviews().values()) {
+            allReviews.add(r);
+        }
+
+        Optional<Review> test = reviewRepository.findById(allReviews.get(0).getId());
+
+        assertTrue(jerry.hasReviewByReviewId(test.get().getId()) || tom.hasReviewByReviewId(test.get().getId()));
+
+        Product newProduct = new Product("www.icecream.com", "ice cream", Category.FOOD);
+        productRepository.save(newProduct);
+
+        Review newReview = new Review(3, "Test Test", newProduct);
+        reviewRepository.save(newReview);
+
+        allReviews.add(newReview);
+        tom.addReviewForProduct(newProduct.getId(), newReview);
+        clientRepository.save(tom);
+
+        assertTrue(tom.hasReviewByReviewId(newReview.getId()));
+    }
+
+    @Test
     public void testDegreesOfSeparation() {
         Client client1 = new Client("alice");
         Client client2 = new Client("bob");
@@ -197,6 +230,5 @@ class ClientTest {
         // test cyclical following
         client3.followUser(client1);
         assertEquals(2, client1.getDegreesOfSeparation(client3));
-
     }
 }

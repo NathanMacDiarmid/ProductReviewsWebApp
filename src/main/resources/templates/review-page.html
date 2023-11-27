@@ -25,6 +25,8 @@
         <th>ID</th>
         <th>Rating</th>
         <th>Comment</th>
+        <th>Product</th>
+        <th>Author</th>
     </tr>
     </thead>
     <tbody>
@@ -32,6 +34,8 @@
         <td th:text="${review.getId()}"></td>
         <td th:text="${review.getRating()}"></td>
         <td th:text="${review.getComment()}"></td>
+        <td th:text="${review.getProduct().getName()}"></td>
+        <td th:text="${author}"></td>
     </tr>
     </tbody>
 </table>

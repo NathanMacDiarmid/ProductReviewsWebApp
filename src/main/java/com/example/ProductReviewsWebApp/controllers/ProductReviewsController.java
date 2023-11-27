@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -29,6 +31,18 @@ public class ProductReviewsController {
 
     @Autowired
     private ClientRepository clientRepository;
+
+    private String getAuthorOfReview(Review review) {
+        List<Client> clientList = clientRepository.findAll();
+
+        for (Client c : clientList) {
+            if (c.hasReviewByReviewId(review.getId())) {
+                return c.getUsername();
+            }
+        }
+
+        return "";
+    }
 
     private Product getProduct(Long id) {
         Optional<Product> product = productRepository.findById(id);
@@ -108,9 +122,15 @@ public class ProductReviewsController {
     }
 
     @GetMapping(value="/review", produces="application/json")
-    public String getReviews(Model model) {
+    public String getReviews(Model model, HttpServletResponse response) {
         List<Review> reviewList = reviewRepository.findAll();
         model.addAttribute("ReviewList", reviewList);
+
+        for (Review review : reviewList) {
+            String authorCookieName = "authorOfReview" + Long.toString(review.getId());
+            Cookie authorCookie = new Cookie(authorCookieName, URLEncoder.encode(this.getAuthorOfReview(review), StandardCharsets.UTF_8));
+            response.addCookie(authorCookie);
+        }
         return "review";
     }
 
@@ -131,17 +151,27 @@ public class ProductReviewsController {
             if(Objects.equals(review.getProduct().getId(), product.getId())) reviewsForProduct.add(review);
         }
 
-        Client client = getClient(Long.parseLong(activeClientId));
+        // Client client = clientRepository.findByUsername("TestClient"); // TODO Replace with logged in client
 
         model.addAttribute("reviews", reviewsForProduct);
         model.addAttribute("product", product);
-        model.addAttribute("hasReview", client.hasReviewForProduct(id));
+        // model.addAttribute("hasReview", client.hasReviewForProduct(id));
         return "product-page";
     }
 
     @GetMapping(value="/review/{id}", produces="application/json")
-    public String getReviewById(@PathVariable("id") Long id, Model model) {
+    public String getReviewById(@PathVariable("id") Long id, Model model, HttpServletResponse response) {
         Review review = getReview(id);
+
+
+        Client authorOfReview = clientRepository.findByUsername(this.getAuthorOfReview(review));
+
+        model.addAttribute("author", authorOfReview.getUsername());
+
+        String authorCookieName = "authorOfReview" + id.toString();
+        Cookie authorCookie = new Cookie(authorCookieName, authorOfReview.getId().toString());
+        response.addCookie(authorCookie);
+
         model.addAttribute("review", review);
         return "review-page";
     }
