@@ -269,10 +269,10 @@ public class Client {
     }
 
     /**
-     * Application of Dijkstra's algorithm used to find the relatedness between clients based on following.
+     * Application of Dijkstra's algorithm used to find the relatedness between clients based on following network.
      * A breadth-first search to find the shortest path between the current client and the destination client.
      * @param destination, the destination client
-     * @return int, values of the degree of separation
+     * @return int, value of the degree of separation
      */
     public int getDegreesOfSeparation(Client destination) {
         // if the client is self, or no following
