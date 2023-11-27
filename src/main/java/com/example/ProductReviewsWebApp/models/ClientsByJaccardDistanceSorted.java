@@ -1,14 +1,10 @@
 package com.example.ProductReviewsWebApp.models;
 
 import com.example.ProductReviewsWebApp.repositories.ClientRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
 public class ClientsByJaccardDistanceSorted {
-
-    private static final Logger log = LoggerFactory.getLogger(Client.class);
 
     private final Map<Long, Double> clientsByJaccardDistance = new HashMap<>();
 

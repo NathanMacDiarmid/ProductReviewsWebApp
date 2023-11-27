@@ -35,7 +35,10 @@ const columnDefs = [
             },
             {
                 headerName: 'Author',
-                valueGetter: getReviewAuthor,
+                cellRenderer: (params) => {
+                    let url = 'client/username/' + getCookie("authorOfReview" + params.data.id)
+                    return '<a class="idLink" href=' + url +' rel="noopener">'+ getCookie("authorOfReview" + params.data.id) +'</a>'
+                },
                 width: 180,
                 filter: 'agTextColumnFilter',
             }
@@ -47,7 +50,7 @@ function getCookie(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
     let ca = decodedCookie.split(';');
-    for(let i = 0; i <ca.length; i++) {
+    for (let i = 0; i < ca.length; i++) {
         let c = ca[i];
         while (c.charAt(0) == ' ') {
             c = c.substring(1);
@@ -57,10 +60,6 @@ function getCookie(cname) {
         }
     }
     return "";
-}
-
-function getReviewAuthor(params) {
-    return getCookie("authorOfReview" + params.data.id);
 }
 
 const gridOptions = {

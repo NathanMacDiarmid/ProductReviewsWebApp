@@ -183,6 +183,13 @@ public class ProductReviewsController {
         return "client-page";
     }
 
+    @GetMapping(value = "/client/username/{name}", produces = "application/json")
+    public String getClientByName(@PathVariable("name") String name, Model model) {
+        Client client = clientRepository.findByUsername(name);
+        model.addAttribute("client", client);
+        return "client-page";
+    }
+
     @GetMapping(value = "/client/clientsByJaccardDistance", produces = "application/json")
     public String getClientsByJaccardDistance(@CookieValue(value = "activeClientID") String activeClientId, Model model) {
         ClientsByJaccardDistanceSorted clients = new ClientsByJaccardDistanceSorted(clientRepository, Long.parseLong(activeClientId));
