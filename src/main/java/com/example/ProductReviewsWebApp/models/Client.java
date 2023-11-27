@@ -270,18 +270,24 @@ public class Client {
 
     /**
      * Application of Dijkstra's algorithm used to find the relatedness between clients based on following.
-     * @param neighbour, the neighbouring client
+     * A breadth-first search to find the shortest path between the current client and the destination client.
+     * @param destination, the destination client
      * @return int, values of the degree of separation
      */
-    public int getDegreesOfSeparation(Client neighbour) {
-        if (this == neighbour || this.following.isEmpty()) {
+    public int getDegreesOfSeparation(Client destination) {
+        // if the client is self, or no following
+        if (this == destination || this.following.isEmpty()) {
             return 0;
         }
 
+        // queue to store next clients to visit
         Queue<Client> queue = new LinkedList<>();
+        // set to store the visited clients
         Set<Client> visited = new HashSet<>();
+        // map to store each client and its corresponding distance from the source client
         Map<Client, Integer> distances = new HashMap<>();
 
+        // initialise with self
         queue.add(this);
         visited.add(this);
         distances.put(this, 0);
@@ -291,18 +297,19 @@ public class Client {
             int currDistance = distances.get(currClient);
 
             for (Client following : currClient.getFollowing()) {
+                // checking for following client existence
                 if (!visited.contains(following)) {
                     queue.add(following);
                     visited.add(following);
                     distances.put(following, currDistance + 1);
-
-                    if (following == neighbour) {
-                        return distances.get(neighbour);
+                    // following client reached the destination client
+                    if (following == destination) {
+                        return distances.get(destination);
                     }
                 }
             }
         }
-        return 0; // Users are not connected
+        return 0; // clients are not connected
     }
 
     @Override
