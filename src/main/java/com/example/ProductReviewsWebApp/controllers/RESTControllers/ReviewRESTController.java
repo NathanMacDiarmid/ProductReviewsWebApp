@@ -1,4 +1,4 @@
-package com.example.ProductReviewsWebApp.controllers.review;
+package com.example.ProductReviewsWebApp.controllers.RESTControllers;
 
 import com.example.ProductReviewsWebApp.models.Client;
 import com.example.ProductReviewsWebApp.models.Product;
@@ -16,9 +16,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping(value="/api")
 public class ReviewRESTController {
-
-    @Autowired
-    private ProductRepository productRepository;
 
     @Autowired
     private ReviewRepository reviewRepository;

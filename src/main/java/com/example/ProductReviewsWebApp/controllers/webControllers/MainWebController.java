@@ -1,4 +1,4 @@
-package com.example.ProductReviewsWebApp.controllers;
+package com.example.ProductReviewsWebApp.controllers.webControllers;
 
 import com.example.ProductReviewsWebApp.models.*;
 import com.example.ProductReviewsWebApp.repositories.ClientRepository;
@@ -10,7 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-public class ProductReviewsController {
+public class MainWebController {
 
     @Autowired
     private ClientRepository clientRepository;

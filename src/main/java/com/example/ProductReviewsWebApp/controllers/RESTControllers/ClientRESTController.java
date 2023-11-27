@@ -1,4 +1,4 @@
-package com.example.ProductReviewsWebApp.controllers.client;
+package com.example.ProductReviewsWebApp.controllers.RESTControllers;
 
 import com.example.ProductReviewsWebApp.models.Client;
 import com.example.ProductReviewsWebApp.repositories.ClientRepository;

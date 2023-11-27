@@ -1,4 +1,4 @@
-package com.example.ProductReviewsWebApp.controllers.review;
+package com.example.ProductReviewsWebApp.controllers.webControllers;
 
 import com.example.ProductReviewsWebApp.models.Client;
 import com.example.ProductReviewsWebApp.models.Product;
@@ -50,18 +50,6 @@ public class ReviewController {
         return client.get();
     }
 
-    private String getAuthorOfReview(Review review) {
-        List<Client> clientList = clientRepository.findAll();
-
-        for (Client c : clientList) {
-            if (c.hasReviewByReviewId(review.getId())) {
-                return c.getUsername();
-            }
-        }
-
-        return "";
-    }
-
     private Review getReview(Long id) {
         Optional<Review> review = reviewRepository.findById(id);
         if (review.isEmpty()) {
@@ -71,31 +59,16 @@ public class ReviewController {
     }
 
     @GetMapping(value="/review", produces="application/json")
-    public String getReviews(Model model, HttpServletResponse response) {
+    public String getReviews(Model model) {
         List<Review> reviewList = reviewRepository.findAll();
         model.addAttribute("ReviewList", reviewList);
-
-        for (Review review : reviewList) {
-            String authorCookieName = "authorOfReview" + Long.toString(review.getId());
-            Cookie authorCookie = new Cookie(authorCookieName, URLEncoder.encode(this.getAuthorOfReview(review), StandardCharsets.UTF_8));
-            response.addCookie(authorCookie);
-        }
         return "review";
     }
 
     @GetMapping(value="/review/{id}", produces="application/json")
     public String getReviewById(@PathVariable("id") Long id, Model model, HttpServletResponse response) {
         Review review = getReview(id);
-
-
-        Client authorOfReview = clientRepository.findByUsername(this.getAuthorOfReview(review));
-
-        model.addAttribute("author", authorOfReview.getUsername());
-
-        String authorCookieName = "authorOfReview" + id.toString();
-        Cookie authorCookie = new Cookie(authorCookieName, authorOfReview.getId().toString());
-        response.addCookie(authorCookie);
-
+        clientRepository.findById(review.getAuthorId()).ifPresent(authorOfReview -> model.addAttribute("author", authorOfReview.getUsername()));
         model.addAttribute("review", review);
         return "review-page";
     }
@@ -109,9 +82,10 @@ public class ReviewController {
     @PostMapping(value="/submitReview")
     public String addReview(@CookieValue(value = "activeClientID") String activeClientId, @RequestParam(value = "reviewComment") String reviewComment, @RequestParam(value = "productId") long productId, @RequestParam(value = "rating") int reviewRating, Model model) {
         Product product = getProduct(productId);
-        Review review = new Review(reviewRating, reviewComment, product);
-        productRepository.save(product);
         Client client = getClient(Long.parseLong(activeClientId));
+
+        Review review = new Review(reviewRating, reviewComment, product, client.getId());
+        productRepository.save(product);
 
         client.addReviewForProduct(productId, review);
         clientRepository.save(client);

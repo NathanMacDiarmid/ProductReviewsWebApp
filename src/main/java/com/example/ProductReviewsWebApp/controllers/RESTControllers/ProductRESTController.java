@@ -1,33 +1,20 @@
-package com.example.ProductReviewsWebApp.controllers.product;
+package com.example.ProductReviewsWebApp.controllers.RESTControllers;
 
 import com.example.ProductReviewsWebApp.models.Product;
-import com.example.ProductReviewsWebApp.models.Review;
-import com.example.ProductReviewsWebApp.repositories.ClientRepository;
 import com.example.ProductReviewsWebApp.repositories.ProductRepository;
-import com.example.ProductReviewsWebApp.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
-@Controller
-public class ProductController {
+@RestController
+@RequestMapping(value="/api")
+public class ProductRESTController {
 
     @Autowired
     private ProductRepository productRepository;
-
-    @Autowired
-    private ReviewRepository reviewRepository;
-
-    @Autowired
-    private ClientRepository clientRepository;
 
     private Product getProduct(Long id) {
         Optional<Product> product = productRepository.findById(id);
@@ -37,29 +24,14 @@ public class ProductController {
         return product.get();
     }
 
-    @GetMapping(value="/product")
-    public String getProducts(Model model) {
-        List<Product> productList = productRepository.findAll();
-        model.addAttribute("ProductList", productList);
-        return "product";
+    @GetMapping("/product")
+    public Iterable<Product> getProducts() {
+        return productRepository.findAll();
     }
 
     @GetMapping(value="/product/{id}", produces="application/json")
-    public String getProductById(@CookieValue(value = "activeClientID") String activeClientId, @PathVariable("id") Long id, Model model) {
-        Product product = productRepository.findById(id).orElse(null);
-        if (product == null) throw new NullPointerException("Was not able to find product with the passed ID");
-        ArrayList<Review> reviewsForProduct = new ArrayList<>();
-
-        for(Review review : reviewRepository.findAll()) {
-            if(Objects.equals(review.getProduct().getId(), product.getId())) reviewsForProduct.add(review);
-        }
-
-        // Client client = clientRepository.findByUsername("TestClient"); // TODO Replace with logged in client
-
-        model.addAttribute("reviews", reviewsForProduct);
-        model.addAttribute("product", product);
-        // model.addAttribute("hasReview", client.hasReviewForProduct(id));
-        return "product-page";
+    public Product getProductById(@PathVariable("id") Long id) {
+        return getProduct(id);
     }
 
     @PostMapping(value="/product", consumes="application/json", produces="application/json")
