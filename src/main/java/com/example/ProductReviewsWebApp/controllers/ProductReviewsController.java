@@ -16,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -32,6 +34,18 @@ public class ProductReviewsController {
 
     @Autowired
     private ClientRepository clientRepository;
+
+    private String getAuthorOfReview(Review review) {
+        List<Client> clientList = clientRepository.findAll();
+
+        for (Client c : clientList) {
+            if (c.hasReviewByReviewId(review.getId())) {
+                return c.getUsername();
+            }
+        }
+
+        return "";
+    }
 
     private Product getProduct(Long id) {
         Optional<Product> product = productRepository.findById(id);
@@ -111,9 +125,15 @@ public class ProductReviewsController {
     }
 
     @GetMapping(value="/review", produces="application/json")
-    public String getReviews(Model model) {
+    public String getReviews(Model model, HttpServletResponse response) {
         List<Review> reviewList = reviewRepository.findAll();
         model.addAttribute("ReviewList", reviewList);
+
+        for (Review review : reviewList) {
+            String authorCookieName = "authorOfReview" + Long.toString(review.getId());
+            Cookie authorCookie = new Cookie(authorCookieName, URLEncoder.encode(this.getAuthorOfReview(review), StandardCharsets.UTF_8));
+            response.addCookie(authorCookie);
+        }
         return "review";
     }
 
@@ -143,18 +163,17 @@ public class ProductReviewsController {
     }
 
     @GetMapping(value="/review/{id}", produces="application/json")
-    public String getReviewById(@PathVariable("id") Long id, Model model) {
+    public String getReviewById(@PathVariable("id") Long id, Model model, HttpServletResponse response) {
         Review review = getReview(id);
 
-        List<Client> clientList = clientRepository.findAll();
 
-        for (Client c : clientList) {
-            if (c.hasReviewByReviewId(review.getId())) {
-                model.addAttribute("author", c.getUsername());
-                model.addAttribute("authorID", c.getId());
-                break;
-            }
-        }
+        Client authorOfReview = clientRepository.findByUsername(this.getAuthorOfReview(review));
+
+        model.addAttribute("author", authorOfReview.getUsername());
+
+        String authorCookieName = "authorOfReview" + id.toString();
+        Cookie authorCookie = new Cookie(authorCookieName, authorOfReview.getId().toString());
+        response.addCookie(authorCookie);
 
         model.addAttribute("review", review);
         return "review-page";

@@ -183,11 +183,11 @@ class ClientTest {
     public void testHasReviewForReviewID() {
         List<Review> allReviews = new ArrayList<>();
 
-        for (Review r : jerry.getAllReviews().values()) {
+        for (Review r : jerry.getReviews().values()) {
             allReviews.add(r);
         }
 
-        for (Review r : tom.getAllReviews().values()) {
+        for (Review r : tom.getReviews().values()) {
             allReviews.add(r);
         }
 
@@ -195,7 +195,7 @@ class ClientTest {
 
         assertTrue(jerry.hasReviewByReviewId(test.get().getId()) || tom.hasReviewByReviewId(test.get().getId()));
 
-        Product newProduct = new Product("www.icecream.com", "ice cream", "food");
+        Product newProduct = new Product("www.icecream.com", "ice cream", Category.FOOD);
         productRepository.save(newProduct);
 
         Review newReview = new Review(3, "Test Test", newProduct);
