@@ -110,7 +110,7 @@ public class ProductReviewsWebAppApplication {
 						product = products.get(randomProduct);
 						alreadyReviewed.add(randomProduct);
 
-						review = new Review(rating, comment, product);
+						review = new Review(rating, comment, product, client.getId());
 						client.addReviewForProduct(product.getId(), review);
 						reviewRepository.save(review);
 						reviews.add(review);

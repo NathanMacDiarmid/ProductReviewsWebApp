@@ -53,14 +53,14 @@
             <caption>Review</caption>
             <thead>
             <tr>
-                <th>Product</th>
+                <th>Author</th>
                 <th>Rating</th>
                 <th>Comment</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="review : ${reviews}" class="review">
-                <td th:text="${review.getProduct().getName()}"></td>
+                <td th:text="${review.getAuthorId()}"></td>
                 <td th:text="${review.getRating()}"></td>
                 <td th:text="${review.getComment()}"></td>
             </tr>
