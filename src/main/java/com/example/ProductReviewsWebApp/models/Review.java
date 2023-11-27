@@ -70,5 +70,4 @@ public class Review {
     public void setForTesting() {
         forTesting = true;
     }
-
 }

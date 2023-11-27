@@ -13,8 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -122,7 +120,7 @@ public class ProductReviewsController {
     }
 
     @GetMapping(value="/review", produces="application/json")
-    public String getReviews(Model model, HttpServletResponse response) {
+    public String getReviews(Model model) {
         List<Review> reviewList = reviewRepository.findAll();
         model.addAttribute("ReviewList", reviewList);
         return "review";
