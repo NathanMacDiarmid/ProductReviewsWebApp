@@ -41,6 +41,12 @@ public class Review {
     private Product product;
 
     /**
+     * -- GETTER --
+     *  Get the review's authorId.
+     */
+    private Long authorId;
+
+    /**
      * Default constructor
      */
     public Review () {}
@@ -50,10 +56,11 @@ public class Review {
      * @param rating the int of the rating for the product
      * @param comment the String of the review comment
      */
-    public Review(int rating, String comment, Product product) {
+    public Review(int rating, String comment, Product product, Long authorId) {
         this.rating = rating;
         this.comment = comment;
         this.product = product;
+        this.authorId = authorId;
         this.product.updateAverageRating(rating);
     }
 

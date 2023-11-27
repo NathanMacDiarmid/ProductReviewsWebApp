@@ -1,6 +1,7 @@
 package com.example.ProductReviewsWebApp;
 
 import com.example.ProductReviewsWebApp.models.Category;
+import com.example.ProductReviewsWebApp.models.Client;
 import com.example.ProductReviewsWebApp.models.Product;
 import com.example.ProductReviewsWebApp.models.Review;
 import com.example.ProductReviewsWebApp.repositories.ProductRepository;
@@ -37,13 +38,15 @@ public class ReviewTest {
      */
     @Test
     public void getNumOfReviewsTest() {
+        Client author = new Client("author");
+
         Product plant1 = new Product("www.coolplants.com", "Basil Plant", Category.PLANT);
         productRepository.save(plant1);
-        Review review1 = new Review(5, "Great plant. Doesn't require a lot of maintenance and it's nice to look at.", plant1);
+        Review review1 = new Review(5, "Great plant. Doesn't require a lot of maintenance and it's nice to look at.", plant1, author.getId());
         review1.setForTesting();
-        Review review2 = new Review(1, "Plant died after a few days.", plant1);
+        Review review2 = new Review(1, "Plant died after a few days.", plant1, author.getId());
         review2.setForTesting();
-        Review review3 = new Review(3, "I received a lemon basil plant instead of the Italian one that I ordered", plant1);
+        Review review3 = new Review(3, "I received a lemon basil plant instead of the Italian one that I ordered", plant1, author.getId());
         review3.setForTesting();
 
         reviewRepository.save(review1);
@@ -79,9 +82,11 @@ public class ReviewTest {
      */
     @Test
     public void getReviewContentTest() {
+        Client author = new Client("author");
         Product plant1 = new Product("www.coolplants.com", "Basil Plant", Category.PLANT);
+
         productRepository.save(plant1);
-        Review review = new Review(5, "Great plant. Doesn't require a lot of maintenance and it's nice to look at.", plant1);
+        Review review = new Review(5, "Great plant. Doesn't require a lot of maintenance and it's nice to look at.", plant1, author.getId());
         reviewRepository.save(review);
         long reviewId = review.getId();
 
@@ -106,9 +111,10 @@ public class ReviewTest {
      */
     @Test
     public void deleteReviewTest() {
+        Client author = new Client("author");
         Product plant1 = new Product("www.coolplants.com", "Basil Plant", Category.PLANT);
         productRepository.save(plant1);
-        Review review = new Review(5, "This is a fake review", plant1);
+        Review review = new Review(5, "This is a fake review", plant1, author.getId());
         reviewRepository.save(review);
         long reviewId = review.getId();
 
@@ -131,15 +137,16 @@ public class ReviewTest {
      */
     @Test
     public void updateReviewTest() {
+        Client author = new Client("author");
         Product plant1 = new Product("www.coolplants.com", "Basil Plant", Category.PLANT);
         productRepository.save(plant1);
-        Review review = new Review(4, "Could be better", plant1);
+        Review review = new Review(4, "Could be better", plant1, author.getId());
         reviewRepository.save(review);
 
         long reviewId = review.getId();
 
         // GIVEN
-        HttpEntity<Review> updatedEntity = new HttpEntity<>(new Review(3, "Could be better", plant1));
+        HttpEntity<Review> updatedEntity = new HttpEntity<>(new Review(3, "Could be better", plant1, author.getId()));
         String resourceUrl = "http://localhost:" + port + "/api/review/" + reviewId;
 
         // WHEN

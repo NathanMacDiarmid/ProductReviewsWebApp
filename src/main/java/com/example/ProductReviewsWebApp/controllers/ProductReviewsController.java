@@ -125,12 +125,6 @@ public class ProductReviewsController {
     public String getReviews(Model model, HttpServletResponse response) {
         List<Review> reviewList = reviewRepository.findAll();
         model.addAttribute("ReviewList", reviewList);
-
-        for (Review review : reviewList) {
-            String authorCookieName = "authorOfReview" + Long.toString(review.getId());
-            Cookie authorCookie = new Cookie(authorCookieName, URLEncoder.encode(this.getAuthorOfReview(review), StandardCharsets.UTF_8));
-            response.addCookie(authorCookie);
-        }
         return "review";
     }
 
@@ -170,14 +164,7 @@ public class ProductReviewsController {
     public String getReviewById(@PathVariable("id") Long id, Model model, HttpServletResponse response) {
         Review review = getReview(id);
 
-
-        Client authorOfReview = clientRepository.findByUsername(this.getAuthorOfReview(review));
-
-        model.addAttribute("author", authorOfReview.getUsername());
-
-        String authorCookieName = "authorOfReview" + id.toString();
-        Cookie authorCookie = new Cookie(authorCookieName, authorOfReview.getId().toString());
-        response.addCookie(authorCookie);
+        clientRepository.findById(review.getAuthorId()).ifPresent(authorOfReview -> model.addAttribute("author", authorOfReview.getUsername()));
 
         model.addAttribute("review", review);
         return "review-page";
@@ -241,9 +228,10 @@ public class ProductReviewsController {
     @PostMapping(value="/submitReview")
     public String addReview(@CookieValue(value = "activeClientID") String activeClientId, @RequestParam(value = "reviewComment") String reviewComment, @RequestParam(value = "productId") long productId, @RequestParam(value = "rating") int reviewRating, Model model) {
         Product product = getProduct(productId);
-        Review review = new Review(reviewRating, reviewComment, product);
-        productRepository.save(product);
         Client client = getClient(Long.parseLong(activeClientId));
+
+        Review review = new Review(reviewRating, reviewComment, product, client.getId());
+        productRepository.save(product);
 
         client.addReviewForProduct(productId, review);
         clientRepository.save(client);
