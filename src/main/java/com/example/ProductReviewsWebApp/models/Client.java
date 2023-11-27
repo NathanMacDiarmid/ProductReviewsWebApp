@@ -176,10 +176,10 @@ public class Client {
                 return false;
             }
         }
+        canUpdateFollowerCount = false;
 
         clientToFollow.incrementFollowerCount();
 
-        canUpdateFollowerCount = false;
         this.following.add(clientToFollow);
         canUpdateFollowerCount = true;
         notifyAll();
@@ -205,14 +205,24 @@ public class Client {
                 return false;
             }
         }
+        canUpdateFollowerCount = false;
 
         clientToUnfollow.decrementFollowerCount();
 
-        canUpdateFollowerCount = false;
         this.following.remove(clientToUnfollow);
         canUpdateFollowerCount = true;
         notifyAll();
         return true;
+    }
+
+    /**
+     * Check if this user is following another given user.
+     *
+     * @param clientToCompare The given user.
+     * @return True -> user is following given user, False -> user is not following given user.
+     */
+    public boolean isFollowing(Client clientToCompare) {
+        return following.contains(clientToCompare);
     }
 
     /**

@@ -8,6 +8,7 @@ import com.example.ProductReviewsWebApp.models.Review;
 import com.example.ProductReviewsWebApp.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -170,5 +171,28 @@ public class ProductReviewsRestController {
         Review review = getReview(id);
         reviewRepository.deleteById(id);
         return review;
+    }
+
+    @PostMapping(value="/client/{id}/follow")
+    public void follow(@PathVariable Long id, @CookieValue(value = "activeClientID") String activeClientId) {
+        Client activeClient = getClient(Long.parseLong(activeClientId));
+        Client client = getClient(id);
+
+        if (!activeClient.isFollowing(client)) {
+            activeClient.followUser(client);
+            clientRepository.save(activeClient);
+        }
+    }
+
+    @PostMapping(value="/client/{id}/unfollow")
+    public void unFollow(@PathVariable Long id, @CookieValue(value = "activeClientID") String activeClientId) {
+        Client activeClient = getClient(Long.parseLong(activeClientId));
+        Client client = getClient(id);
+
+        if (activeClient.isFollowing(client)) {
+            activeClient.unfollowUser(client);
+            clientRepository.save(activeClient);
+            clientRepository.save(client);
+        }
     }
 }
