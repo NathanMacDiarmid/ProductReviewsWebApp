@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <title>Clients</title>
+    <title>Products</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/ag-grid-community@30.2.1/dist/ag-grid-community.min.js"></script>
 </head>
 <body>
     <nav class="topnav">
@@ -17,12 +16,28 @@
         <a href="/logout" th:href="@{/logout}" class="split">Logout</a>
         <a href="/home" th:href="@{/home}" class="split">My Account</a>
     </nav>
-
-    <p>Client Username: <span th:text="${client.getUsername()}"></span></p>
-
+    <div>
+        <table class="table">
+            <caption>Clients In Order Of Most to Least Similar</caption>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Jaccard Distance</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="client : ${listOfClientsByJaccardDistance}" class="clientsByJaccardDistance">
+                <td th:text="${client.getId()}"></td>
+                <td th:text="${client.getUsername()}"></td>
+                <td th:text="${clientsByJaccardDistance.getJaccardDistanceForId(client.getId())}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
     <footer>
         <p>
-            <a class="btn btn-large btn-success" href="/home" th:href="@{/home}">Return</a>
+            <a class="btn btn-large btn-success" href="/client" th:href="@{/client}">Return</a>
         </p>
     </footer>
 </body>
