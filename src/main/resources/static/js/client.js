@@ -21,15 +21,7 @@ const columnDefs = [
             {
                 headerName: 'Followers',
                 field: 'followerCount',
-                width: 180,
-                filter: 'agNumberColumnFilter'
             },
-            {
-                // TODO: Make this dynamic!
-                headerName: 'Jaccard Distance',
-                width: 180,
-                filter: 'agNumberColumnFilter'
-            }
         ],
     }
 ];

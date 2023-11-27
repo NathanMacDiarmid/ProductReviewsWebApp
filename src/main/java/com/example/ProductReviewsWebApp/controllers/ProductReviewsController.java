@@ -1,11 +1,8 @@
 package com.example.ProductReviewsWebApp.controllers;
 
-import com.example.ProductReviewsWebApp.models.Client;
-import com.example.ProductReviewsWebApp.models.FakeLoginRequest;
-import com.example.ProductReviewsWebApp.models.Product;
+import com.example.ProductReviewsWebApp.models.*;
 import com.example.ProductReviewsWebApp.repositories.ClientRepository;
 import com.example.ProductReviewsWebApp.repositories.ProductRepository;
-import com.example.ProductReviewsWebApp.models.Review;
 import com.example.ProductReviewsWebApp.repositories.ReviewRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -154,6 +151,16 @@ public class ProductReviewsController {
         Client client = this.findClientById(id);
         model.addAttribute("client", client);
         return "client-page";
+    }
+
+    @GetMapping(value = "/client/clientsByJaccardDistance", produces = "application/json")
+    public String getClientsByJaccardDistance(@CookieValue(value = "activeClientID") String activeClientId, Model model) {
+        ClientsByJaccardDistanceSorted clients = new ClientsByJaccardDistanceSorted(clientRepository, Long.parseLong(activeClientId));
+        List<Client> clientsSorted = clients.getClientsSortedByJaccardDistance();
+
+        model.addAttribute("clientsByJaccardDistance", clients);
+        model.addAttribute("listOfClientsByJaccardDistance", clientsSorted);
+        return "clientsByJaccardDistance";
     }
 
     @PostMapping(value="/product", consumes="application/json", produces="application/json")
