@@ -2,6 +2,7 @@ html, body {
     height: 100%;
     width: 100%;
     margin: 0;
+    font-family: Arial, sans-serif;
     box-sizing: border-box;
     -webkit-overflow-scrolling: touch;
 }
@@ -108,4 +109,22 @@ footer {
 .rating:not(:checked) > label:hover,
 .rating:not(:checked) > label:hover ~ label {
     color: #deb217;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    background-color: #f2f2f2;
 }

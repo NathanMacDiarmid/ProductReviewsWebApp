@@ -15,7 +15,7 @@
             <a href="/review" th:href="@{/review}">Review</a>
             <a href="/client" th:href="@{/client}">Client</a>
             <a href="/logout" th:href="@{/logout}" class="split">Logout</a>
-            <a href="/home" th:href="@{/home}" class="split">My Account</a>
+            <a href="/myaccount" th:href="@{/myaccount}" class="split">My Account</a>
         </nav>
         <div style="display: inline-block; vertical-align: top">
             <p>Product ID: <span th:text="${product.getId()}"></span></p>
@@ -53,12 +53,14 @@
             <caption>Review</caption>
             <thead>
             <tr>
+                <th>Product</th>
                 <th>Rating</th>
                 <th>Comment</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="review : ${reviews}" class="review">
+                <td th:text="${review.getProduct().getName()}"></td>
                 <td th:text="${review.getRating()}"></td>
                 <td th:text="${review.getComment()}"></td>
             </tr>

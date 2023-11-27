@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <title>Client Information</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8">
+    <title>My Account</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
 </head>
@@ -21,15 +22,15 @@
 <table>
     <tr>
         <th>ID</th>
-        <td id="id" th:text="${client.getId()}"></td>
+        <td id="id" th:text="${activeClient.getId()}"></td>
     </tr>
     <tr>
         <th>Username</th>
-        <td id="username" th:text="${client.getUsername()}"></td>
+        <td id="username" th:text="${activeClient.getUsername()}"></td>
     </tr>
     <tr>
         <th>Follower Count</th>
-        <td id="followerCount" th:text="${client.getFollowerCount()}"></td>
+        <td id="followerCount" th:text="${activeClient.getFollowerCount()}"></td>
     </tr>
 </table>
 
@@ -43,7 +44,7 @@
         <th>Comment</th>
     </tr>
     </thead>
-    <tr th:each="review : ${client.getReviews().values()}" class="review">
+    <tr th:each="review : ${activeClient.getReviews().values()}" class="review">
         <td th:text="${review.getProduct().getName()}"></td>
         <td th:text="${review.getRating()}"></td>
         <td th:text="${review.getComment()}"></td>
@@ -61,7 +62,7 @@
         <th>Jaccard Distance</th>
     </tr>
     </thead>
-    <tr th:each="followed : ${client.getFollowing()}" class="client">
+    <tr th:each="followed : ${activeClient.getFollowing()}" class="client">
         <td th:text="${followed.getId()}"></td>
         <td th:text="${followed.getUsername()}"></td>
         <td th:text="${followed.getFollowerCount()}"></td>
@@ -71,24 +72,9 @@
 
 <footer>
     <p>
-<!--        <button id="followToggle" class="btn btn-large btn-success"-->
-<!--                th:onclick="|followToggle(${client.getId()}, ${activeClient.isFollowing(client)})|"-->
-<!--                th:text="${activeClient.isFollowing(client)} ? 'Unfollow' : 'Follow'"></button>-->
         <a class="btn btn-large btn-success" href="/home" th:href="@{/home}">Return</a>
     </p>
 </footer>
 
 </body>
-
-<script>
-    async function followToggle(clientId, isFollowing) {
-        let apiUrl = '/api/client/' + clientId + (isFollowing ? '/unfollow' : '/follow');
-        await fetch(apiUrl, {
-            method: "POST",
-            headers: {"Content-Type": "application/json"}
-        });
-
-        document.refresh()
-    }
-</script>
 </html>

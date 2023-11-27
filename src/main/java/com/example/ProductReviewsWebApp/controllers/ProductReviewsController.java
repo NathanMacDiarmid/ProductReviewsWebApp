@@ -141,6 +141,13 @@ public class ProductReviewsController {
         return "client";
     }
 
+    @GetMapping(value = "/myaccount", produces = "application/json")
+    public String getMyAccount(@CookieValue(value = "activeClientID") String activeClientId, Model model) {
+        Client client = getClient(Long.parseLong(activeClientId));
+        model.addAttribute("activeClient", client);
+        return "myAccount";
+    }
+
     @GetMapping(value="/product/{id}", produces="application/json")
     public String getProductById(@CookieValue(value = "activeClientID") String activeClientId, @PathVariable("id") Long id, Model model) {
         Product product = productRepository.findById(id).orElse(null);
@@ -177,9 +184,11 @@ public class ProductReviewsController {
     }
 
     @GetMapping(value = "/client/{id}", produces = "application/json")
-    public String getClientById(@PathVariable("id") Long id, Model model) {
+    public String getClientById(@PathVariable("id") Long id, @CookieValue(value = "activeClientID") String activeClientId, Model model) {
         Client client = this.findClientById(id);
+        Client activeClient = this.findClientById(Long.parseLong(activeClientId));
         model.addAttribute("client", client);
+        model.addAttribute("activeClient", activeClient);
         return "client-page";
     }
 
