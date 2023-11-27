@@ -158,11 +158,11 @@ public class ProductReviewsController {
             if(Objects.equals(review.getProduct().getId(), product.getId())) reviewsForProduct.add(review);
         }
 
-        // Client client = clientRepository.findByUsername("TestClient"); // TODO Replace with logged in client
+        Client client = getClient(Long.parseLong(activeClientId));
 
         model.addAttribute("reviews", reviewsForProduct);
         model.addAttribute("product", product);
-        // model.addAttribute("hasReview", client.hasReviewForProduct(id));
+        model.addAttribute("hasReview", client.hasReviewForProduct(id));
         return "product-page";
     }
 
