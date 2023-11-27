@@ -193,9 +193,11 @@ public class ProductReviewsController {
     }
 
     @GetMapping(value = "/client/username/{name}", produces = "application/json")
-    public String getClientByName(@PathVariable("name") String name, Model model) {
+    public String getClientByName(@PathVariable("name") String name, @CookieValue(value = "activeClientID") String activeClientId,  Model model) {
         Client client = clientRepository.findByUsername(name);
+        Client activeClient = this.findClientById(Long.parseLong(activeClientId));
         model.addAttribute("client", client);
+        model.addAttribute("activeClient", activeClient);
         return "client-page";
     }
 
