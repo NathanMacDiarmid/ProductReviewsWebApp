@@ -113,7 +113,7 @@ public class Product {
         double totalRating = this.averageRating * this.numOfReviews;
         this.numOfReviews++;
         totalRating += rating;
-        this.averageRating = totalRating / numOfReviews;
+        this.averageRating = Math.round((totalRating / numOfReviews) * 100.0) / 100.0;
     }
 
     public static ArrayList<Product> createProductsFromJSON(String filename) {

@@ -1,10 +1,8 @@
 package com.example.ProductReviewsWebApp.controllers.RESTControllers;
 
 import com.example.ProductReviewsWebApp.models.Client;
-import com.example.ProductReviewsWebApp.models.Product;
 import com.example.ProductReviewsWebApp.models.Review;
 import com.example.ProductReviewsWebApp.repositories.ClientRepository;
-import com.example.ProductReviewsWebApp.repositories.ProductRepository;
 import com.example.ProductReviewsWebApp.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

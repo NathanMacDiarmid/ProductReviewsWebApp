@@ -6,7 +6,6 @@ import com.example.ProductReviewsWebApp.models.Review;
 import com.example.ProductReviewsWebApp.repositories.ClientRepository;
 import com.example.ProductReviewsWebApp.repositories.ProductRepository;
 import com.example.ProductReviewsWebApp.repositories.ReviewRepository;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,8 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
