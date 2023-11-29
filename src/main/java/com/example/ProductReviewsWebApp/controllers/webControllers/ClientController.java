@@ -38,8 +38,10 @@ public class ClientController {
     }
 
     @GetMapping(value = "/client", produces = "application/json")
-    public String getClients(Model model) {
+    public String getClients(@CookieValue(value = "activeClientID") String activeClientId, Model model) {
         List<Client> clientList = clientRepository.findAll();
+        Client client = getClient(Long.parseLong(activeClientId));
+        model.addAttribute("activeClient", client);
         model.addAttribute("ClientList", clientList);
         return "client";
     }

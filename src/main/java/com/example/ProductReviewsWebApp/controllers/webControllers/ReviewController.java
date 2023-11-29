@@ -65,7 +65,7 @@ public class ReviewController {
     @GetMapping(value="/review/{id}", produces="application/json")
     public String getReviewById(@PathVariable("id") Long id, Model model, HttpServletResponse response) {
         Review review = getReview(id);
-        clientRepository.findById(review.getAuthorId()).ifPresent(authorOfReview -> model.addAttribute("author", authorOfReview.getUsername()));
+        clientRepository.findById(review.getClient().getId()).ifPresent(authorOfReview -> model.addAttribute("author", authorOfReview.getUsername()));
         model.addAttribute("review", review);
         return "review-page";
     }
@@ -81,7 +81,7 @@ public class ReviewController {
         Product product = getProduct(productId);
         Client client = getClient(Long.parseLong(activeClientId));
 
-        Review review = new Review(reviewRating, reviewComment, product, client.getId());
+        Review review = new Review(reviewRating, reviewComment, product, client);
         productRepository.save(product);
 
         client.addReviewForProduct(productId, review);

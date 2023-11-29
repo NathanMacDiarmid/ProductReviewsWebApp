@@ -60,14 +60,14 @@ class ClientTest {
 
         // Add two identical users to the User List
         tom = new Client("Tom");
-        Review tomsReview1 = new Review(3, "Burger was ok!", burger, tom.getId());
-        Review tomsReview2 = new Review(1, "Worst Hot Dog Ever!", hotdog, tom.getId());
+        Review tomsReview1 = new Review(3, "Burger was ok!", burger, tom);
+        Review tomsReview2 = new Review(1, "Worst Hot Dog Ever!", hotdog, tom);
         tom.addReviewForProduct(burger.getId(), tomsReview1);
         tom.addReviewForProduct(hotdog.getId(), tomsReview2);
 
         jerry = new Client("Jerry");
-        Review jerrysReview1 = new Review(3, "Burger was mehhh", burger, jerry.getId());
-        Review jerrysReview2 = new Review(1, "Worst Hot Dog OF ALL TIME!", hotdog, jerry.getId());
+        Review jerrysReview1 = new Review(3, "Burger was mehhh", burger, jerry);
+        Review jerrysReview2 = new Review(1, "Worst Hot Dog OF ALL TIME!", hotdog, jerry);
         jerry.addReviewForProduct(burger.getId(), jerrysReview1);
         jerry.addReviewForProduct(hotdog.getId(), jerrysReview2);
 
@@ -198,7 +198,7 @@ class ClientTest {
         Product newProduct = new Product("www.icecream.com", "ice cream", Category.FOOD);
         productRepository.save(newProduct);
 
-        Review newReview = new Review(3, "Test Test", newProduct, tom.getId());
+        Review newReview = new Review(3, "Test Test", newProduct, tom);
         reviewRepository.save(newReview);
 
         allReviews.add(newReview);

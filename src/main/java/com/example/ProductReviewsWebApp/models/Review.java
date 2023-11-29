@@ -40,11 +40,8 @@ public class Review {
     @ManyToOne
     private Product product;
 
-    /**
-     * -- GETTER --
-     *  Get the review's authorId.
-     */
-    private Long authorId;
+    @ManyToOne
+    private Client client;
 
     /**
      * Default constructor
@@ -56,11 +53,11 @@ public class Review {
      * @param rating the int of the rating for the product
      * @param comment the String of the review comment
      */
-    public Review(int rating, String comment, Product product, Long authorId) {
+    public Review(int rating, String comment, Product product, Client client) {
         this.rating = rating;
         this.comment = comment;
         this.product = product;
-        this.authorId = authorId;
+        this.client = client;
         this.product.updateAverageRating(rating);
     }
 
