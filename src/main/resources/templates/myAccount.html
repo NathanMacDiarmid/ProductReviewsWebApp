@@ -69,7 +69,7 @@
     </thead>
     <tr th:each="followed : ${activeClient.getFollowing()}" class="client">
         <td>
-            <a th:text="${follow.getUsername()}" th:href="@{/client/{id}(id=${followed.getId()})}"></a>
+            <a th:text="${followed.getUsername()}" th:href="@{/client/{id}(id=${followed.getId()})}"></a>
         </td>
         <td th:text="${followed.getFollowerCount()}"></td>
         <td th:text="${followed.getJaccardDistanceWithUser(activeClient)}"></td>
