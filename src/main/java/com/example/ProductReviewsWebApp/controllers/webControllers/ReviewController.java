@@ -3,6 +3,7 @@ package com.example.ProductReviewsWebApp.controllers.webControllers;
 import com.example.ProductReviewsWebApp.models.Client;
 import com.example.ProductReviewsWebApp.models.Product;
 import com.example.ProductReviewsWebApp.models.Review;
+import com.example.ProductReviewsWebApp.models.SystemConstants;
 import com.example.ProductReviewsWebApp.repositories.ClientRepository;
 import com.example.ProductReviewsWebApp.repositories.ProductRepository;
 import com.example.ProductReviewsWebApp.repositories.ReviewRepository;
@@ -77,7 +78,7 @@ public class ReviewController {
     }
 
     @PostMapping(value="/submitReview")
-    public String addReview(@CookieValue(value = "activeClientID") String activeClientId, @RequestParam(value = "reviewComment") String reviewComment, @RequestParam(value = "productId") long productId, @RequestParam(value = "rating") int reviewRating, Model model) {
+    public String addReview(@CookieValue(value = SystemConstants.ACTIVE_CLIENT_ID_COOKIE) String activeClientId, @RequestParam(value = "reviewComment") String reviewComment, @RequestParam(value = "productId") long productId, @RequestParam(value = "rating") int reviewRating, Model model) {
         Product product = getProduct(productId);
         Client client = getClient(Long.parseLong(activeClientId));
 

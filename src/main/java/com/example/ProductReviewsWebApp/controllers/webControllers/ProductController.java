@@ -3,6 +3,7 @@ package com.example.ProductReviewsWebApp.controllers.webControllers;
 import com.example.ProductReviewsWebApp.models.Client;
 import com.example.ProductReviewsWebApp.models.Product;
 import com.example.ProductReviewsWebApp.models.Review;
+import com.example.ProductReviewsWebApp.models.SystemConstants;
 import com.example.ProductReviewsWebApp.repositories.ClientRepository;
 import com.example.ProductReviewsWebApp.repositories.ProductRepository;
 import com.example.ProductReviewsWebApp.repositories.ReviewRepository;
@@ -54,7 +55,7 @@ public class ProductController {
     }
 
     @GetMapping(value="/product/{id}", produces="application/json")
-    public String getProductById(@CookieValue(value = "activeClientID") String activeClientId, @PathVariable("id") Long id, Model model) {
+    public String getProductById(@CookieValue(value = SystemConstants.ACTIVE_CLIENT_ID_COOKIE) String activeClientId, @PathVariable("id") Long id, Model model) {
         Product product = productRepository.findById(id).orElse(null);
         if (product == null) throw new NullPointerException("Was not able to find product with the passed ID");
         ArrayList<Review> reviewsForProduct = new ArrayList<>();
@@ -65,6 +66,7 @@ public class ProductController {
 
         Client client = getClient(Long.parseLong(activeClientId));
 
+        model.addAttribute("activeClient", client);
         model.addAttribute("reviews", reviewsForProduct);
         model.addAttribute("product", product);
         model.addAttribute("hasReview", client.hasReviewForProduct(id));
