@@ -1,6 +1,7 @@
 package com.example.ProductReviewsWebApp.controllers.RESTControllers;
 
 import com.example.ProductReviewsWebApp.models.Client;
+import com.example.ProductReviewsWebApp.models.SystemConstants;
 import com.example.ProductReviewsWebApp.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,7 +40,7 @@ public class ClientRESTController {
     public Client getClientById(@PathVariable("id") Long id) { return findClientById(id); }
 
     @GetMapping("/activeClientId")
-    public Long getActiveClientId(@CookieValue(value = "activeClientID") String activeClientId) {
+    public Long getActiveClientId(@CookieValue(value = SystemConstants.ACTIVE_CLIENT_ID_COOKIE) String activeClientId) {
         if (!activeClientId.isEmpty())
             return Long.parseLong(activeClientId);
 
@@ -47,7 +48,7 @@ public class ClientRESTController {
     }
 
     @GetMapping(value = "/client/{id}/jaccardDistance", produces = "application/json")
-    public double getJaccardDistanceFromUserToActiveUserById(@PathVariable("id") Long id, @CookieValue(value = "activeClientID") String activeClientId) {
+    public double getJaccardDistanceFromUserToActiveUserById(@PathVariable("id") Long id, @CookieValue(value = SystemConstants.ACTIVE_CLIENT_ID_COOKIE) String activeClientId) {
         Long activeID;
 
         if (!activeClientId.isEmpty())
@@ -65,7 +66,7 @@ public class ClientRESTController {
     }
 
     @PostMapping(value="/client/{id}/follow")
-    public void follow(@PathVariable Long id, @CookieValue(value = "activeClientID") String activeClientId) {
+    public void follow(@PathVariable Long id, @CookieValue(value = SystemConstants.ACTIVE_CLIENT_ID_COOKIE) String activeClientId) {
         Client activeClient = getClient(Long.parseLong(activeClientId));
         Client client = getClient(id);
 
@@ -76,7 +77,7 @@ public class ClientRESTController {
     }
 
     @PostMapping(value="/client/{id}/unfollow")
-    public void unFollow(@PathVariable Long id, @CookieValue(value = "activeClientID") String activeClientId) {
+    public void unFollow(@PathVariable Long id, @CookieValue(value = SystemConstants.ACTIVE_CLIENT_ID_COOKIE) String activeClientId) {
         Client activeClient = getClient(Long.parseLong(activeClientId));
         Client client = getClient(id);
 
