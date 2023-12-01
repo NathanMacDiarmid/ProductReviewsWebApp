@@ -37,7 +37,7 @@ public class ClientController {
         return client.get();
     }
 
-    @GetMapping(value = "/client", produces = "application/json")
+    @GetMapping(value = "/client")
     public String getClients(@CookieValue(value = SystemConstants.ACTIVE_CLIENT_ID_COOKIE) String activeClientId, Model model) {
         List<Client> clientList = clientRepository.findAll();
         Client client = getClient(Long.parseLong(activeClientId));

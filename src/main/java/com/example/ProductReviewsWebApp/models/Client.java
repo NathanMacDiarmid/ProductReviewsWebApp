@@ -180,8 +180,6 @@ public class Client {
         clientToFollow.incrementFollowerCount();
         this.following.add(clientToFollow);
         canUpdateFollowerCount = true;
-        System.out.println(this.following);
-        System.out.println(clientToFollow.followerCount);
         notifyAll();
         return true;
     }
@@ -347,8 +345,8 @@ public class Client {
                     visited.add(following);
                     distances.put(following, currDistance + 1);
                     // following client reached the destination client
-                    if (following == destination) {
-                        return distances.get(destination);
+                    if (following.equals(destination)) {
+                        return distances.get(following);
                     }
                 }
             }
