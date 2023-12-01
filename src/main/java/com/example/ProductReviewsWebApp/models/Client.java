@@ -44,7 +44,7 @@ public class Client {
      * The list of client's this client is following.
      */
     @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = Client.class)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER, targetEntity = Client.class)
     private final List<Client> following;
 
     /**
@@ -177,11 +177,11 @@ public class Client {
             }
         }
         canUpdateFollowerCount = false;
-
         clientToFollow.incrementFollowerCount();
-
         this.following.add(clientToFollow);
         canUpdateFollowerCount = true;
+        System.out.println(this.following);
+        System.out.println(clientToFollow.followerCount);
         notifyAll();
         return true;
     }
@@ -206,9 +206,7 @@ public class Client {
             }
         }
         canUpdateFollowerCount = false;
-
         clientToUnfollow.decrementFollowerCount();
-
         this.following.remove(clientToUnfollow);
         canUpdateFollowerCount = true;
         notifyAll();
@@ -374,8 +372,8 @@ public class Client {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", reviews=" + reviews +
-                ", following=" + following +
+                // ", reviews=" + reviews +
+                // ", following=" + following +
                 ", followerCount=" + followerCount +
                 '}';
     }
