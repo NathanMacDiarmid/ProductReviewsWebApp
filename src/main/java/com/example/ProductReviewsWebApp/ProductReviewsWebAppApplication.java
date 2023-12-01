@@ -33,6 +33,7 @@ public class ProductReviewsWebAppApplication {
 			Faker faker = new Faker();
 
 			ArrayList<Client> clients = new ArrayList<>();
+			ArrayList<Client> realClients = new ArrayList<>();
 			ArrayList<Product> products;
 			ArrayList<Review> reviews = new ArrayList<>();
 
@@ -44,14 +45,19 @@ public class ProductReviewsWebAppApplication {
 
 			clientRepository.save(jeremy);
 			clients.add(jeremy);
+			realClients.add(jeremy);
 			clientRepository.save(evan);
 			clients.add(evan);
+			realClients.add(evan);
 			clientRepository.save(nathan);
 			clients.add(nathan);
+			realClients.add(nathan);
 			clientRepository.save(trong);
 			clients.add(trong);
+			realClients.add(trong);
 			clientRepository.save(hussein);
 			clients.add(hussein);
+			realClients.add(hussein);
 
 
 			// Create some additional clients
@@ -89,25 +95,28 @@ public class ProductReviewsWebAppApplication {
 				alreadyFollowed.add(index);
 				index++;
 
-				// Create reviews for each client
-				for (int i = 0; i < randomReview; i++) {
-					randomProduct = ThreadLocalRandom.current().nextInt(products.size());
-					String comment = faker.hobbit().quote();
-					rating = ThreadLocalRandom.current().nextInt(1, 5 + 1);
-
-					// change up the random product
-					while (alreadyReviewed.contains(randomProduct)) {
+				// Create reviews for each fake client
+				if (!realClients.contains(client)) {
+					for (int i = 0; i < randomReview; i++) {
 						randomProduct = ThreadLocalRandom.current().nextInt(products.size());
+						String comment = faker.hobbit().quote();
+						rating = ThreadLocalRandom.current().nextInt(1, 5 + 1);
+
+						// change up the random product
+						while (alreadyReviewed.contains(randomProduct)) {
+							randomProduct = ThreadLocalRandom.current().nextInt(products.size());
+						}
+
+						product = products.get(randomProduct);
+						alreadyReviewed.add(randomProduct);
+
+						review = new Review(rating, comment, product, client.getId());
+						client.addReviewForProduct(product.getId(), review);
+						reviewRepository.save(review);
+						reviews.add(review);
 					}
-
-					product = products.get(randomProduct);
-					alreadyReviewed.add(randomProduct);
-
-					review = new Review(rating, comment, product);
-					client.addReviewForProduct(product.getId(), review);
-					reviewRepository.save(review);
-					reviews.add(review);
 				}
+
 
 				// Create following for each client
 				randomFollow = ThreadLocalRandom.current().nextInt(clients.size() - 1);
