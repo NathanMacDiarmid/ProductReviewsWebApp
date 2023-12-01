@@ -71,9 +71,9 @@
 
 <footer>
     <p>
-<!--        <button id="followToggle" class="btn btn-large btn-success"-->
-<!--                th:onclick="|followToggle(${client.getId()}, ${activeClient.isFollowing(client)})|"-->
-<!--                th:text="${activeClient.isFollowing(client)} ? 'Unfollow' : 'Follow'"></button>-->
+        <button id="followToggle" class="btn btn-large btn-success"
+                th:onclick="|followToggle(${client.getId()}, ${activeClient.isFollowing(client)})|"
+                th:text="${activeClient.isFollowing(client)} ? 'Unfollow' : 'Follow'"></button>
         <a class="btn btn-large btn-success" href="/home" th:href="@{/home}">Return</a>
     </p>
 </footer>
@@ -88,7 +88,7 @@
             headers: {"Content-Type": "application/json"}
         });
 
-        document.refresh()
+        window.location.reload();
     }
 </script>
 </html>
