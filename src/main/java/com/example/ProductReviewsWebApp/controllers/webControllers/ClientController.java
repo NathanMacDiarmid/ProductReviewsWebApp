@@ -55,6 +55,10 @@ public class ClientController {
 
     @GetMapping(value = "/client/{id}", produces = "application/json")
     public String getClientById(@PathVariable("id") Long id, @CookieValue(value = SystemConstants.ACTIVE_CLIENT_ID_COOKIE) String activeClientId, Model model) {
+        if (id == Long.parseLong(activeClientId)) {
+            model.addAttribute("activeClient", getClient(Long.parseLong(activeClientId)));
+            return "myAccount";
+        }
         Client client = this.findClientById(id);
         Client activeClient = this.findClientById(Long.parseLong(activeClientId));
         model.addAttribute("client", client);
