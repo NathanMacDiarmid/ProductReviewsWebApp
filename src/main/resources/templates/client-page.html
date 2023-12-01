@@ -74,7 +74,7 @@
         <button id="followToggle" class="btn btn-large btn-success"
                 th:onclick="|followToggle(${client.getId()}, ${activeClient.isFollowing(client)})|"
                 th:text="${activeClient.isFollowing(client)} ? 'Unfollow' : 'Follow'"></button>
-        <a class="btn btn-large btn-success" href="/home" th:href="@{/home}">Return</a>
+        <a class="btn btn-large btn-success" href="/client" th:href="@{/client}">Return</a>
     </p>
 </footer>
 
