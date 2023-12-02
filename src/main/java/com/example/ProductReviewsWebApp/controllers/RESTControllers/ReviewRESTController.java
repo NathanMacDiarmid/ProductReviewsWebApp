@@ -1,10 +1,9 @@
 package com.example.ProductReviewsWebApp.controllers.RESTControllers;
 
 import com.example.ProductReviewsWebApp.models.Client;
-import com.example.ProductReviewsWebApp.models.Product;
 import com.example.ProductReviewsWebApp.models.Review;
+import com.example.ProductReviewsWebApp.models.SystemConstants;
 import com.example.ProductReviewsWebApp.repositories.ClientRepository;
-import com.example.ProductReviewsWebApp.repositories.ProductRepository;
 import com.example.ProductReviewsWebApp.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,7 +55,7 @@ public class ReviewRESTController {
     }
 
     @PutMapping(value="/product/{id}/addReview", consumes="application/json", produces="application/json")
-    public Review addReview(@CookieValue(value = "activeClientID") String activeClientId, @PathVariable Long id, @RequestBody Review review) {
+    public Review addReview(@CookieValue(value = SystemConstants.ACTIVE_CLIENT_ID_COOKIE) String activeClientId, @PathVariable Long id, @RequestBody Review review) {
         Client client = getClient(Long.parseLong(activeClientId));
         client.addReviewForProduct(id, review);
         clientRepository.save(client);

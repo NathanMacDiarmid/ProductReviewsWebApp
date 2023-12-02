@@ -37,7 +37,7 @@ public class MainWebController {
 
         if (clientRepository.existsByUsername(fakeLoginRequest.username())) {
             Client activeClient = clientRepository.findByUsername(fakeLoginRequest.username());
-            Cookie activeClientID = new Cookie("activeClientID", activeClient.getId().toString());
+            Cookie activeClientID = new Cookie(SystemConstants.ACTIVE_CLIENT_ID_COOKIE, activeClient.getId().toString());
 
             response.addCookie(activeClientID);
             return "home";
@@ -48,7 +48,7 @@ public class MainWebController {
 
     @GetMapping("/logout")
     public String logoutAction(HttpServletResponse response) {
-        Cookie deleteActiveClientId = new Cookie("activeClientID", null);
+        Cookie deleteActiveClientId = new Cookie(SystemConstants.ACTIVE_CLIENT_ID_COOKIE, null);
         response.addCookie(deleteActiveClientId);
         return "index";
     }

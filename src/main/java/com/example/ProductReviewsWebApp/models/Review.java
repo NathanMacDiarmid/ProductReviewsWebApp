@@ -1,8 +1,13 @@
 package com.example.ProductReviewsWebApp.models;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Objects;
 
 /**
  * The Review class that contains all the information in a review
@@ -31,20 +36,11 @@ public class Review {
      */
     private String comment;
 
-    /**
-     * -- GETTER --
-     *  Check if review is for testing or not.
-     */
-    private boolean forTesting;
-
     @ManyToOne
     private Product product;
 
-    /**
-     * -- GETTER --
-     *  Get the review's authorId.
-     */
-    private Long authorId;
+    @ManyToOne
+    private Client client;
 
     /**
      * Default constructor
@@ -56,19 +52,35 @@ public class Review {
      * @param rating the int of the rating for the product
      * @param comment the String of the review comment
      */
-    public Review(int rating, String comment, Product product, Long authorId) {
+    public Review(int rating, String comment, Product product, Client client) {
         this.rating = rating;
         this.comment = comment;
         this.product = product;
-        this.authorId = authorId;
+        this.client = client;
         this.product.updateAverageRating(rating);
     }
 
-    /**
-     * Set the review as a testing review only.
-     */
-    public void setForTesting() {
-        forTesting = true;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Review review = (Review) o;
+        return id == review.id && rating == review.rating && comment.equals(review.comment) && product.equals(review.product) && client.equals(review.client);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, rating, comment, product, client);
+    }
+
+    @Override
+    public String toString() {
+        return "Review{" +
+                "id=" + id +
+                ", rating=" + rating +
+                ", comment='" + comment + '\'' +
+                ", product=" + product +
+                ", client=" + client +
+                '}';
+    }
 }

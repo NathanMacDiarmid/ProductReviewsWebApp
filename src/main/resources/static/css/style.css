@@ -7,12 +7,6 @@ html, body {
     -webkit-overflow-scrolling: touch;
 }
 
-#grid {
-    height: 80%;
-    width: 45%;
-    margin: 2% auto auto auto;
-}
-
 footer {
     text-align: center;
     margin: 2% auto auto auto;
@@ -31,7 +25,6 @@ footer {
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-    font-size: 17px;
     margin-left: 35px;
     font-size: 20px;
     font-weight: 500;
@@ -182,7 +175,7 @@ th {
     color: var(--cardColor);
     font-size: 2em;
     font-weight: 700;
-    transform: translateY(calc(-1 * var(--labelOffset)));
+    transform: calc(-1 * var(--labelOffset));
     margin-right: calc(-1 * var(--labelOffset));
     z-index: 1;
     display: flex;

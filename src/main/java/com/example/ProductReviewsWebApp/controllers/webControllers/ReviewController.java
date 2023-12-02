@@ -3,10 +3,10 @@ package com.example.ProductReviewsWebApp.controllers.webControllers;
 import com.example.ProductReviewsWebApp.models.Client;
 import com.example.ProductReviewsWebApp.models.Product;
 import com.example.ProductReviewsWebApp.models.Review;
+import com.example.ProductReviewsWebApp.models.SystemConstants;
 import com.example.ProductReviewsWebApp.repositories.ClientRepository;
 import com.example.ProductReviewsWebApp.repositories.ProductRepository;
 import com.example.ProductReviewsWebApp.repositories.ReviewRepository;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,8 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -68,7 +66,7 @@ public class ReviewController {
     @GetMapping(value="/review/{id}", produces="application/json")
     public String getReviewById(@PathVariable("id") Long id, Model model, HttpServletResponse response) {
         Review review = getReview(id);
-        clientRepository.findById(review.getAuthorId()).ifPresent(authorOfReview -> model.addAttribute("author", authorOfReview.getUsername()));
+        clientRepository.findById(review.getClient().getId()).ifPresent(authorOfReview -> model.addAttribute("author", authorOfReview.getUsername()));
         model.addAttribute("review", review);
         return "review-page";
     }
@@ -80,11 +78,11 @@ public class ReviewController {
     }
 
     @PostMapping(value="/submitReview")
-    public String addReview(@CookieValue(value = "activeClientID") String activeClientId, @RequestParam(value = "reviewComment") String reviewComment, @RequestParam(value = "productId") long productId, @RequestParam(value = "rating") int reviewRating, Model model) {
+    public String addReview(@CookieValue(value = SystemConstants.ACTIVE_CLIENT_ID_COOKIE) String activeClientId, @RequestParam(value = "reviewComment") String reviewComment, @RequestParam(value = "productId") long productId, @RequestParam(value = "rating") int reviewRating, Model model) {
         Product product = getProduct(productId);
         Client client = getClient(Long.parseLong(activeClientId));
 
-        Review review = new Review(reviewRating, reviewComment, product, client.getId());
+        Review review = new Review(reviewRating, reviewComment, product, client);
         productRepository.save(product);
 
         client.addReviewForProduct(productId, review);

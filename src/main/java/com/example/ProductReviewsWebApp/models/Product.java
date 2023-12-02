@@ -1,17 +1,20 @@
 package com.example.ProductReviewsWebApp.models;
 
-import jakarta.persistence.*;
-
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * The Product class represents information about a product, including their url, name and category.
@@ -113,7 +116,7 @@ public class Product {
         double totalRating = this.averageRating * this.numOfReviews;
         this.numOfReviews++;
         totalRating += rating;
-        this.averageRating = totalRating / numOfReviews;
+        this.averageRating = Math.round((totalRating / numOfReviews) * 100.0) / 100.0;
     }
 
     public static ArrayList<Product> createProductsFromJSON(String filename) {
@@ -150,5 +153,18 @@ public class Product {
                 ", name='" + name + '\'' +
                 ", category='" + category + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return Double.compare(averageRating, product.averageRating) == 0 && numOfReviews == product.numOfReviews && Objects.equals(id, product.id) && Objects.equals(name, product.name) && category == product.category && Objects.equals(description, product.description) && Objects.equals(url, product.url) && Objects.equals(image, product.image);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, category, description, url, image, averageRating, numOfReviews);
     }
 }
