@@ -102,14 +102,6 @@ public class Client {
     }
 
     /**
-     * Remove a product review.
-     * @param productID int, the productID for which review to remove.
-     */
-    public void removeReviewForProduct(Long productID) {
-        reviews.remove(productID);
-    }
-
-    /**
      * Get the follower count of the client.
      * @return int, the follower count.
      */
@@ -248,42 +240,6 @@ public class Client {
      */
     public void setId(Long id) {
         this.id = id;
-    }
-
-    /**
-     * See if a client has a review by a review id.
-     *
-     * @param id Long, the reviews ID.
-     * @return boolean, True if the review exists.
-     */
-    public boolean hasReviewByReviewId(Long id) {
-        List<Review> reviewsFromMap = reviews.values().stream().toList();
-
-        for (Review r : reviewsFromMap) {
-            if (r.getId() == id) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Get a Review by a review ID
-     *
-     * @param id Long, the reviews ID.
-     * @return Review, the review or null if review is not found.
-     */
-    public Review getReviewByReviewId(Long id) {
-        List<Review> reviewsFromMap = reviews.values().stream().toList();
-
-        for (Review r : reviewsFromMap) {
-            if (r.getId() == id) {
-                return r;
-            }
-        }
-
-        return null;
     }
 
     /**
