@@ -49,7 +49,7 @@ public class ClientRESTController {
 
     @GetMapping(value = "/client/{id}/jaccardDistance", produces = "application/json")
     public double getJaccardDistanceFromUserToActiveUserById(@PathVariable("id") Long id, @CookieValue(value = SystemConstants.ACTIVE_CLIENT_ID_COOKIE) String activeClientId) {
-        Long activeID;
+        long activeID;
 
         if (!activeClientId.isEmpty())
             activeID = Long.parseLong(activeClientId);
