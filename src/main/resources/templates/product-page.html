@@ -17,13 +17,33 @@
             <a href="/logout" th:href="@{/logout}" class="split">Logout</a>
             <a href="/myaccount" th:href="@{/myaccount}" class="split">Profile</a>
         </nav>
-        <div style="display: inline-block; vertical-align: top">
-            <p>Product ID: <span th:text="${product.getId()}"></span></p>
-            <p>Product Name: <span th:text="${product.getName()}"></span></p>
-            <p>Product Category: <span th:text="${product.getCategory()}"></span></p>
-            <p>Product URL: <span th:text="${product.getUrl()}"></span></p>
-        </div>
-        <div th:if="${hasReview != true}" style="display: inline-block;vertical-align: top; margin-left: 8em">
+        <ol class="olcards">
+            <li style="--cardColor:#fc374e">
+                <div class="content">
+                    <div class="title">Product ID</div>
+                    <div class="text" th:text="${product.getId()}"></div>
+                </div>
+            </li>
+            <li style="--cardColor:#36aeb3">
+                <div class="content">
+                    <div class="title">Product Name</div>
+                    <div class="text" th:text="${product.getName()}"></div>
+                </div>
+            </li>
+            <li style="--cardColor:#162d59">
+                <div class="content">
+                    <div class="title">Product Category</div>
+                    <div class="text" th:text="${product.getCategory()}"></div>
+                </div>
+            </li>
+            <li style="--cardColor:#f15f0e">
+                <div class="content">
+                    <div class="title">Product URL</div>
+                    <div class="text"><a th:text="${product.getUrl()}" th:href="@{(${product.getUrl()})}" target="blank" style="color: white; text-decoration: underline"></a></div>
+                </div>
+            </li>
+        </ol>
+        <div th:if="${hasReview != true}" style="display: inline-block;vertical-align: top; margin-left: 5em">
             <form target="hiddenFrame" action="#" th:action="@{/submitReview}" id="reviewForm" method="post" onsubmit="document.getElementById('submitReviewButton').disabled='true';setTimeout(function(){window.location.reload();},500)">
                 <p style="display: inline-block"><b>Add a review</b></p>
                 <div class="rating" id="rating">
@@ -48,7 +68,9 @@
             </form>
             <iframe id="hiddenFrame" name="hiddenFrame" hidden="hidden"></iframe>
         </div>
-
+        <div class="product-image">
+            <img th:src="@{'/images/' + ${product.getImage()}}" alt="" width="150" height="150">
+        </div>
         <table class="table">
             <caption>Review</caption>
             <thead>
