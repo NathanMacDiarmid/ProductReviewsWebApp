@@ -1,13 +1,17 @@
 package com.example.ProductReviewsWebApp.controllers.webControllers;
 
-import com.example.ProductReviewsWebApp.models.*;
+import com.example.ProductReviewsWebApp.models.Client;
+import com.example.ProductReviewsWebApp.models.FakeLoginRequest;
+import com.example.ProductReviewsWebApp.models.SystemConstants;
 import com.example.ProductReviewsWebApp.repositories.ClientRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class MainWebController {
