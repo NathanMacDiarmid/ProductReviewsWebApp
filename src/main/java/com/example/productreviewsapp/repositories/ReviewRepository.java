@@ -1,6 +1,6 @@
-package com.example.ProductReviewsWebApp.repositories;
+package com.example.productreviewsapp.repositories;
 
-import com.example.ProductReviewsWebApp.models.Review;
+import com.example.productreviewsapp.models.Review;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.lang.NonNull;
 

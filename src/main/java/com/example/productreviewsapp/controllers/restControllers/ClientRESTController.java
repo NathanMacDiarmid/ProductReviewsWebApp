@@ -1,8 +1,8 @@
-package com.example.ProductReviewsWebApp.controllers.restControllers;
+package com.example.productreviewsapp.controllers.restControllers;
 
-import com.example.ProductReviewsWebApp.models.Client;
-import com.example.ProductReviewsWebApp.models.SystemConstants;
-import com.example.ProductReviewsWebApp.repositories.ClientRepository;
+import com.example.productreviewsapp.models.Client;
+import com.example.productreviewsapp.models.SystemConstants;
+import com.example.productreviewsapp.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

@@ -1,12 +1,12 @@
-package com.example.ProductReviewsWebApp.controllers.webControllers;
+package com.example.productreviewsapp.controllers.webControllers;
 
-import com.example.ProductReviewsWebApp.models.Client;
-import com.example.ProductReviewsWebApp.models.Product;
-import com.example.ProductReviewsWebApp.models.Review;
-import com.example.ProductReviewsWebApp.models.SystemConstants;
-import com.example.ProductReviewsWebApp.repositories.ClientRepository;
-import com.example.ProductReviewsWebApp.repositories.ProductRepository;
-import com.example.ProductReviewsWebApp.repositories.ReviewRepository;
+import com.example.productreviewsapp.models.Client;
+import com.example.productreviewsapp.models.Product;
+import com.example.productreviewsapp.models.Review;
+import com.example.productreviewsapp.models.SystemConstants;
+import com.example.productreviewsapp.repositories.ClientRepository;
+import com.example.productreviewsapp.repositories.ProductRepository;
+import com.example.productreviewsapp.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;

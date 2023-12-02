@@ -1,11 +1,11 @@
-package com.example.ProductReviewsWebApp;
+package com.example.productreviewsapp;
 
-import com.example.ProductReviewsWebApp.models.Client;
-import com.example.ProductReviewsWebApp.models.Product;
-import com.example.ProductReviewsWebApp.models.Review;
-import com.example.ProductReviewsWebApp.repositories.ClientRepository;
-import com.example.ProductReviewsWebApp.repositories.ProductRepository;
-import com.example.ProductReviewsWebApp.repositories.ReviewRepository;
+import com.example.productreviewsapp.models.Client;
+import com.example.productreviewsapp.models.Product;
+import com.example.productreviewsapp.models.Review;
+import com.example.productreviewsapp.repositories.ClientRepository;
+import com.example.productreviewsapp.repositories.ProductRepository;
+import com.example.productreviewsapp.repositories.ReviewRepository;
 import jakarta.annotation.PostConstruct;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,4 +1,4 @@
-package com.example.ProductReviewsWebApp.models;
+package com.example.productreviewsapp.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

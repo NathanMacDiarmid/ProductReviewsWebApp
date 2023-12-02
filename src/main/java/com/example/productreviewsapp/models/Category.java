@@ -1,4 +1,4 @@
-package com.example.ProductReviewsWebApp.models;
+package com.example.productreviewsapp.models;
 
 import lombok.Getter;
 

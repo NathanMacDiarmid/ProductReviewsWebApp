@@ -1,4 +1,4 @@
-package com.example.ProductReviewsWebApp.models;
+package com.example.productreviewsapp.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

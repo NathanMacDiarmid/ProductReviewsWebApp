@@ -1,3 +1,3 @@
-package com.example.ProductReviewsWebApp.models;
+package com.example.productreviewsapp.models;
 
 public record FakeLoginRequest(String username) {}
