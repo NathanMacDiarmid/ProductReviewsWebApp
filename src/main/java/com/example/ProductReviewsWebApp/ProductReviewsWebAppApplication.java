@@ -11,6 +11,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
@@ -26,6 +27,7 @@ public class ProductReviewsWebAppApplication {
 	}
 
 	@Bean
+	@Profile("!test")
 	public CommandLineRunner baseInformation(ProductRepository productRepository,
 											 ClientRepository clientRepository,
 											 ReviewRepository reviewRepository) {
