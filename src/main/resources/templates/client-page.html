@@ -87,15 +87,4 @@
 </footer>
 
 </body>
-<script>
-    async function followToggle(clientId, isFollowing) {
-        let apiUrl = '/api/client/' + clientId + (isFollowing ? '/unfollow' : '/follow');
-        await fetch(apiUrl, {
-            method: "POST",
-            headers: {"Content-Type": "application/json"}
-        });
-
-        window.location.reload();
-    }
-</script>
 </html>
