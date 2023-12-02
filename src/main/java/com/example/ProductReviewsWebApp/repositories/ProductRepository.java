@@ -12,6 +12,4 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
     @NonNull
     List<Product> findAll();
 
-    Product findByName(String name);
-
 }
