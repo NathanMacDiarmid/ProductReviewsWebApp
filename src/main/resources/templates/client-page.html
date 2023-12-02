@@ -17,7 +17,7 @@
     <a href="/review" th:href="@{/review}">Review</a>
     <a href="/client" th:href="@{/client}">Client</a>
     <a href="/logout" th:href="@{/logout}" class="split">Logout</a>
-    <a href="/myaccount" th:href="@{/myaccount}" class="split">My Account</a>
+    <a href="/myaccount" th:href="@{/myaccount}" class="split">Profile</a>
 </nav>
 
 <h2>Client Information</h2>
@@ -66,14 +66,14 @@
         <th>Username</th>
         <th># of Followers</th>
         <th>Jaccard Distance</th>
+        <th>Degrees of Separation</th>
     </tr>
     </thead>
     <tr th:each="followed : ${client.getFollowing()}" class="client">
-        <td>
-            <a th:text="${followed.getUsername()}" th:href="@{/client/{id}(id=${followed.getId()})}"></a>
-        </td>
+        <td><a th:text="${followed.getUsername()}" th:href="@{/client/{id}(id=${followed.getId()})}"></a></td>
         <td th:text="${followed.getFollowerCount()}"></td>
         <td th:text="${followed.getJaccardDistanceWithUser(activeClient)}"></td>
+        <td th:text="${followed.getDegreesOfSeparation(activeClient)}"></td>
     </tr>
 </table>
 
@@ -82,7 +82,7 @@
         <button id="followToggle" class="btn btn-large btn-success"
                 th:onclick="|followToggle(${client.getId()}, ${activeClient.isFollowing(client)})|"
                 th:text="${activeClient.isFollowing(client)} ? 'Unfollow' : 'Follow'"></button>
-        <a class="btn btn-large btn-success" href="/home" th:href="@{/home}">Return</a>
+        <a class="btn btn-large btn-success" href="/client" th:href="@{/client}">Return</a>
     </p>
 </footer>
 
