@@ -39,11 +39,11 @@ public class ProductReviewsWebAppApplication {
 			ArrayList<Product> products;
 			ArrayList<Review> reviews = new ArrayList<>();
 
-			Client jeremy = new Client("Jeremy"); // Temporary until we can get the id of the logged in user
-			Client evan = new Client("Evan"); // Temporary until we can get the id of the logged in user
-			Client nathan = new Client("Nathan"); // Temporary until we can get the id of the logged in user
-			Client trong = new Client("Trong"); // Temporary until we can get the id of the logged in user
-			Client hussein = new Client("Hussein"); // Temporary until we can get the id of the logged in user
+			Client jeremy = new Client("Jeremy");
+			Client evan = new Client("Evan");
+			Client nathan = new Client("Nathan");
+			Client trong = new Client("Trong");
+			Client hussein = new Client("Hussein");
 
 			clientRepository.save(jeremy);
 			clients.add(jeremy);

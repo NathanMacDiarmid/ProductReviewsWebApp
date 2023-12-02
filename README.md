@@ -48,7 +48,7 @@ Clients can follow and unfollow other clients, write reviews of products, and ca
 
 This sprint we are focusing on getting most of the main functionality of the project done such as user login, user follow capabilities, Jaccard distance between users and ensuring Prometheus and Grafanna work on the Azure cloud platform.
 
-All of the planned issues can be found here:
+All the planned issues can be found here:
 
 https://github.com/NathanMacDiarmid/ProductReviewsWebApp/milestone/2
 
@@ -69,7 +69,7 @@ https://github.com/NathanMacDiarmid/ProductReviewsWebApp/milestone/2
 
 Prometheus and Grafana can be used to query and visualize a variety of app metrics. In order to get them working complete the following steps:
 
-- Install docker on your machine ([docker installation webpage](https://docs.docker.com/engine/install/) or 'sudo apt install docker.io on debian)
+- Install docker on your machine ([docker installation webpage](https://docs.docker.com/engine/install/) or `sudo apt install docker.io` on debian)
 - Install docker compose on your machine ([docker compose installation site](https://docs.docker.com/compose/install/))
 - Run 'mvn package' in the project root directory to ensure that the latest version of the project jar file is present
 - Open the terminal, navigate to the monitoring directory and run 'docker-compose up -d' or 'docker compose up -d' (depending on how docker compose was installed, docker-compose may not work as sometimes docker compose is included in the docker installation instead of installed individually)
