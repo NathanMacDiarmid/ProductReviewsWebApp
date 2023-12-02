@@ -150,8 +150,6 @@ public class ProductRestControllerTest {
         // THEN
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(MediaType.APPLICATION_JSON, response.getHeaders().getContentType());
-        assertEquals(products.get(index).getName(), Objects.requireNonNull(response.getBody()).getName());
-        assertEquals(products.get(index).getUrl(), response.getBody().getUrl());
-        assertEquals(products.get(index).getCategory(), response.getBody().getCategory());
+        assertEquals(products.get(index), response.getBody());
     }
 }

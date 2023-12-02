@@ -25,7 +25,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class ClientTest {
+class ClientRestControllerTest {
 
     @Value(value="${local.server.port}")
     private int port;

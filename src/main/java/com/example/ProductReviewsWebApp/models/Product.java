@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -150,5 +151,18 @@ public class Product {
                 ", name='" + name + '\'' +
                 ", category='" + category + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return Double.compare(averageRating, product.averageRating) == 0 && numOfReviews == product.numOfReviews && Objects.equals(id, product.id) && Objects.equals(name, product.name) && category == product.category && Objects.equals(description, product.description) && Objects.equals(url, product.url) && Objects.equals(image, product.image);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, category, description, url, image, averageRating, numOfReviews);
     }
 }

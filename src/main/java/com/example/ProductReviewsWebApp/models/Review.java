@@ -1,8 +1,11 @@
 package com.example.ProductReviewsWebApp.models;
 
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Objects;
 
 /**
  * The Review class that contains all the information in a review
@@ -31,12 +34,6 @@ public class Review {
      */
     private String comment;
 
-    /**
-     * -- GETTER --
-     *  Check if review is for testing or not.
-     */
-    private boolean forTesting;
-
     @ManyToOne
     private Product product;
 
@@ -61,11 +58,27 @@ public class Review {
         this.product.updateAverageRating(rating);
     }
 
-    /**
-     * Set the review as a testing review only.
-     */
-    public void setForTesting() {
-        forTesting = true;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Review review = (Review) o;
+        return id == review.id && rating == review.rating && comment.equals(review.comment) && product.equals(review.product) && client.equals(review.client);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, rating, comment, product, client);
+    }
+
+    @Override
+    public String toString() {
+        return "Review{" +
+                "id=" + id +
+                ", rating=" + rating +
+                ", comment='" + comment + '\'' +
+                ", product=" + product +
+                ", client=" + client +
+                '}';
+    }
 }
