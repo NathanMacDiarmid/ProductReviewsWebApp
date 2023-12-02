@@ -14,12 +14,12 @@
 			<div th:if="${param.logout}">
 				You have been logged out.</div>
 			<form th:action="@{/login}" th:object="${fakeLoginRequest}"  method="post">
-				<div>
-					<br>
-				<input type="text" th:field="*{username}" name="username" placeholder="Username"/>
-				</div>
-				<br>
-				<input href="/home" th:href="@{/home}" type="submit" value="Log in" class="btn btn-large btn-success" />
+				<label>
+					<input type="text" th:field="*{username}" name="username" placeholder="Username"/>
+				</label>
+				<label>
+					<input th:href="@{/home}" type="submit" value="Log in" class="btn btn-large btn-success" />
+				</label>
 			</form>
 			<br>
 		</div>
