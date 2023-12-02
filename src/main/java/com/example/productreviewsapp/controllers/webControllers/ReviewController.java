@@ -64,7 +64,7 @@ public class ReviewController {
     }
 
     @GetMapping(value="/review/{id}", produces="application/json")
-    public String getReviewById(@PathVariable("id") Long id, Model model, HttpServletResponse response) {
+    public String getReviewById(@PathVariable("id") Long id, Model model) {
         Review review = getReview(id);
         clientRepository.findById(review.getClient().getId()).ifPresent(authorOfReview -> model.addAttribute("author", authorOfReview.getUsername()));
         model.addAttribute("review", review);
