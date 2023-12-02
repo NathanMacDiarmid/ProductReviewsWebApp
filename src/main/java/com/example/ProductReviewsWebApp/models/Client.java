@@ -162,18 +162,17 @@ public class Client {
      * Add a client to your following list and increment their follower count.
      *
      * @param clientToFollow Client, the client to follow.
-     * @return True if following is successful, False otherwise.
      */
-    public synchronized boolean followUser(Client clientToFollow) {
+    public synchronized void followUser(Client clientToFollow) {
         if (following.contains(clientToFollow))
-            return false;
+            return;
 
         while (!canUpdateFollowerCount) {
             try {
                 wait();
             } catch (InterruptedException e) {
                 log.error(e.toString());
-                return false;
+                return;
             }
         }
         canUpdateFollowerCount = false;
@@ -181,18 +180,16 @@ public class Client {
         this.following.add(clientToFollow);
         canUpdateFollowerCount = true;
         notifyAll();
-        return true;
     }
 
     /**
      * Unfollow a client and decrement their following count.
      *
      * @param clientToUnfollow Client, the client to unfollow.
-     * @return True if unfollowing is successful, false otherwise.
      */
-    public synchronized boolean unfollowUser(Client clientToUnfollow) {
+    public synchronized void unfollowUser(Client clientToUnfollow) {
         if (!following.contains(clientToUnfollow))
-            return false;
+            return;
 
 
         while (!canUpdateFollowerCount) {
@@ -200,7 +197,7 @@ public class Client {
                 wait();
             } catch (InterruptedException e) {
                 log.error(e.toString());
-                return false;
+                return;
             }
         }
         canUpdateFollowerCount = false;
@@ -208,7 +205,6 @@ public class Client {
         this.following.remove(clientToUnfollow);
         canUpdateFollowerCount = true;
         notifyAll();
-        return true;
     }
 
     /**
