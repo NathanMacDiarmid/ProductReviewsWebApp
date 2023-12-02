@@ -50,7 +50,7 @@ public class ReviewRestControllerTest {
     public void setup() {
         Client author = new Client("author");
         author.setId(1L);
-        Product plant1 = new Product("www.coolplants.com", "Basil Plant", Category.PLANT);
+        Product plant1 = new Product("www.cool-plants.com", "Basil Plant", Category.PLANT);
         plant1.setId(1L);
         this.reviews = List.of(
                 new Review(5, "Great plant. Doesn't require a lot of maintenance and it's nice to look at.", plant1, author),

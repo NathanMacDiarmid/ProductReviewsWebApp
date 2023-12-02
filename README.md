@@ -12,7 +12,7 @@ and Thymeleaf calls to organize and display information that is persisted and st
 <p> 
     <a href="https://spring.io/projects/spring-boot" target="_blank"> <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Spring_Boot.svg" alt="springboot" width="40" height="40"/> </a> 
     <a href="https://prometheus.io/" target="_blank"> <img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Prometheus_software_logo.svg" alt="prometheus" width="40" height="40"/> </a>
-    <a href="https://grafana.com/" target="_blank"> <img src="https://upload.wikimedia.org/wikipedia/commons/a/a1/Grafana_logo.svg" alt="graphana" width="40" height="40"/> </a>
+    <a href="https://grafana.com/" target="_blank"> <img src="https://upload.wikimedia.org/wikipedia/commons/a/a1/Grafana_logo.svg" alt="grafana" width="40" height="40"/> </a>
     <a href="https://www.docker.com/" target="_blank"> <img src="https://upload.wikimedia.org/wikipedia/en/f/f4/Docker_logo.svg" alt="docker" width="40" height="40"/> </a>
     <a href="https://www.docker.com/" target="_blank"> <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Microsoft_Azure.svg" alt="azure" width="40" height="40"/> </a>
 </p>
@@ -46,7 +46,7 @@ Clients can follow and unfollow other clients, write reviews of products, and ca
 
 ## Sprint Plan
 
-This sprint we are focusing on getting most of the main functionality of the project done such as user login, user follow capabilities, Jaccard distance between users and ensuring Prometheus and Grafanna work on the Azure cloud platform.
+This sprint we are focusing on getting most of the main functionality of the project done such as user login, user follow capabilities, Jaccard distance between users and ensuring Prometheus and Grafana work on the Azure cloud platform.
 
 All the planned issues can be found here:
 
