@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Product repository.
+ */
 @Repository
 public interface ProductRepository extends CrudRepository<Product, Long> {
     @NonNull
