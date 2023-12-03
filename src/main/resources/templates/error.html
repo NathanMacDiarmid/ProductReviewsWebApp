@@ -1,27 +1,27 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-    <head>
-        <title>Error Page</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    </head>
-    <body>
-        <nav class="topnav">
-            <a href="/home" th:href="@{/home}">Home</a>
-            <a href="/product" th:href="@{/product}">Product</a>
-            <a href="/review" th:href="@{/review}">Review</a>
-            <a href="/client" th:href="@{/client}">Client</a>
-            <a href="/logout" th:href="@{/logout}" class="split">Logout</a>
-            <a href="/myaccount" th:href="@{/myaccount}" class="split">Profile</a>
-        </nav>
-        <div class="container">
-            <h1>Error Page</h1>
-            <footer>
-                <p>
-                    <a class="btn btn-large btn-success" href="/home" th:href="@{/home}">Return</a>
-                </p>
-            </footer>
-        </div>
-    </body>
+<head>
+    <title>Error Page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="topnav">
+        <a href="/home" th:href="@{/home}">Home</a>
+        <a href="/product" th:href="@{/product}">Product</a>
+        <a href="/review" th:href="@{/review}">Review</a>
+        <a href="/client" th:href="@{/client}">Client</a>
+        <a href="/logout" th:href="@{/logout}" class="split">Logout</a>
+        <a href="/myaccount" th:href="@{/myaccount}" class="split">Profile</a>
+    </nav>
+    <div class="container">
+        <h1>Error Page</h1>
+        <footer>
+            <p>
+                <a class="btn btn-large btn-success" href="/home" th:href="@{/home}">Return</a>
+            </p>
+        </footer>
+    </div>
+</body>
 </html>

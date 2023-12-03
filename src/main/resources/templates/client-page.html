@@ -16,86 +16,85 @@
                 method: "POST",
                 headers: {"Content-Type": "application/json"}
             });
-
             window.location.reload();
         }
     </script>
 </head>
 <body>
-<nav class="topnav">
-    <a href="/home" th:href="@{/home}">Home</a>
-    <a href="/product" th:href="@{/product}">Product</a>
-    <a href="/review" th:href="@{/review}">Review</a>
-    <a href="/client" th:href="@{/client}">Client</a>
-    <a href="/logout" th:href="@{/logout}" class="split">Logout</a>
-    <a href="/myaccount" th:href="@{/myaccount}" class="split">Profile</a>
-</nav>
+    <nav class="topnav">
+        <a href="/home" th:href="@{/home}">Home</a>
+        <a href="/product" th:href="@{/product}">Product</a>
+        <a href="/review" th:href="@{/review}">Review</a>
+        <a href="/client" th:href="@{/client}">Client</a>
+        <a href="/logout" th:href="@{/logout}" class="split">Logout</a>
+        <a href="/myaccount" th:href="@{/myaccount}" class="split">Profile</a>
+    </nav>
 
-<h2>Client Information</h2>
+    <h2>Client Information</h2>
 
-<table>
-    <tr>
-        <th>ID</th>
-        <td id="id" th:text="${client.getId()}"></td>
-    </tr>
-    <tr>
-        <th>Username</th>
-        <td id="username" th:text="${client.getUsername()}"></td>
-    </tr>
-    <tr>
-        <th>Follower Count</th>
-        <td id="followerCount" th:text="${client.getFollowerCount()}"></td>
-    </tr>
-</table>
-
-<h2>Reviews</h2>
-
-<table class="dataTable">
-    <thead>
+    <table>
         <tr>
-            <th>Product</th>
-            <th>Rating</th>
-            <th>Comment</th>
+            <th>ID</th>
+            <td id="id" th:text="${client.getId()}"></td>
         </tr>
-    </thead>
-    <tbody>
-        <tr th:each="review : ${client.getReviews().values()}" class="review">
-            <td>
-                <a th:text="${review.getProduct().getName()}" th:href="@{/product/{id}(id=${review.getProduct().getId()})}"></a>
-            </td>
-            <td th:text="${review.getRating()}"></td>
-            <td th:text="${review.getComment()}"></td>
+        <tr>
+            <th>Username</th>
+            <td id="username" th:text="${client.getUsername()}"></td>
         </tr>
-    </tbody>
-</table>
+        <tr>
+            <th>Follower Count</th>
+            <td id="followerCount" th:text="${client.getFollowerCount()}"></td>
+        </tr>
+    </table>
 
-<h2>Following</h2>
+    <h2>Reviews</h2>
 
-<table class="dataTable">
-    <thead>
-    <tr>
-        <th>Username</th>
-        <th># of Followers</th>
-        <th>Jaccard Distance</th>
-        <th>Degrees of Separation</th>
-    </tr>
-    </thead>
-    <tr th:each="followed : ${client.getFollowing()}" class="client">
-        <td><a th:text="${followed.getUsername()}" th:href="@{/client/{id}(id=${followed.getId()})}"></a></td>
-        <td th:text="${followed.getFollowerCount()}"></td>
-        <td th:text="${followed.getJaccardDistanceWithUser(activeClient)}"></td>
-        <td th:text="${followed.getDegreesOfSeparation(activeClient)}"></td>
-    </tr>
-</table>
+    <table class="dataTable">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Rating</th>
+                <th>Comment</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="review : ${client.getReviews().values()}" class="review">
+                <td>
+                    <a th:text="${review.getProduct().getName()}" th:href="@{/product/{id}(id=${review.getProduct().getId()})}"></a>
+                </td>
+                <td th:text="${review.getRating()}"></td>
+                <td th:text="${review.getComment()}"></td>
+            </tr>
+        </tbody>
+    </table>
 
-<footer>
-    <p>
-        <button id="followToggle" class="btn btn-large btn-success"
-                th:onclick="|followToggle(${client.getId()}, ${activeClient.isFollowing(client)})|"
-                th:text="${activeClient.isFollowing(client)} ? 'Unfollow' : 'Follow'"></button>
-        <a class="btn btn-large btn-success" href="/client" th:href="@{/client}">Return</a>
-    </p>
-</footer>
+    <h2>Following</h2>
+
+    <table class="dataTable">
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th># of Followers</th>
+            <th>Jaccard Distance</th>
+            <th>Degrees of Separation</th>
+        </tr>
+        </thead>
+        <tr th:each="followed : ${client.getFollowing()}" class="client">
+            <td><a th:text="${followed.getUsername()}" th:href="@{/client/{id}(id=${followed.getId()})}"></a></td>
+            <td th:text="${followed.getFollowerCount()}"></td>
+            <td th:text="${followed.getJaccardDistanceWithUser(activeClient)}"></td>
+            <td th:text="${followed.getDegreesOfSeparation(activeClient)}"></td>
+        </tr>
+    </table>
+
+    <footer>
+        <p>
+            <button id="followToggle" class="btn btn-large btn-success"
+                    th:onclick="|followToggle(${client.getId()}, ${activeClient.isFollowing(client)})|"
+                    th:text="${activeClient.isFollowing(client)} ? 'Unfollow' : 'Follow'"></button>
+            <a class="btn btn-large btn-success" href="/client" th:href="@{/client}">Return</a>
+        </p>
+    </footer>
 
 </body>
 </html>
