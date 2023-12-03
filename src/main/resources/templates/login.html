@@ -15,7 +15,7 @@
 			You have been logged out.</div>
 		<form th:action="@{/login}" th:object="${fakeLoginRequest}"  method="post">
 			<label>
-				<input type="text" th:field="*{username}" name="username" placeholder="Username"/>
+				<input type="text" name="username" placeholder="Username"/>
 			</label>
 			<label>
 				<input th:href="@{/home}" type="submit" value="Log in" class="btn btn-large btn-success" />
