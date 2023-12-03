@@ -1,3 +1,9 @@
 package com.example.productreviewsapp.models;
 
-public record FakeLoginRequest(String username) {}
+/**
+ * Record of a default login request.
+ * @param username
+ */
+public record FakeLoginRequest(String username) {
+
+}

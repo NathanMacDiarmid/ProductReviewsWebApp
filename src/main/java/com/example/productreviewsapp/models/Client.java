@@ -76,9 +76,9 @@ public class Client {
     /**
      * Constructor for Client that allows for all variables to be specified.
      *
-     * @param username String, the username of the Client.
-     * @param reviews Map<Long, Review>, the product, review pairs.
-     * @param following List<Client>, the users this user follows.
+     * @param username      String, the username of the Client.
+     * @param reviews       Map<Long, Review>, the product, review pairs.
+     * @param following     List<Client>, the users this user follows.
      * @param followerCount int, how many users follow this client.
      */
     public Client(String username, Map<Long, Review> reviews, List<Client> following, int followerCount) {
@@ -95,7 +95,7 @@ public class Client {
      * Add a review to a Product.
      *
      * @param productID Long, the product id to add to.
-     * @param review Review, the review to add.
+     * @param review    Review, the review to add.
      */
     public void addReviewForProduct(Long productID, Review review) {
         reviews.put(productID, review);
@@ -103,6 +103,7 @@ public class Client {
 
     /**
      * Get the follower count of the client.
+     *
      * @return int, the follower count.
      */
     public synchronized int getFollowerCount() {
@@ -232,10 +233,9 @@ public class Client {
         return jaccardDistance.divide(BigDecimal.valueOf(unionLength), 2, RoundingMode.UP).doubleValue();
     }
 
-    /* Basic Getters and Setters */
-
     /**
      * Set ID
+     *
      * @param id Long, the id.
      */
     public void setId(Long id) {
@@ -265,6 +265,7 @@ public class Client {
     /**
      * Application of Dijkstra's algorithm used to find the relatedness between clients based on following network.
      * A breadth-first search to find the shortest path between the current client and the destination client.
+     *
      * @param destination, the destination client
      * @return int, value of the degree of separation
      */
@@ -306,6 +307,12 @@ public class Client {
         return 0; // clients are not connected
     }
 
+    /**
+     * equals method.
+     *
+     * @param o Object
+     * @return boolean
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -315,6 +322,7 @@ public class Client {
 
     /**
      * A Basic To String for a String representation of a Client.
+     *
      * @return String, the client's representation.
      */
     @Override
@@ -327,4 +335,5 @@ public class Client {
                 ", followerCount=" + followerCount +
                 '}';
     }
+
 }

@@ -10,7 +10,7 @@ import lombok.Setter;
 import java.util.Objects;
 
 /**
- * The Review class that contains all the information in a review
+ * The Review class that contains all the information in a review.
  */
 @Getter
 @Setter
@@ -18,7 +18,7 @@ import java.util.Objects;
 public class Review {
     /**
      * -- GETTER --
-     *  Gets the id of the review
+     * Gets the id of the review
      */
     @Id
     @GeneratedValue
@@ -26,31 +26,43 @@ public class Review {
 
     /**
      * -- GETTER --
-     *  Gets the rating of the product
+     * Gets the rating of the product
      */
     private int rating;
 
     /**
      * -- GETTER --
-     *  Gets the comment of the product review
+     * Gets the comment of the product review
      */
     private String comment;
 
+    /**
+     * -- GETTER --
+     * Gets the product of the product review
+     */
     @ManyToOne
     private Product product;
 
+    /**
+     * -- GETTER --
+     * Gets the client of the product review
+     */
     @ManyToOne
     private Client client;
 
     /**
      * Default constructor
      */
-    public Review () {}
+    public Review() {
+    }
 
     /**
-     * Constructor for the Review class
-     * @param rating the int of the rating for the product
-     * @param comment the String of the review comment
+     * Constructor for the Review class.
+     *
+     * @param rating  int
+     * @param comment String
+     * @param product Product
+     * @param client  Client
      */
     public Review(int rating, String comment, Product product, Client client) {
         this.rating = rating;
@@ -60,19 +72,39 @@ public class Review {
         this.product.updateAverageRating(rating);
     }
 
+    /**
+     * equals method.
+     *
+     * @param o Object
+     * @return boolean
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Review review = (Review) o;
-        return id == review.id && rating == review.rating && comment.equals(review.comment) && product.equals(review.product) && client.equals(review.client);
+        return id == review.id &&
+                rating == review.rating &&
+                comment.equals(review.comment) &&
+                product.equals(review.product) &&
+                client.equals(review.client);
     }
 
+    /**
+     * hashCode method
+     *
+     * @return int
+     */
     @Override
     public int hashCode() {
         return Objects.hash(id, rating, comment, product, client);
     }
 
+    /**
+     * toString method.
+     *
+     * @return String
+     */
     @Override
     public String toString() {
         return "Review{" +
@@ -83,4 +115,5 @@ public class Review {
                 ", client=" + client +
                 '}';
     }
+
 }

@@ -2,6 +2,9 @@ package com.example.productreviewsapp.models;
 
 import lombok.Getter;
 
+/**
+ * Category enum.
+ */
 @Getter
 public enum Category {
 
@@ -14,6 +17,7 @@ public enum Category {
     PLANT("plant");
 
     private final String name;
+
     Category(String name) {
         this.name = name;
     }
