@@ -175,7 +175,8 @@ th {
     color: var(--cardColor);
     font-size: 2em;
     font-weight: 700;
-    transform: translateY(calc(-1 * var(--labelOffset)));
+    --labelOffsetNegative: calc(-1 * var(--labelOffset));
+    transform: translateY(var(--labelOffsetNegative));
     margin-right: calc(-1 * var(--labelOffset));
     z-index: 1;
     display: flex;
