@@ -1,8 +1,8 @@
-package com.example.ProductReviewsWebApp.controllers.RESTControllers;
+package com.example.productreviewsapp.controllers.restControllers;
 
-import com.example.ProductReviewsWebApp.models.Client;
-import com.example.ProductReviewsWebApp.models.SystemConstants;
-import com.example.ProductReviewsWebApp.repositories.ClientRepository;
+import com.example.productreviewsapp.models.Client;
+import com.example.productreviewsapp.models.SystemConstants;
+import com.example.productreviewsapp.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -10,13 +10,22 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
+/**
+ * RestController for API calls for the Client class.
+ */
 @RestController
-@RequestMapping(value="/api")
+@RequestMapping(value = "/api")
 public class ClientRESTController {
 
     @Autowired
     private ClientRepository clientRepository;
 
+    /**
+     * Get client.
+     *
+     * @param id Long
+     * @return Client
+     */
     private Client getClient(Long id) {
         Optional<Client> client = clientRepository.findById(id);
         if (client.isEmpty()) {
@@ -25,6 +34,12 @@ public class ClientRESTController {
         return client.get();
     }
 
+    /**
+     * Find client by id.
+     *
+     * @param id Long
+     * @return Client
+     */
     private Client findClientById(Long id) {
         Optional<Client> client = clientRepository.findById(id);
         if (client.isEmpty()) {
@@ -33,23 +48,50 @@ public class ClientRESTController {
         return client.get();
     }
 
+    /**
+     * Get clients mapping.
+     *
+     * @return Iterable<Client>
+     */
     @GetMapping("/client")
-    public Iterable<Client> getClients() { return clientRepository.findAll(); }
+    public Iterable<Client> getClients() {
+        return clientRepository.findAll();
+    }
 
-    @GetMapping(value="/client/{id}", produces = "application/json")
-    public Client getClientById(@PathVariable("id") Long id) { return findClientById(id); }
+    /**
+     * Get client by id mapping.
+     *
+     * @param id Long
+     * @return Client
+     */
+    @GetMapping(value = "/client/{id}", produces = "application/json")
+    public Client getClientById(@PathVariable("id") Long id) {
+        return findClientById(id);
+    }
 
+    /**
+     * Get active client id mapping.
+     *
+     * @param activeClientId String
+     * @return Long
+     */
     @GetMapping("/activeClientId")
     public Long getActiveClientId(@CookieValue(value = SystemConstants.ACTIVE_CLIENT_ID_COOKIE) String activeClientId) {
         if (!activeClientId.isEmpty())
             return Long.parseLong(activeClientId);
-
         return 0L;
     }
 
+    /**
+     * Get the Jaccard distance between two clients.
+     *
+     * @param id             Long
+     * @param activeClientId String
+     * @return double
+     */
     @GetMapping(value = "/client/{id}/jaccardDistance", produces = "application/json")
     public double getJaccardDistanceFromUserToActiveUserById(@PathVariable("id") Long id, @CookieValue(value = SystemConstants.ACTIVE_CLIENT_ID_COOKIE) String activeClientId) {
-        Long activeID;
+        long activeID;
 
         if (!activeClientId.isEmpty())
             activeID = Long.parseLong(activeClientId);
@@ -65,7 +107,13 @@ public class ClientRESTController {
             return 0;
     }
 
-    @PostMapping(value="/client/{id}/follow")
+    /**
+     * Post mapping follow.
+     *
+     * @param id             Long
+     * @param activeClientId String
+     */
+    @PostMapping(value = "/client/{id}/follow")
     public void follow(@PathVariable Long id, @CookieValue(value = SystemConstants.ACTIVE_CLIENT_ID_COOKIE) String activeClientId) {
         Client activeClient = getClient(Long.parseLong(activeClientId));
         Client client = getClient(id);
@@ -76,7 +124,13 @@ public class ClientRESTController {
         }
     }
 
-    @PostMapping(value="/client/{id}/unfollow")
+    /**
+     * Post mapping unfollow.
+     *
+     * @param id             Long
+     * @param activeClientId String
+     */
+    @PostMapping(value = "/client/{id}/unfollow")
     public void unFollow(@PathVariable Long id, @CookieValue(value = SystemConstants.ACTIVE_CLIENT_ID_COOKIE) String activeClientId) {
         Client activeClient = getClient(Long.parseLong(activeClientId));
         Client client = getClient(id);
@@ -87,4 +141,5 @@ public class ClientRESTController {
             clientRepository.save(client);
         }
     }
+
 }

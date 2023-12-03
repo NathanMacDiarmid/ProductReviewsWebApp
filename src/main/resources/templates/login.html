@@ -1,27 +1,27 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
-	<head>
-		<title>Please Log In</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-		<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-	</head>
-	<body>
-		<div class="login">
-			<h1>Please Log In</h1>
-			<div th:if="${param.error}">
-				Invalid username or password.</div>
-			<div th:if="${param.logout}">
-				You have been logged out.</div>
-			<form th:action="@{/login}" th:object="${fakeLoginRequest}"  method="post">
-				<div>
-					<br>
-				<input type="text" th:field="*{username}" name="username" placeholder="Username"/>
-				</div>
-				<br>
-				<input href="/home" th:href="@{/home}" type="submit" value="Log in" class="btn btn-large btn-success" />
-			</form>
-			<br>
-		</div>
-	</body>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+	<title>Please Log In</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+<body>
+	<div class="login">
+		<h1>Please Log In</h1>
+		<div th:if="${param.error}">
+			Invalid username or password.</div>
+		<div th:if="${param.logout}">
+			You have been logged out.</div>
+		<form th:action="@{/login}" th:object="${fakeLoginRequest}"  method="post">
+			<label>
+				<input type="text" name="username" placeholder="Username"/>
+			</label>
+			<label>
+				<input th:href="@{/home}" type="submit" value="Log in" class="btn btn-large btn-success" />
+			</label>
+		</form>
+		<br>
+	</div>
+</body>
 </html>

@@ -1,12 +1,12 @@
-package com.example.ProductReviewsWebApp.controllers.webControllers;
+package com.example.productreviewsapp.controllers.webControllers;
 
-import com.example.ProductReviewsWebApp.models.Client;
-import com.example.ProductReviewsWebApp.models.Product;
-import com.example.ProductReviewsWebApp.models.Review;
-import com.example.ProductReviewsWebApp.models.SystemConstants;
-import com.example.ProductReviewsWebApp.repositories.ClientRepository;
-import com.example.ProductReviewsWebApp.repositories.ProductRepository;
-import com.example.ProductReviewsWebApp.repositories.ReviewRepository;
+import com.example.productreviewsapp.models.Client;
+import com.example.productreviewsapp.models.Product;
+import com.example.productreviewsapp.models.Review;
+import com.example.productreviewsapp.models.SystemConstants;
+import com.example.productreviewsapp.repositories.ClientRepository;
+import com.example.productreviewsapp.repositories.ProductRepository;
+import com.example.productreviewsapp.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -19,6 +19,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * Client controller class.
+ */
 @Controller
 public class ProductController {
 
@@ -31,6 +34,12 @@ public class ProductController {
     @Autowired
     private ClientRepository clientRepository;
 
+    /**
+     * Get client.
+     *
+     * @param id Long
+     * @return Client
+     */
     private Client getClient(Long id) {
         Optional<Client> client = clientRepository.findById(id);
         if (client.isEmpty()) {
@@ -39,6 +48,12 @@ public class ProductController {
         return client.get();
     }
 
+    /**
+     * Get product.
+     *
+     * @param id Long
+     * @return Product
+     */
     private Product getProduct(Long id) {
         Optional<Product> product = productRepository.findById(id);
         if (product.isEmpty()) {
@@ -47,21 +62,35 @@ public class ProductController {
         return product.get();
     }
 
-    @GetMapping(value="/product")
+    /**
+     * Get product mapping.
+     *
+     * @param model Model
+     * @return String
+     */
+    @GetMapping(value = "/product")
     public String getProducts(Model model) {
         List<Product> productList = productRepository.findAll();
         model.addAttribute("ProductList", productList);
         return "product";
     }
 
-    @GetMapping(value="/product/{id}", produces="application/json")
+    /**
+     * Get product by id mapping.
+     *
+     * @param activeClientId String
+     * @param id             Long
+     * @param model          Model
+     * @return String
+     */
+    @GetMapping(value = "/product/{id}", produces = "application/json")
     public String getProductById(@CookieValue(value = SystemConstants.ACTIVE_CLIENT_ID_COOKIE) String activeClientId, @PathVariable("id") Long id, Model model) {
         Product product = productRepository.findById(id).orElse(null);
         if (product == null) throw new NullPointerException("Was not able to find product with the passed ID");
         ArrayList<Review> reviewsForProduct = new ArrayList<>();
 
-        for(Review review : reviewRepository.findAll()) {
-            if(Objects.equals(review.getProduct().getId(), product.getId())) reviewsForProduct.add(review);
+        for (Review review : reviewRepository.findAll()) {
+            if (Objects.equals(review.getProduct().getId(), product.getId())) reviewsForProduct.add(review);
         }
 
         Client client = getClient(Long.parseLong(activeClientId));
@@ -73,13 +102,26 @@ public class ProductController {
         return "product-page";
     }
 
-    @PostMapping(value="/product", consumes="application/json", produces="application/json")
+    /**
+     * Post product mapping.
+     *
+     * @param product Product
+     * @return Product
+     */
+    @PostMapping(value = "/product", consumes = "application/json", produces = "application/json")
     public Product createProduct(@RequestBody Product product) {
         productRepository.save(product);
         return product;
     }
 
-    @PutMapping(value="/product/{id}", consumes="application/json", produces="application/json")
+    /**
+     * Put updated product mapping.
+     *
+     * @param id         Long
+     * @param newProduct Product
+     * @return Product
+     */
+    @PutMapping(value = "/product/{id}", consumes = "application/json", produces = "application/json")
     public Product updateProduct(@PathVariable Long id, @RequestBody Product newProduct) {
         Product product = getProduct(id);
         if (newProduct.getName() != null) {
@@ -94,10 +136,17 @@ public class ProductController {
         return productRepository.save(product);
     }
 
-    @DeleteMapping(value="/product/{id}")
+    /**
+     * Delete product mapping.
+     *
+     * @param id Long
+     * @return Product
+     */
+    @DeleteMapping(value = "/product/{id}")
     public Product deleteProduct(@PathVariable Long id) {
         Product product = getProduct(id);
         productRepository.deleteById(id);
         return product;
     }
+
 }

@@ -77,20 +77,6 @@ footer {
     background-color: #ddd;
 }
 
-.idLink {
-    background-color: turquoise;
-    border-radius: 5px;
-    color: white;
-    text-decoration: none;
-    margin-left: -0.6em;
-    display: flex;
-    width: 90%;
-    height: 70%;
-    margin-top: 5px;
-    align-items: center;
-    justify-content: center;
-}
-
 .rating {
     height: 29px;
     display: inline-block;
@@ -225,11 +211,6 @@ th {
     background: linear-gradient(to right, rgba(0, 0, 0, 0.25), transparent 50%);
     left: 0;
     top: 100%;
-}
-.olcards li .icon {
-    grid-area: icon;
-    align-self: center;
-    font-size: 2em;
 }
 .olcards li .content .title {
     grid-area: title;

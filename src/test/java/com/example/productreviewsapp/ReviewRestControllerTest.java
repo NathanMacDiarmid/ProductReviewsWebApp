@@ -1,11 +1,11 @@
-package com.example.ProductReviewsWebApp;
+package com.example.productreviewsapp;
 
-import com.example.ProductReviewsWebApp.models.Category;
-import com.example.ProductReviewsWebApp.models.Client;
-import com.example.ProductReviewsWebApp.models.Product;
-import com.example.ProductReviewsWebApp.models.Review;
-import com.example.ProductReviewsWebApp.repositories.ClientRepository;
-import com.example.ProductReviewsWebApp.repositories.ReviewRepository;
+import com.example.productreviewsapp.models.Category;
+import com.example.productreviewsapp.models.Client;
+import com.example.productreviewsapp.models.Product;
+import com.example.productreviewsapp.models.Review;
+import com.example.productreviewsapp.repositories.ClientRepository;
+import com.example.productreviewsapp.repositories.ReviewRepository;
 import jakarta.annotation.PostConstruct;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -50,7 +50,7 @@ public class ReviewRestControllerTest {
     public void setup() {
         Client author = new Client("author");
         author.setId(1L);
-        Product plant1 = new Product("www.coolplants.com", "Basil Plant", Category.PLANT);
+        Product plant1 = new Product("www.cool-plants.com", "Basil Plant", Category.PLANT);
         plant1.setId(1L);
         this.reviews = List.of(
                 new Review(5, "Great plant. Doesn't require a lot of maintenance and it's nice to look at.", plant1, author),
@@ -109,7 +109,7 @@ public class ReviewRestControllerTest {
     @Test
     public void createReviewTest() {
 
-        Client client = new Client();
+        Client client = new Client("john");
         client.setId(7L);
         Review review = new Review(5, "comment", new Product(), client);
         review.setId(7L);

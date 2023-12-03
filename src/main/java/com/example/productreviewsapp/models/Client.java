@@ -1,4 +1,4 @@
-package com.example.ProductReviewsWebApp.models;
+package com.example.productreviewsapp.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -76,9 +76,9 @@ public class Client {
     /**
      * Constructor for Client that allows for all variables to be specified.
      *
-     * @param username String, the username of the Client.
-     * @param reviews Map<Long, Review>, the product, review pairs.
-     * @param following List<Client>, the users this user follows.
+     * @param username      String, the username of the Client.
+     * @param reviews       Map<Long, Review>, the product, review pairs.
+     * @param following     List<Client>, the users this user follows.
      * @param followerCount int, how many users follow this client.
      */
     public Client(String username, Map<Long, Review> reviews, List<Client> following, int followerCount) {
@@ -95,22 +95,15 @@ public class Client {
      * Add a review to a Product.
      *
      * @param productID Long, the product id to add to.
-     * @param review Review, the review to add.
+     * @param review    Review, the review to add.
      */
     public void addReviewForProduct(Long productID, Review review) {
         reviews.put(productID, review);
     }
 
     /**
-     * Remove a product review.
-     * @param productID int, the productID for which review to remove.
-     */
-    public void removeReviewForProduct(Long productID) {
-        reviews.remove(productID);
-    }
-
-    /**
      * Get the follower count of the client.
+     *
      * @return int, the follower count.
      */
     public synchronized int getFollowerCount() {
@@ -162,18 +155,17 @@ public class Client {
      * Add a client to your following list and increment their follower count.
      *
      * @param clientToFollow Client, the client to follow.
-     * @return True if following is successful, False otherwise.
      */
-    public synchronized boolean followUser(Client clientToFollow) {
+    public synchronized void followUser(Client clientToFollow) {
         if (following.contains(clientToFollow))
-            return false;
+            return;
 
         while (!canUpdateFollowerCount) {
             try {
                 wait();
             } catch (InterruptedException e) {
                 log.error(e.toString());
-                return false;
+                return;
             }
         }
         canUpdateFollowerCount = false;
@@ -181,18 +173,16 @@ public class Client {
         this.following.add(clientToFollow);
         canUpdateFollowerCount = true;
         notifyAll();
-        return true;
     }
 
     /**
      * Unfollow a client and decrement their following count.
      *
      * @param clientToUnfollow Client, the client to unfollow.
-     * @return True if unfollowing is successful, false otherwise.
      */
-    public synchronized boolean unfollowUser(Client clientToUnfollow) {
+    public synchronized void unfollowUser(Client clientToUnfollow) {
         if (!following.contains(clientToUnfollow))
-            return false;
+            return;
 
 
         while (!canUpdateFollowerCount) {
@@ -200,7 +190,7 @@ public class Client {
                 wait();
             } catch (InterruptedException e) {
                 log.error(e.toString());
-                return false;
+                return;
             }
         }
         canUpdateFollowerCount = false;
@@ -208,7 +198,6 @@ public class Client {
         this.following.remove(clientToUnfollow);
         canUpdateFollowerCount = true;
         notifyAll();
-        return true;
     }
 
     /**
@@ -244,50 +233,13 @@ public class Client {
         return jaccardDistance.divide(BigDecimal.valueOf(unionLength), 2, RoundingMode.UP).doubleValue();
     }
 
-    /* Basic Getters and Setters */
-
     /**
      * Set ID
+     *
      * @param id Long, the id.
      */
     public void setId(Long id) {
         this.id = id;
-    }
-
-    /**
-     * See if a client has a review by a review id.
-     *
-     * @param id Long, the reviews ID.
-     * @return boolean, True if the review exists.
-     */
-    public boolean hasReviewByReviewId(Long id) {
-        List<Review> reviewsFromMap = reviews.values().stream().toList();
-
-        for (Review r : reviewsFromMap) {
-            if (r.getId() == id) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Get a Review by a review ID
-     *
-     * @param id Long, the reviews ID.
-     * @return Review, the review or null if review is not found.
-     */
-    public Review getReviewByReviewId(Long id) {
-        List<Review> reviewsFromMap = reviews.values().stream().toList();
-
-        for (Review r : reviewsFromMap) {
-            if (r.getId() == id) {
-                return r;
-            }
-        }
-
-        return null;
     }
 
     /**
@@ -313,6 +265,7 @@ public class Client {
     /**
      * Application of Dijkstra's algorithm used to find the relatedness between clients based on following network.
      * A breadth-first search to find the shortest path between the current client and the destination client.
+     *
      * @param destination, the destination client
      * @return int, value of the degree of separation
      */
@@ -354,6 +307,12 @@ public class Client {
         return 0; // clients are not connected
     }
 
+    /**
+     * equals method.
+     *
+     * @param o Object
+     * @return boolean
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -363,6 +322,7 @@ public class Client {
 
     /**
      * A Basic To String for a String representation of a Client.
+     *
      * @return String, the client's representation.
      */
     @Override
@@ -375,4 +335,5 @@ public class Client {
                 ", followerCount=" + followerCount +
                 '}';
     }
+
 }

@@ -1,4 +1,4 @@
-package com.example.ProductReviewsWebApp.models;
+package com.example.productreviewsapp.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,22 +24,55 @@ import java.util.Objects;
 @Entity
 public class Product {
 
+    /**
+     * -- GETTER --
+     * Gets the id of the product.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id; // The id of the product.
+    private Long id;
 
-    private String name; // The address of the product.
+    /**
+     * -- GETTER --
+     * Gets the name of the product.
+     */
+    private String name;
 
-    private Category category; // The category of the product.
+    /**
+     * -- GETTER --
+     * Gets the category of the product.
+     */
+    private Category category;
 
-    private String description; // The description of the product.
 
-    private String url; // The url of the product.
+    /**
+     * -- GETTER --
+     * Gets the description of the product.
+     */
+    private String description;
 
+    /**
+     * -- GETTER --
+     * Gets the url of the product.
+     */
+    private String url;
+
+    /**
+     * -- GETTER --
+     * Gets the image of the product.
+     */
     private String image;
 
-    private double averageRating; // The average ratings of the product.
+    /**
+     * -- GETTER --
+     * Gets the average rating of the product.
+     */
+    private double averageRating;
 
+    /**
+     * -- GETTER --
+     * Gets the number of reviews of the product.
+     */
     private int numOfReviews;
 
     static JSONParser parser = new JSONParser();
@@ -66,6 +99,15 @@ public class Product {
         this.numOfReviews = 0;
     }
 
+    /**
+     * Constructor for Product.
+     *
+     * @param category    Category
+     * @param name        String
+     * @param image       String
+     * @param description String
+     * @param url         String
+     */
     public Product(Category category, String name, String image, String description, String url) {
         this.category = category;
         this.name = name;
@@ -112,6 +154,11 @@ public class Product {
         this.category = category;
     }
 
+    /**
+     * Update the averate rating of the product.
+     *
+     * @param rating int
+     */
     public void updateAverageRating(int rating) {
         double totalRating = this.averageRating * this.numOfReviews;
         this.numOfReviews++;
@@ -119,6 +166,12 @@ public class Product {
         this.averageRating = Math.round((totalRating / numOfReviews) * 100.0) / 100.0;
     }
 
+    /**
+     * Creates a list of products from a JSON file.0
+     *
+     * @param filename String
+     * @return ArrayList<Product>
+     */
     public static ArrayList<Product> createProductsFromJSON(String filename) {
         ArrayList<Product> products = new ArrayList<>();
         try {
@@ -155,16 +208,32 @@ public class Product {
                 '}';
     }
 
+    /**
+     * equals method.
+     *
+     * @param o Object
+     * @return boolean
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Double.compare(averageRating, product.averageRating) == 0 && numOfReviews == product.numOfReviews && Objects.equals(id, product.id) && Objects.equals(name, product.name) && category == product.category && Objects.equals(description, product.description) && Objects.equals(url, product.url) && Objects.equals(image, product.image);
+        return  Double.compare(averageRating, product.averageRating) == 0 &&
+                numOfReviews == product.numOfReviews &&
+                Objects.equals(id, product.id) && Objects.equals(name, product.name) &&
+                category == product.category && Objects.equals(description, product.description) &&
+                Objects.equals(url, product.url) && Objects.equals(image, product.image);
     }
 
+    /**
+     * hashCode method.
+     *
+     * @return int
+     */
     @Override
     public int hashCode() {
         return Objects.hash(id, name, category, description, url, image, averageRating, numOfReviews);
     }
+
 }
