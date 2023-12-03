@@ -109,7 +109,7 @@ public class ReviewRestControllerTest {
     @Test
     public void createReviewTest() {
 
-        Client client = new Client();
+        Client client = new Client("john");
         client.setId(7L);
         Review review = new Review(5, "comment", new Product(), client);
         review.setId(7L);

@@ -7,7 +7,6 @@ import com.example.productreviewsapp.models.SystemConstants;
 import com.example.productreviewsapp.repositories.ClientRepository;
 import com.example.productreviewsapp.repositories.ProductRepository;
 import com.example.productreviewsapp.repositories.ReviewRepository;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -96,6 +95,7 @@ public class ReviewController {
         model.addAttribute("reviews", reviewsForProduct);
         model.addAttribute("product", product);
         model.addAttribute("hasReview", client.hasReviewForProduct(productId));
+        model.addAttribute("activeClient", client);
         return "product-page";
     }
 
