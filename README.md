@@ -68,7 +68,7 @@ All the planned issues can be found here:
 
 ## Run locally
 
-- Clone the repository to your machine and run the ProductReviewsWebAppApplication.java file
+- Clone the repository to your machine and run the `ProductReviewsWebAppApplication.java` file
 - On any web browser, navigate to `localhost:8080`, allowing an offline developer view of the project
 
 
@@ -88,6 +88,6 @@ Prometheus and Grafana can be used to query and visualize a variety of app metri
 
 ## Contribute
 
-- Once changes are made, re-run ProductReviewsWebAppApplication.java and refresh localhost:8080 on your web browser, the changes should appear
+- Once changes are made, re-run `ProductReviewsWebAppApplication.java` and refresh `localhost:8080` on your web browser, the changes should appear
 - Create a new branch and commit to the repository
 - Open a pull request on that branch, once approved, congratulations, you've successfully contributed to Product Reviews Web App!
