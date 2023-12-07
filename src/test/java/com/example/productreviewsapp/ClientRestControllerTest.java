@@ -85,10 +85,10 @@ class ClientRestControllerTest {
         }
         when(reviewRepository.findAll()).thenReturn(this.reviews);
 
-        clients.get(0).addReviewForProduct(products.get(0).getId(), reviews.get(0));
-        clients.get(0).addReviewForProduct(products.get(1).getId(), reviews.get(1));
-        clients.get(1).addReviewForProduct(products.get(0).getId(), reviews.get(2));
-        clients.get(1).addReviewForProduct(products.get(1).getId(), reviews.get(3));
+        clients.get(2).addReviewForProduct(products.get(0).getId(), reviews.get(0));
+        clients.get(2).addReviewForProduct(products.get(1).getId(), reviews.get(1));
+        clients.get(3).addReviewForProduct(products.get(0).getId(), reviews.get(2));
+        clients.get(3).addReviewForProduct(products.get(1).getId(), reviews.get(3));
     }
 
     private List<Product> generateProducts() {
@@ -274,8 +274,8 @@ class ClientRestControllerTest {
     public void testJaccardDistanceCalculation() {
 
         // GIVEN
-        Client client1 = clients.get(0);
-        Client client2 = clients.get(1);
+        Client client1 = clients.get(2);
+        Client client2 = clients.get(3);
 
         Product product1 = products.get(0);
         Product product2 = products.get(1);
