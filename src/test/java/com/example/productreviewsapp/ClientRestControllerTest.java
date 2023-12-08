@@ -18,14 +18,10 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(MockitoExtension.class)
@@ -51,15 +47,13 @@ class ClientRestControllerTest {
 
     private List<Product> products;
 
-    private List<Review> reviews;
-
     private List<Client> clients;
 
     @PostConstruct
     private void setup() {
         this.products = generateProducts();
         this.clients = generateClients();
-        this.reviews = generateReviews();
+        List<Review> reviews = generateReviews();
 
         long clientId = 0L;
         for (Client client : clients) {
@@ -83,7 +77,7 @@ class ClientRestControllerTest {
             when(reviewRepository.findById(reviewId - 1)).thenReturn(Optional.of(review));
             when(reviewRepository.save(review)).thenReturn(review);
         }
-        when(reviewRepository.findAll()).thenReturn(this.reviews);
+        when(reviewRepository.findAll()).thenReturn(reviews);
 
         clients.get(2).addReviewForProduct(products.get(0).getId(), reviews.get(0));
         clients.get(2).addReviewForProduct(products.get(1).getId(), reviews.get(1));
@@ -142,7 +136,6 @@ class ClientRestControllerTest {
         int index = 1;
         long clientId = clients.get(index).getId();
         String resourceUrl = "http://localhost:" + port + "/api/client/" + clientId;
-        System.out.println(resourceUrl);
 
         // WHEN
         ResponseEntity<Client> response = restTemplate.getForEntity(resourceUrl, Client.class);

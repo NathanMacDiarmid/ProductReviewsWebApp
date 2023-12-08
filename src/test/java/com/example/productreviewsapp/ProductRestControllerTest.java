@@ -30,7 +30,7 @@ import static org.mockito.Mockito.when;
 @ActiveProfiles("test")
 public class ProductRestControllerTest {
 
-    @Value(value="${local.server.port}")
+    @Value(value = "${local.server.port}")
     private int port;
 
     @Autowired
@@ -65,7 +65,6 @@ public class ProductRestControllerTest {
         long id = 0L;
         for (Product product : productList) {
             product.setId(id++);
-            System.out.println(product.getId());
         }
 
         return productList;
@@ -93,7 +92,6 @@ public class ProductRestControllerTest {
         // GIVEN
         Product testProduct = products.get(index);
         String resourceUrl = "http://localhost:" + port + "/api/product/" + testProduct.getId();
-        System.out.println(resourceUrl);
 
         // WHEN
         ResponseEntity<Product> response = restTemplate.getForEntity(resourceUrl, Product.class);
