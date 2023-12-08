@@ -3,8 +3,6 @@
 [![Java CI with Maven](https://github.com/NathanMacDiarmid/ProductReviewsWebApp/actions/workflows/maven.yml/badge.svg)](https://github.com/NathanMacDiarmid/ProductReviewsWebApp/actions/workflows/maven.yml)
 [![Build and deploy JAR app to Azure Web App](https://github.com/NathanMacDiarmid/ProductReviewsWebApp/actions/workflows/master_productreviewswebapp.yml/badge.svg)](https://github.com/NathanMacDiarmid/ProductReviewsWebApp/actions/workflows/master_productreviewswebapp.yml)
 
-Web app link - http://productreviewswebapp.azurewebsites.net
-
 This Product Reviews Web App is a SpringBoot web application deployed on Azure Web Services. It uses RESTful commands 
 and Thymeleaf calls to organize and display information that is persisted and stored in a database.
 
