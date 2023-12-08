@@ -4,7 +4,6 @@ import com.example.productreviewsapp.models.Category;
 import com.example.productreviewsapp.models.Client;
 import com.example.productreviewsapp.models.Product;
 import com.example.productreviewsapp.models.Review;
-import com.example.productreviewsapp.repositories.ClientRepository;
 import com.example.productreviewsapp.repositories.ReviewRepository;
 import jakarta.annotation.PostConstruct;
 import org.junit.jupiter.api.Test;
@@ -32,7 +31,7 @@ import static org.mockito.Mockito.when;
 @ActiveProfiles("test")
 public class ReviewRestControllerTest {
 
-    @Value(value="${local.server.port}")
+    @Value(value = "${local.server.port}")
     private int port;
 
     @Autowired
@@ -40,9 +39,6 @@ public class ReviewRestControllerTest {
 
     @MockBean
     private ReviewRepository reviewRepository;
-
-    @MockBean
-    private ClientRepository clientRepository;
 
     private List<Review> reviews;
 
@@ -76,7 +72,8 @@ public class ReviewRestControllerTest {
 
         // WHEN
         ResponseEntity<Iterable<Review>> response =
-                restTemplate.exchange(resourceUrl, HttpMethod.GET, null, new ParameterizedTypeReference<>() {});
+                restTemplate.exchange(resourceUrl, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
+                });
 
         // THEN
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -95,7 +92,6 @@ public class ReviewRestControllerTest {
         int index = 1;
         long reviewId = reviews.get(index).getId();
         String resourceUrl = "http://localhost:" + port + "/api/review/" + reviewId;
-        System.out.println(resourceUrl);
 
         // WHEN
         ResponseEntity<Review> response = restTemplate.getForEntity(resourceUrl, Review.class);
@@ -130,7 +126,18 @@ public class ReviewRestControllerTest {
 
     @Test
     public void addReviewTest() {
-        // TODO
+        int index = 1;
+        long reviewId = reviews.get(index).getId();
+        String resourceUrl = "http://localhost:" + port + "/api/review/" + reviewId;
+
+        // WHEN
+        ResponseEntity<Review> response = restTemplate.getForEntity(resourceUrl, Review.class);
+        restTemplate.put(resourceUrl, reviews);
+
+        // THEN
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(MediaType.APPLICATION_JSON, response.getHeaders().getContentType());
+        assertEquals(reviews.get(index), response.getBody());
     }
 
     @Test
@@ -164,7 +171,6 @@ public class ReviewRestControllerTest {
 
         // THEN
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        System.out.println(response);
         assertEquals(MediaType.APPLICATION_JSON, response.getHeaders().getContentType());
         assertEquals(reviews.get(index), response.getBody());
     }
