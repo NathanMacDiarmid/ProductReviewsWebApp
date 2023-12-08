@@ -44,15 +44,7 @@ The client entity is responsible for holding the model logic of the typical clie
 `product_id`, review pairs, a list of users they follow, and a count of how many users follow them - using *Degrees of Separation*. 
 Clients can follow and unfollow other clients, write reviews of products, and calculate *Jaccard Distance* to each other.
 
-## Sprint Plan
-
-Sprint plans are focused on achieving the main feature and functionality of the project completed such as:
-- acceptable user-interface to display relevant entities of the project model
-- Jaccard distance between users
-- Degrees of separation between followers
-- Prometheus and Grafana work on the Azure cloud platform.
-
-All the planned issues can be found here:
+## Project Milestones
 * [Milestone 1](https://github.com/NathanMacDiarmid/ProductReviewsWebApp/milestone/1)
 * [Milestone 2](https://github.com/NathanMacDiarmid/ProductReviewsWebApp/milestone/2)
 * [Milestone 3](https://github.com/NathanMacDiarmid/ProductReviewsWebApp/milestone/3)
