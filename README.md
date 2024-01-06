@@ -12,7 +12,7 @@ and Thymeleaf calls to organize and display information that is persisted and st
     <a href="https://prometheus.io/" target="_blank"> <img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Prometheus_software_logo.svg" alt="prometheus" width="40" height="40"/> </a>
     <a href="https://grafana.com/" target="_blank"> <img src="https://upload.wikimedia.org/wikipedia/commons/a/a1/Grafana_logo.svg" alt="grafana" width="40" height="40"/> </a>
     <a href="https://www.docker.com/" target="_blank"> <img src="https://upload.wikimedia.org/wikipedia/en/f/f4/Docker_logo.svg" alt="docker" width="40" height="40"/> </a>
-    <a href="https://www.docker.com/" target="_blank"> <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Microsoft_Azure.svg" alt="azure" width="40" height="40"/> </a>
+    <a href="https://azure.microsoft.com/en-ca/get-started/azure-portal" target="_blank"> <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Microsoft_Azure.svg" alt="azure" width="40" height="40"/> </a>
 </div>
 
 ## Description
@@ -64,7 +64,7 @@ Clients can follow and unfollow other clients, write reviews of products, and ca
 
 ## Run with Prometheus and Grafana monitoring
 
-Prometheus and Grafana can be used to query and visualize a variety of app metrics. In order to get them working complete the following steps:
+Prometheus and Grafana can be used to query and visualize a variety of app metrics. To get them working complete the following steps:
 
 - Install docker on your machine ([docker installation webpage](https://docs.docker.com/engine/install/) or `sudo apt install docker.io` on debian)
 - Install docker compose on your machine ([docker compose installation site](https://docs.docker.com/compose/install/))
